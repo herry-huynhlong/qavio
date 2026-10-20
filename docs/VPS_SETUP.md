@@ -1,5 +1,18 @@
 # Chuẩn bị VPS QAVIO — 20/10/2026
 
+## Trạng thái hiện tại: đã triển khai
+
+Chủ dự án đã xác nhận đưa bản Giai đoạn A lên web. Website hoạt động tại **https://qavio.longh.org** ngày 20/10/2026. Các phần chuẩn bị/chờ xác nhận bên dưới được giữ làm lịch sử; trạng thái hiện tại là đã triển khai.
+
+- Service `qavio-web-1` chạy từ image đã kiểm tra `qavio-web:1471c12`, Compose project `qavio`, chỉ publish `127.0.0.1:3100`.
+- Virtual host QAVIO riêng: `/etc/nginx/sites-available/qavio.conf`, symlink riêng trong `sites-enabled`; giữ nguyên `longh-sites`.
+- Chứng chỉ Let's Encrypt riêng cho `qavio.longh.org`, hết hạn 18/01/2027 ở lần cấp đầu. HTTP chuyển hướng HTTPS, Cloudflare không còn trả 526.
+- Health qua TLS trực tiếp origin (có xác minh hostname) và qua Cloudflare: PASS. Kiểm tra từ máy local: trang chủ/CSS/health HTTP 200; giữ `noindex, nofollow` cho Giai đoạn A.
+- `certbot.timer` có lịch gia hạn. Hook `/etc/letsencrypt/renewal-hooks/deploy/50-qavio-nginx-reload` chỉ kiểm tra/reload Nginx khi gia hạn chứng chỉ QAVIO.
+- `certbot renew --cert-name qavio.longh.org --dry-run --run-deploy-hooks`: PASS (exit 0).
+- Kiểm tra trình duyệt trên domain thật: giao diện hiển thị đúng. Bản hiện tại chưa có backend/admin/form nhận dữ liệu.
+- Automatic deploy khi Git push **chưa được bật**. Dùng quy trình pull/build/update thủ công và giới hạn builder đã ghi bên dưới.
+
 ## Môi trường đã kiểm tra
 
 - Domain do chủ dự án cung cấp: `qavio.longh.org`.

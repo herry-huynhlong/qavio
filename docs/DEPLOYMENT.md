@@ -2,7 +2,7 @@
 
 ## Trạng thái bản này
 
-Repo có Dockerfile multi-stage, Next standalone, container chạy bằng user `node`, health check, Compose riêng tên `qavio`, mẫu Nginx. Website hiện ở Giai đoạn A: trang chủ, chưa có database/admin/form thật. Chưa triển khai lên VPS.
+Repo có Dockerfile multi-stage, Next standalone, container chạy bằng user `node`, health check, Compose riêng tên `qavio`, mẫu Nginx. Website Giai đoạn A đã được triển khai lên **https://qavio.longh.org** ngày 20/10/2026 sau khi chủ dự án xác nhận; chưa có database/admin/form thật. Xem `VPS_SETUP.md` để biết trạng thái vận hành.
 
 Push GitHub chỉ cập nhật source. **Chưa có automatic deploy khi push.** Chỉ thiết lập tự động sau khi xác nhận VPS, domain, quyền triển khai và quy trình rollback. Không lưu SSH key/token/mật khẩu vào Git.
 
