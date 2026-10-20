@@ -13,7 +13,7 @@ FROM dependencies AS builder
 ARG SITE_URL=https://qavio.longh.org
 ENV SITE_URL=$SITE_URL SITE_INDEXING_ENABLED=false
 COPY . .
-RUN NODE_OPTIONS=--max-old-space-size=512 pnpm lint && NODE_OPTIONS=--max-old-space-size=512 pnpm build
+RUN NODE_OPTIONS=--max-old-space-size=512 pnpm lint && NODE_OPTIONS=--max-old-space-size=512 pnpm build && node scripts/check-runtime-rendering.mjs
 
 FROM postgres:16-bookworm AS operations
 WORKDIR /app
