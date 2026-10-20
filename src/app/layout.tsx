@@ -1,0 +1,13 @@
+import type { Metadata } from "next";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: { default: "QAVIO — Công nghệ kiến tạo giá trị", template: "%s | QAVIO" },
+  description: "QAVIO hướng đến những giải pháp công nghệ thiết thực cho doanh nghiệp. Khám phá QuánPilot, nền tảng hỗ trợ quản lý nhà hàng, quán ăn và quán nước.",
+  robots: { index: false, follow: false },
+};
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <html lang="vi"><body><a className="skip-link" href="#main-content">Chuyển đến nội dung chính</a><SiteHeader />{children}<SiteFooter /></body></html>;
+}

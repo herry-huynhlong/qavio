@@ -1,0 +1,24 @@
+# Template only. Replace BOTH example.com values with your verified domain.
+# Separate site file; never replace the Restaurant virtual host.
+# Host Nginx forwards to Docker's loopback binding. If changing QAVIO_HTTP_PORT,
+# change proxy_pass to the same port.
+server {
+    listen 80;
+    listen [::]:80;
+    server_name example.com;
+
+    client_max_body_size 1m;
+
+    location / {
+        proxy_pass http://127.0.0.1:3100;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+# After DNS is verified and this host is approved, provision TLS for this
+# domain with the server's existing certificate manager. Do not serve lead
+# forms or admin login over plain HTTP. No credentials are configured here.
