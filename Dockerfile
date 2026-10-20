@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-cert
 FROM base AS dependencies
 RUN npm install --global pnpm@11.25.0
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile --network-concurrency=4 --child-concurrency=1
 
 FROM dependencies AS builder
 ARG SITE_URL=https://qavio.longh.org
