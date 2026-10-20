@@ -8,7 +8,7 @@ const config: NextConfig = {
       { key: "X-Frame-Options", value: "DENY" },
       { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
       { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-      { key: "X-Robots-Tag", value: "noindex, nofollow" }
+      ...(process.env.SITE_INDEXING_ENABLED === 'true' ? [] : [{ key: "X-Robots-Tag", value: "noindex, nofollow" }])
     ] }];
   }
 };

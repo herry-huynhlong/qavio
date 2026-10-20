@@ -1,4 +1,7 @@
-import { ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight, Blocks, ChartNoAxesCombined, Check, ChevronDown, CircleHelp, Layers3, MonitorCog, Radio, ScanLine, Sparkles, UtensilsCrossed, Workflow } from "lucide-react";
+import Link from "next/link";
+import { BrandImage } from "@/components/brand-image";
+import { pageMetadata } from "@/lib/seo";
+import { ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight, Blocks, ChartNoAxesCombined, Check, ChevronDown, CircleHelp, Layers3, MonitorCog, ScanLine, Sparkles, UtensilsCrossed, Workflow } from "lucide-react";
 import { ProductExplorer } from "@/components/product-explorer";
 import { faqs, values } from "@/content/vi";
 
@@ -7,6 +10,8 @@ const solutions = [
   { number: "02", icon: MonitorCog, title: "Quản lý tập trung", text: "Hướng đến một góc nhìn thống nhất về hoạt động, giúp thông tin rõ ràng và dễ theo dõi.", detail: "Thông tin đúng chỗ. Quyết định có cơ sở." },
   { number: "03", icon: Sparkles, title: "Trải nghiệm thuận tiện", text: "Đưa công nghệ đến gần hơn với người dùng qua những tương tác đơn giản và nhất quán.", detail: "Ít trở ngại hơn trong mỗi điểm chạm." },
 ];
+
+export const metadata = pageMetadata("/");
 
 export default function Home() {
   return <main id="main-content">
@@ -17,25 +22,16 @@ export default function Home() {
         <h1 id="hero-title">Công nghệ<br/>kiến tạo <span>giá trị.</span></h1>
         <p className="hero-subtitle">Giải pháp đồng hành cùng doanh nghiệp.</p>
         <p className="hero-description">Những giải pháp số được xây dựng để đơn giản hóa vận hành, kết nối con người và mở ra khả năng phát triển bền vững.</p>
-        <div className="hero-actions"><a className="button" href="#solutions">Khám phá giải pháp <ArrowUpRight size={18}/></a><a className="text-link" href="#contact">Liên hệ tư vấn <ArrowRight size={17}/></a></div>
-        <a className="scroll-cue" href="#about"><span><ArrowDown size={15}/></span> Cùng khám phá QAVIO</a>
+        <div className="hero-actions"><Link className="button" href="/solutions">Khám phá giải pháp <ArrowUpRight size={18}/></Link><Link className="text-link" href="/contact">Liên hệ tư vấn <ArrowRight size={17}/></Link></div>
+        <Link className="scroll-cue" href="#about"><span><ArrowDown size={15}/></span> Cùng khám phá QAVIO</Link>
       </div>
-      <div className="hero-art" aria-label="Minh họa kết nối giữa con người, quy trình và công nghệ">
-        <div className="art-caption"><span>THE QAVIO PERSPECTIVE</span><span>01 / KẾT NỐI</span></div>
-        <div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="orbit orbit-three"/>
-        <div className="art-axis axis-one"/><div className="art-axis axis-two"/>
-        <div className="central-tile"><Layers3 size={66} strokeWidth={.8} aria-hidden="true"/><span>QAVIO</span><small>Ý tưởng thành giá trị</small></div>
-        <div className="orbit-node node-people"><span className="node-icon"><Radio size={18}/></span><span>Con người<small>Lấy trải nghiệm làm trung tâm</small></span></div>
-        <div className="orbit-node node-process"><span className="node-icon"><Workflow size={18}/></span><span>Quy trình<small>Rõ ràng trong vận hành</small></span></div>
-        <div className="orbit-node node-tech"><span className="node-icon"><Blocks size={18}/></span><span>Công nghệ<small>Nền tảng cho phát triển</small></span></div>
-        <div className="art-bottom"><span className="tiny-cross">+</span> THIẾT KẾ CÓ CHỦ ĐÍCH. GIẢI PHÁP CÓ GIÁ TRỊ. <span className="tiny-cross">+</span></div>
-      </div></div>
+      <div className="hero-brand"><BrandImage priority /></div></div>
       <div className="brand-values-strip"><div className="container">{values.map(value => <span key={value.name}>{value.name}<span className="strip-dot">·</span></span>)}</div></div>
     </section>
 
     <section id="about" className="section section-light about-section"><div className="container">
       <div className="section-meta"><span className="eyebrow">01 — VỀ QAVIO</span><span className="section-side-note">Từ thấu hiểu đến giải pháp</span></div>
-      <div className="about-layout"><h2>Công nghệ được<br/>xây dựng từ<br/><span className="muted-heading">nhu cầu thực tế.</span></h2><div className="about-copy"><p className="lead">Công nghệ hiệu quả bắt đầu từ việc thấu hiểu những điều doanh nghiệp thực sự cần.</p><p>QAVIO là thương hiệu công nghệ định hướng phát triển các giải pháp phần mềm phục vụ hoạt động kinh doanh và quản lý doanh nghiệp.</p><p>Chúng tôi chú trọng trải nghiệm trực quan, quy trình rõ ràng và khả năng phát triển bền vững — để công nghệ trở thành một phần hữu ích trong công việc mỗi ngày.</p><a href="#values" className="text-link dark-link">Khám phá tư duy QAVIO <ArrowDownRight size={19}/></a></div></div>
+      <div className="about-layout"><h2>Công nghệ được<br/>xây dựng từ<br/><span className="muted-heading">nhu cầu thực tế.</span></h2><div className="about-copy"><p className="lead">Công nghệ hiệu quả bắt đầu từ việc thấu hiểu những điều doanh nghiệp thực sự cần.</p><p>QAVIO là thương hiệu công nghệ định hướng phát triển các giải pháp phần mềm phục vụ hoạt động kinh doanh và quản lý doanh nghiệp.</p><p>Chúng tôi chú trọng trải nghiệm trực quan, quy trình rõ ràng và khả năng phát triển bền vững — để công nghệ trở thành một phần hữu ích trong công việc mỗi ngày.</p><Link href="/about" className="text-link dark-link">Khám phá tư duy QAVIO <ArrowDownRight size={19}/></Link></div></div>
       <div className="philosophy-line"><span><span className="mini-line"/> TRIẾT LÝ SẢN PHẨM</span><p>Đẹp trong thiết kế. Rõ ràng trong trải nghiệm. Thiết thực trong vận hành.</p></div>
     </div></section>
 
@@ -50,7 +46,7 @@ export default function Home() {
       <div className="section-meta"><span className="eyebrow">03 — HỆ SINH THÁI SẢN PHẨM</span><span className="section-side-note">Bắt đầu từ vận hành mỗi ngày</span></div>
       <div className="product-layout"><div className="product-copy"><span className="product-badge"><UtensilsCrossed size={14}/> SẢN PHẨM ĐẦU TIÊN TỪ QAVIO</span><h2>QuánPilot<span className="gold-period">.</span></h2><p className="product-tagline">Quản lý quán thuận tiện hơn.<br/>Kết nối mọi bộ phận.</p><p>Từ khách hàng quét QR gọi món, phục vụ và bếp phối hợp xử lý đơn, đến thu ngân thanh toán và chủ quán theo dõi hoạt động — trên một hệ thống thống nhất.</p>
         <ul className="feature-list">{["Menu QR và đặt món tại bàn", "Quản lý bàn, đơn hàng và nhân viên", "Phối hợp phục vụ, bếp và thu ngân", "Thanh toán, hóa đơn và báo cáo"].map(item => <li key={item}><Check size={16}/>{item}</li>)}</ul>
-        <a href="#contact" className="button">Trao đổi về QuánPilot <ArrowUpRight size={18}/></a><p className="product-note">Tính năng và thiết bị được đối chiếu theo gói và điều kiện triển khai thực tế.</p>
+        <Link href="/products/quanpilot" className="button">Tìm hiểu QuánPilot <ArrowUpRight size={18}/></Link><p className="product-note">Tính năng và thiết bị được đối chiếu theo gói và điều kiện triển khai thực tế.</p>
       </div><ProductExplorer /></div>
       <div className="ecosystem-note"><Blocks size={22} strokeWidth={1.3}/><p><strong>Một khởi đầu. Một tầm nhìn dài hạn.</strong><span>QuánPilot là bước đầu trong định hướng xây dựng hệ sinh thái giải pháp công nghệ QAVIO.</span></p><ArrowUpRight size={24} aria-hidden="true"/></div>
     </div></section>
@@ -64,7 +60,7 @@ export default function Home() {
       ["Triển khai & đồng hành", "Thống nhất điều kiện và lộ trình trước khi bắt đầu triển khai."],
     ].map(([title, text], i) => <li key={title}><div className="process-number"><span>0{i + 1}</span><ArrowRight size={18}/></div><h3>{title}</h3><p>{text}</p></li>)}</ol></div></section>
 
-    <section id="pricing" className="pricing-section"><div className="container pricing-inner"><div><span className="eyebrow">GÓI DỊCH VỤ QUÁNPILOT</span><h2>Phù hợp với cách<br/>quán của bạn vận hành.</h2><p>Liên hệ QAVIO để nhận thông tin gói dịch vụ phù hợp.<br/>Phạm vi tính năng và chi phí được xác nhận trước khi triển khai.</p><a href="#contact" className="text-link">Trao đổi nhu cầu & nhận báo giá <ArrowUpRight size={18}/></a></div><div className="plan-pair"><div><ScanLine size={24}/><h3>BASIC</h3><p>Khám phá nhu cầu<br/>vận hành thiết yếu.</p><span>Thời hạn 3 / 6 / 12 tháng</span></div><div><ChartNoAxesCombined size={24}/><h3>PRO</h3><p>Trao đổi về quy trình<br/>và phối hợp theo vai trò.</p><span>Thời hạn 3 / 6 / 12 tháng</span></div></div></div></section>
+    <section id="pricing" className="pricing-section"><div className="container pricing-inner"><div><span className="eyebrow">GÓI DỊCH VỤ QUÁNPILOT</span><h2>Phù hợp với cách<br/>quán của bạn vận hành.</h2><p>Liên hệ QAVIO để nhận thông tin gói dịch vụ phù hợp.<br/>Phạm vi tính năng và chi phí được xác nhận trước khi triển khai.</p><Link href="/contact" className="text-link">Trao đổi nhu cầu & nhận báo giá <ArrowUpRight size={18}/></Link></div><div className="plan-pair"><div><ScanLine size={24}/><h3>BASIC</h3><p>Khám phá nhu cầu<br/>vận hành thiết yếu.</p><span>Thời hạn 3 / 6 / 12 tháng</span></div><div><ChartNoAxesCombined size={24}/><h3>PRO</h3><p>Trao đổi về quy trình<br/>và phối hợp theo vai trò.</p><span>Thời hạn 3 / 6 / 12 tháng</span></div></div></div></section>
 
     <section id="news" className="section section-light news-section"><div className="container"><div className="section-meta"><span className="eyebrow">06 — GÓC NHÌN QAVIO</span><span className="section-side-note">Sản phẩm · Công nghệ · Chuyển đổi số</span></div><div className="news-layout"><h2>Ý tưởng được chia sẻ.<br/><span className="muted-heading">Giá trị được nối dài.</span></h2><div className="empty-news"><span className="empty-news-icon"><Layers3 size={24} strokeWidth={1.2}/></span><div><h3>Những câu chuyện đang được chuẩn bị</h3><p>Bài viết về sản phẩm, công nghệ và kiến thức quản lý sẽ xuất hiện tại đây khi được xuất bản.</p></div></div></div></div></section>
 

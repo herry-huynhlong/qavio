@@ -2,7 +2,7 @@
   "name": "qavio", "version": "0.1.0", "private": true,
   "packageManager": "pnpm@11.25.0",
   "engines": { "node": ">=22" },
-  "scripts": { "dev": "next dev --hostname 127.0.0.1 --port 3100", "build": "next build", "start": "node scripts/start-local.mjs", "typecheck": "tsc --noEmit", "lint": "eslint ." },
+  "scripts": { "dev": "next dev --hostname 127.0.0.1 --port 3100", "build": "next build", "start": "node scripts/start-local.mjs", "typecheck": "tsc --noEmit", "lint": "eslint .", "test:public": "node scripts/check-public-pages.mjs" },
   "dependencies": { "next": "16.4.2", "react": "19.3.1", "react-dom": "19.3.1", "lucide-react": "^0.577.0" },
   "devDependencies": { "@tailwindcss/postcss": "4.3.3", "tailwindcss": "4.3.3", "typescript": "^5.9.3", "@types/node": "^24.0.0", "@types/react": "^19.0.0", "@types/react-dom": "^19.0.0", "eslint": "^9.0.0", "eslint-config-next": "16.4.2" }
 }

@@ -1,2 +1,5 @@
 import type { MetadataRoute } from "next";
-export default function robots(): MetadataRoute.Robots { return { rules: { userAgent: "*", disallow: "/" } }; }
+import { site } from '@/lib/site-config';
+export default function robots(): MetadataRoute.Robots {
+  return { rules: { userAgent: '*', ...(site.indexingEnabled ? { allow: '/', disallow: ['/api/', '/admin/', '/privacy', '/terms'] } : { disallow: '/' }) }, sitemap: new URL('/sitemap.xml', site.url).href };
+}

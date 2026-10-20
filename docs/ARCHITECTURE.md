@@ -6,6 +6,8 @@ Repository chỉ có `.git`, nhánh `main` chưa có commit; origin `herry-huynh
 
 ## Cấu trúc hiện tại
 
+Cập nhật cuối Giai đoạn B: đã có 12 route công khai chi tiết, `src/lib/site-config.ts`/`seo.tsx`, component trang dùng chung và giao diện kiểm tra form, ảnh gốc trong `public/brand`, sitemap/robots và kiểm tra HTTP `scripts/check-public-pages.mjs`. Backend/database/admin chưa được triển khai. Xem `PHASE_B.md` cho phạm vi đã kiểm tra.
+
 ```text
 src/
   app/                 Next.js routes, layout, CSS, error/loading/404/robots
@@ -36,6 +38,8 @@ tests/                 Unit, integration và browser tests
 Public pages ưu tiên Server Components, chỉ dùng client cho tương tác cần thiết. Server tự xác định quyền và validate mọi thao tác. Nội dung CMS theo section có cấu trúc; không HTML tùy ý và không page builder.
 
 ## Giai đoạn B — Nội dung
+
+Đã triển khai và kiểm tra tại local; chưa deploy B. Các gạch đầu dòng dưới đây là nguyên tắc đã áp dụng, phần CMS/nội dung xuất bản chờ D.
 
 - Thêm đầy đủ route công khai theo brief, metadata, breadcrumbs và SEO theo domain được xác nhận.
 - Privacy/terms cần thông tin xử lý dữ liệu và nội dung được chủ dự án duyệt trước khi nhận lead.

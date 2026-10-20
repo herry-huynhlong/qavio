@@ -4,16 +4,17 @@ Website thương hiệu QAVIO. Dự án độc lập tại `D:\anh\qavio`, remot
 
 ## Trạng thái
 
-Giai đoạn A: nền tảng và trang chủ. **Chưa phải hệ thống hoàn chỉnh và chưa sẵn sàng nhận dữ liệu khách hàng.** Không có kết nối database, email, admin hay thanh toán. Không đọc/chỉnh sửa database hoặc source Restaurant.
+Giai đoạn A đang chạy trên VPS theo xác nhận trước đó. Bản hoàn thiện A + Giai đoạn B đã triển khai và kiểm tra tại **local**, chưa deploy bản B. **Chưa sẵn sàng nhận dữ liệu khách hàng:** không có database, email, admin hay thanh toán.
 
 - Next.js 16 App Router, React 19, TypeScript strict, Tailwind 4.
 - CSS design tokens, nội dung tiếng Việt tách riêng, header sticky và menu mobile.
 - Trang chủ: hero, giới thiệu, giải pháp, QuánPilot, giá trị thương hiệu, quy trình, định hướng gói, tin tức trống, FAQ, trạng thái nhận tin/liên hệ, footer.
 - Tab vai trò QuánPilot dùng bàn phím; FAQ dùng native details; hỗ trợ reduced motion, skip link và focus.
-- Chữ QAVIO tạm thời, không phải logo chính thức. Hình kết nối và quy trình là minh họa bằng giao diện, không phải ảnh hệ thống hay biểu tượng thương hiệu.
-- Liên kết header/footer trỏ đến section thật trên trang chủ trong Giai đoạn A. Các route chi tiết triển khai ở B.
-- Không có biểu mẫu nhận dữ liệu giả. Chỉ hiển thị trạng thái chưa mở đến khi C có backend thật.
-- Chặn lập chỉ mục trong metadata, robots.txt và header HTTP ở bản A. Chỉ mở sau khi duyệt nội dung/domain ở staging.
+- Logo gốc `public/brand/Qavio.png` ở hero/about/footer/OG, không chỉnh ảnh. Navigation nhỏ giữ tên chữ đến khi có logo ngang; chưa có icon favicon riêng.
+- Có đủ 12 trang B, header/footer trỏ đến route thật; trang pháp lý ghi rõ bản dự thảo. Xem danh sách trong `docs/PHASE_B.md`.
+- Form contact/demo/subscribe có validation client và reset, không gửi yêu cầu, không lưu localStorage, không báo gửi thành công.
+- Metadata/canonical/OG/Twitter, sitemap và WebSite/BreadcrumbList JSON-LD. Mặc định `SITE_INDEXING_ENABLED=false`; chỉ mở index sau duyệt.
+- Cấu hình domain và URL sản phẩm tập trung trong `src/lib/site-config.ts`. Không suy diễn URL production QuánPilot và không kết nối dữ liệu sản phẩm.
 
 ## Chạy local
 
@@ -32,14 +33,17 @@ pnpm lint
 pnpm typecheck
 pnpm build
 pnpm start
+# Trong terminal khác, khi server đang chạy:
+pnpm test:public
 ```
 
-`.env.example` là mẫu cấu hình; không commit `.env` hoặc secret. Giai đoạn A không yêu cầu biến môi trường để chạy.
+`.env.example` là mẫu cấu hình; không commit `.env` hoặc secret. A/B không cần credential để chạy. `SITE_URL` mặc định là domain đã xác nhận `https://qavio.longh.org`; đặt giá trị phù hợp ở lúc build khi đổi môi trường. Để trống `QUANPILOT_PUBLIC_URL` đến khi có URL chính thức được chủ dự án xác nhận.
 
 ## Tài liệu
 
 - `docs/ARCHITECTURE.md`: kiến trúc và kế hoạch B–E.
 - `docs/PHASE_A.md`: phạm vi, tài sản còn thiếu và kết quả kiểm tra.
+- `docs/PHASE_B.md`: 12 trang B, logo, form, SEO, kiểm tra và chuẩn bị cho C.
 - `docs/PROJECT_BRIEF.md`: bản yêu cầu gốc do người dùng cung cấp.
 - `docs/DEPLOYMENT.md`: setup VPS Docker, domain/HTTPS, cập nhật và rollback.
 

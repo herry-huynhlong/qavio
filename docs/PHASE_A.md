@@ -1,5 +1,7 @@
 # Báo cáo Giai đoạn A — 20/10/2026
 
+> Cập nhật sau báo cáo ban đầu: A đã được triển khai lên VPS theo xác nhận riêng của chủ dự án. Lượt hoàn thiện A + B đã tích hợp ảnh gốc `public/brand/Qavio.png`, sửa navigation và bổ sung trang công khai tại local; xem `PHASE_B.md`. Các mục dưới đây lưu kết quả tại thời điểm A ban đầu.
+
 ## Phạm vi đã triển khai
 
 - Khởi tạo repository trống bằng Next.js App Router, TypeScript strict, Tailwind CSS.

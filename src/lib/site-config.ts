@@ -1,0 +1,35 @@
+// The fallback is the domain explicitly confirmed by the project owner.
+function publicUrl(value: string | undefined, fallback?: string) {
+  if (!value) return fallback;
+  const url = new URL(value);
+  if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password || url.search || url.hash) {
+    throw new Error('Public website URLs must be HTTP(S), without credentials, query or hash.');
+  }
+  return url.href.replace(/\/$/, '');
+}
+
+export const site = {
+  name: 'QAVIO',
+  url: publicUrl(process.env.SITE_URL, 'https://qavio.longh.org')!,
+  indexingEnabled: process.env.SITE_INDEXING_ENABLED === 'true',
+  brandImage: '/brand/Qavio.png',
+  // No production product URL has been confirmed. Never infer one from the VPS.
+  quanpilotUrl: publicUrl(process.env.QUANPILOT_PUBLIC_URL),
+} as const;
+
+export const publicPages = {
+  '/': { title: 'Công nghệ kiến tạo giá trị', description: 'QAVIO hướng đến những giải pháp công nghệ thiết thực, đồng hành cùng hoạt động kinh doanh và quản lý doanh nghiệp.' },
+  '/about': { title: 'Về QAVIO', description: 'Tìm hiểu định hướng, sứ mệnh, tầm nhìn và năm giá trị thương hiệu QAVIO: chất lượng, thẩm mỹ, tầm nhìn, đổi mới và bản sắc.' },
+  '/solutions': { title: 'Giải pháp công nghệ', description: 'Khám phá cách QAVIO tiếp cận số hóa vận hành, quản lý tập trung, trải nghiệm khách hàng và nền tảng có khả năng mở rộng.' },
+  '/products': { title: 'Sản phẩm từ QAVIO', description: 'Khám phá hệ sinh thái sản phẩm QAVIO, bắt đầu với QuánPilot — nền tảng hỗ trợ quản lý nhà hàng, quán ăn và quán nước.' },
+  '/products/quanpilot': { title: 'QuánPilot — Nền tảng quản lý nhà hàng', description: 'Menu QR, quản lý bàn, đơn hàng và phối hợp phục vụ, bếp, thu ngân. Tìm hiểu QuánPilot và chuẩn bị nhu cầu tư vấn.' },
+  '/pricing': { title: 'Gói dịch vụ và báo giá', description: 'Tìm hiểu định hướng gói BASIC và PRO cho QuánPilot, thời hạn 3, 6, 12 tháng. Giá chính thức cần được QAVIO xác nhận theo nhu cầu.' },
+  '/news': { title: 'Tin tức và góc nhìn', description: 'Nơi chia sẻ tin tức QAVIO, thông tin sản phẩm, công nghệ, kiến thức quản lý và chuyển đổi số khi bài viết được xuất bản.' },
+  '/contact': { title: 'Kết nối với QAVIO', description: 'Chuẩn bị nội dung trao đổi về sản phẩm, giải pháp, báo giá hoặc hợp tác cùng QAVIO. Tính năng gửi yêu cầu chưa được kích hoạt.' },
+  '/request-demo': { title: 'Đăng ký tư vấn và demo', description: 'Chuẩn bị nhu cầu tư vấn hoặc demo QuánPilot cho nhà hàng, quán ăn và quán nước. Tính năng gửi đăng ký chưa được kích hoạt.' },
+  '/subscribe': { title: 'Theo dõi QAVIO', description: 'Tìm hiểu kênh nhận thông tin sản phẩm và kiến thức từ QAVIO. Đăng ký sẽ được mở cùng cơ chế xác nhận và hủy qua email.' },
+  '/faq': { title: 'Câu hỏi thường gặp', description: 'Giải đáp những câu hỏi về QAVIO, QuánPilot, gọi món QR, phân quyền nhân viên và thông tin gói dịch vụ.' },
+  '/privacy': { title: 'Chính sách bảo mật — Bản dự thảo', description: 'Bản dự thảo chính sách bảo mật QAVIO, đang chờ rà soát thông tin đơn vị vận hành và cơ chế xử lý dữ liệu trước khi áp dụng chính thức.' },
+  '/terms': { title: 'Điều khoản sử dụng — Bản dự thảo', description: 'Bản dự thảo điều khoản sử dụng website QAVIO. Cần rà soát và xác nhận trước khi công bố áp dụng chính thức.' },
+} as const;
+export type PublicPath = keyof typeof publicPages;

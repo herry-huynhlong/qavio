@@ -1,12 +1,13 @@
 // Structured Vietnamese content; a future CMS can validate and replace these sections.
 // No unverifiable prices, customer claims, company contacts or legal identifiers.
 export const navigation = [
-  { label: "Về QAVIO", href: "/#about" },
-  { label: "Giải pháp", href: "/#solutions" },
-  { label: "Sản phẩm", href: "/#products" },
-  { label: "Bảng giá", href: "/#pricing" },
-  { label: "Tin tức", href: "/#news" },
-  { label: "Liên hệ", href: "/#contact" },
+  { label: "Trang chủ", href: "/" },
+  { label: "Về QAVIO", href: "/about" },
+  { label: "Giải pháp", href: "/solutions" },
+  { label: "Sản phẩm", href: "/products" },
+  { label: "Bảng giá", href: "/pricing" },
+  { label: "Tin tức", href: "/news" },
+  { label: "Liên hệ", href: "/contact" },
 ] as const;
 export const values = [
   { letter: "Q", name: "Quality", title: "Chất lượng", text: "Chú trọng tính ổn định, sự chính xác và chất lượng trong từng giải pháp." },

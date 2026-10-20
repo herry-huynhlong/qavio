@@ -7,7 +7,6 @@ import { productRoles } from "@/content/vi";
 export function ProductExplorer() {
   const [selected, setSelected] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
-  const role = productRoles[selected];
   return <div className="product-explorer">
     <div className="explorer-heading"><span><UtensilsCrossed size={18} /> QuánPilot</span><span className="illustration-label">Minh họa quy trình</span></div>
     <div role="tablist" aria-label="Khám phá theo vai trò" className="role-tabs">
@@ -21,10 +20,10 @@ export function ProductExplorer() {
         event.preventDefault(); setSelected(next); tabs.current[next]?.focus();
       }}>{item.label}</button>)}
     </div>
-    <div key={role.id} id={`panel-${role.id}`} role="tabpanel" aria-labelledby={`tab-${role.id}`} tabIndex={0} className="role-panel">
+    {productRoles.map((role, index) => <div key={role.id} id={`panel-${role.id}`} role="tabpanel" aria-labelledby={`tab-${role.id}`} tabIndex={0} hidden={selected !== index} className="role-panel">
       <div className="flow-visual" aria-hidden="true"><div className="qr-tile"><QrCode size={64} strokeWidth={1} /></div><div className="flow-connector"/><div className="flow-check"><Check size={24} /></div></div>
       <h3>{role.title}</h3><p>{role.text}</p>
       <ol className="flow-steps">{role.steps.map((step, i) => <li key={step}><span>{`0${i + 1}`}</span>{step}{i < role.steps.length - 1 && <ArrowRight size={14} aria-hidden="true" />}</li>)}</ol>
-    </div>
+    </div>)}
   </div>;
 }
