@@ -1,8 +1,8 @@
-# Bước tiếp theo — chờ duyệt bootstrap và bật Admin/CMS
+# Bước tiếp theo — đã duyệt, chờ chủ dự án nhập CLI
 
-Proxy/backup đã chuẩn bị; **chưa tạo tài khoản và chưa bật Admin/CMS**. Không gửi password trong chat. Chỉ chạy lệnh dưới sau khi chủ dự án duyệt bước bootstrap và kích hoạt; agent không tự điền credential hoặc chạy thay chủ dự án khi chưa có input an toàn.
+Chủ dự án đã chọn “Duyệt bootstrap và bật Admin/CMS”. Proxy/backup đã chuẩn bị; **chưa tạo tài khoản và chưa bật Admin/CMS**, đang chờ chủ dự án tự nhập email, tên và mật khẩu qua CLI. Không gửi password trong chat. Không cần duyệt lại hai thao tác này; agent không tự điền credential hoặc chạy thay chủ dự án khi chưa có input an toàn.
 
-## Thao tác xin duyệt
+## Thao tác đã được duyệt
 
 1. Chủ dự án chạy CLI hiện có để tạo đúng **một SUPER_ADMIN đầu tiên** trên production/qavio_prod/qavio-postgres bằng role qavio_app; CLI khóa transaction, từ chối nếu đã có AdminUser và ghi audit.
 2. Sau khi CLI báo thành công, agent kiểm tra bằng metadata/audit (không đọc password/hash/session token), đổi riêng hai flag Admin/CMS=true trong env và overlay interpolation mặc định false; chỉ recreate web QAVIO bằng image c205bbd, đủ ba Compose file.

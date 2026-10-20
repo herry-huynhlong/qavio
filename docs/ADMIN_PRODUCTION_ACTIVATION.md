@@ -1,6 +1,6 @@
 # Kích hoạt Admin production — kiểm tra trước thay đổi
 
-Ngày 20/10/2026 (Asia/Bangkok). **Bước chuẩn bị proxy + backup đã hoàn thành theo phê duyệt riêng của chủ dự án. Chưa bootstrap hoặc bật Admin/CMS**, đang chờ duyệt bước tiếp theo và credential qua CLI an toàn. Không build, migration, thay thiết kế/D6 hoặc publish dữ liệu QA.
+Ngày 20/10/2026 (Asia/Bangkok). **Bước chuẩn bị proxy + backup đã hoàn thành. Chủ dự án đã duyệt bootstrap và bật Admin/CMS; chưa thực hiện vì đang chờ chủ dự án nhập credential qua CLI an toàn.** Sau bootstrap thành công, được kiểm tra audit và bật hai flag mà không xin duyệt lại. Không build, migration, thay thiết kế/D6 hoặc publish dữ liệu QA.
 
 ## Cập nhật bước chuẩn bị đã duyệt — khoảng 19:28–19:32 Asia/Bangkok
 
