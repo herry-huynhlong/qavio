@@ -10,6 +10,7 @@ import {listLeads,leadDetail,updateLead,exportLeads} from './crm';
 import {listSubscribers,subscriberDetail,recordDataRequest,reviewDataRequest,listEmails,retryEmail} from './newsletter';
 import {listContent,contentDetail,saveContent,listCategories,saveCategory} from './cms';
 import {listMedia,uploadMedia} from './media';
+import {readContactSettings,saveContactSettings} from './contact-settings';
 import {audit} from './audit';
 import {hashPassword,verifyPassword} from './password';
 import {loginSchema,password,parsed,query,uuid} from './validation';
@@ -22,6 +23,7 @@ export function requiredPermission(path:string[]):Permission{
   if(resource==='data-requests')return 'privacy';
   if(resource==='email')return action==='retry'?'retry':'email';
   if(resource==='content'||resource==='categories'||resource==='media')return 'content';
+  if(resource==='settings')return 'settings';
   if(resource==='accounts')return 'accounts';
   if(resource==='audit')return 'audit';
   return 'dashboard';
@@ -75,6 +77,10 @@ export async function adminApi(request:Request,path:string[]){
           await tx.adminUser.update({where:{id:current.user.id},data:{passwordHash,sessionVersion:{increment:1},version:{increment:1}}});await tx.adminSession.updateMany({where:{userId:current.user.id,revokedAt:null},data:{revokedAt:new Date()}});await audit(tx,current.user.id,'PASSWORD_CHANGED','ACCOUNT',current.user.id);return {ok:true,code:'LOGIN_AGAIN'};
         }));
       }
+    }
+    if(resource==='settings'&&id==='contact'&&path.length===2){
+      if(request.method==='GET')return response(await readContactSettings());
+      if(request.method==='PATCH')return response(await saveContactSettings(request,await readJson(request)));
     }
     if(resource==='dashboard'&&!id&&request.method==='GET')return response(await dashboard(auth.user.role));
     const search=request.method==='POST'&&id==='search'&&path.length===2;

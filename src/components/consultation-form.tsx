@@ -23,7 +23,7 @@ export function ConsultationForm({kind}:{kind:'contact'|'demo'}){
     try{
       const response=await fetch(kind==='demo'?'/api/demo-requests':'/api/contact',{method:'POST',credentials:'omit',headers:{'Content-Type':'application/json','Idempotency-Key':logical.current.key},body:payload});
       const result=await response.json();
-      if(response.ok&&result.ok){setState('success');setNotice('QAVIO đã nhận được yêu cầu của bạn. Chúng tôi sẽ liên hệ qua số điện thoại bạn cung cấp.');}
+      if(response.ok&&result.ok){setState('success');setNotice('QAVIO đã nhận được thông tin của bạn. Chúng tôi sẽ liên hệ qua số điện thoại bạn cung cấp.');}
       else{setState('error');if(response.status===422){for(const [key,message] of Object.entries(result.fields||{}))if(['fullName','phone','message','consent'].includes(key))setError(key as keyof Values,{message:String(message)});}
         setNotice(response.status===429?`Bạn đã gửi nhiều yêu cầu. Vui lòng thử lại sau ${response.headers.get('Retry-After')||'60'} giây.`:response.status===503?'Biểu mẫu hiện chưa thể tiếp nhận yêu cầu. Thông tin đã nhập được giữ trên trang.':'Yêu cầu chưa được xác nhận. Vui lòng kiểm tra và thử lại; thông tin đã nhập được giữ nguyên.');}
     }catch{setState('error');setNotice('Kết nối bị gián đoạn. Thông tin vẫn ở trên trang; hãy thử lại để kiểm tra cùng yêu cầu.');}
