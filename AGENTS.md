@@ -17,3 +17,5 @@ Yêu cầu C hiện tại ghi rõ: không commit, push, tạo remote hoặc depl
 
 ## Cập nhật ủy quyền triển khai C — 20/10/2026
 Sau báo cáo local, chủ dự án yêu cầu “oke cho lên web”. Được phép commit/push và deploy C tại qavio.longh.org, gồm PostgreSQL riêng và worker. Giữ QAVIO_PUBLIC_FORMS_ENABLED=false, QAVIO_DATA_POLICY_APPROVED=false, EMAIL_PROVIDER=disabled và noindex; yêu cầu đưa lên web chưa phê duyệt chính sách dữ liệu hoặc cấu hình email thật. Giữ image B để rollback; không sửa Restaurant/portfolio. Ngoại lệ không deploy ở trên là lịch sử của lần làm C tại local.
+
+- C đã deploy bằng images `qavio-web:570f8f7`, `qavio-operations:570f8f7`; dùng `compose.yaml` + `compose.production.yaml`. Secrets riêng trên VPS, không in env/config đầy đủ vào logs. Trước migration tiếp theo phải backup QAVIO và kiểm tra target; không dùng reset/drop. Xem `docs/PHASE_C_DEPLOYMENT.md`. Chưa mở form hoặc bắt đầu D.

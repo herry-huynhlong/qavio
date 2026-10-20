@@ -4,7 +4,7 @@ Website thương hiệu QAVIO. Dự án độc lập tại `D:\anh\qavio`, remot
 
 ## Trạng thái
 
-Bản hoàn thiện A + Giai đoạn B đã được duyệt, push và triển khai tại **https://qavio.longh.org**. Giai đoạn C được triển khai riêng ở local: PostgreSQL/Prisma, lead APIs, newsletter, outbox và các form thật. **Chưa mở tiếp nhận khách hàng trên production; chưa có email provider thật.** Yêu cầu C ưu tiên: không commit/push/deploy, không có admin hoặc thanh toán. Xem `docs/PHASE_C.md`. Chưa có CI/CD tự kích hoạt khi push.
+Bản hoàn thiện A + Giai đoạn B đã được duyệt, push và triển khai tại **https://qavio.longh.org**. Giai đoạn C đã được chủ dự án cho phép push/deploy và hiện chạy tại **https://qavio.longh.org** với PostgreSQL riêng, Prisma migrations và worker. **Form production vẫn đóng, email provider chưa cấu hình, indexing tắt.** Chưa có admin hoặc thanh toán. Xem `docs/PHASE_C_DEPLOYMENT.md` cho trạng thái phát hành, `docs/PHASE_C.md` cho nghiệm thu local. Chưa có CI/CD tự kích hoạt khi push.
 
 - Next.js 16 App Router, React 19, TypeScript strict, Tailwind 4.
 - CSS design tokens, nội dung tiếng Việt tách riêng, header sticky và menu mobile.

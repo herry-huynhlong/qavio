@@ -1,6 +1,10 @@
 # Chuẩn bị VPS QAVIO — 20/10/2026
 
-## Trạng thái hiện tại: đã triển khai
+## Trạng thái hiện tại: C đã triển khai
+
+Ứng dụng C source `570f8f7` chạy tại https://qavio.longh.org, cùng PostgreSQL `qavio_prod` và worker riêng. Web/DB healthy; worker provider disabled; form vẫn đóng, noindex giữ nguyên. Builder đã dừng. Restaurant/portfolio không bị restart. Xem `PHASE_C_DEPLOYMENT.md` cho kiểm tra thực tế, backup và rollback.
+
+## Lịch sử triển khai A/B
 
 Chủ dự án đã duyệt A/B và ủy quyền cập nhật thông thường sau khi kiểm tra đạt thì push/deploy không cần hỏi lại. Website A/B hoạt động tại **https://qavio.longh.org** ngày 20/10/2026. Các phần chuẩn bị/chờ xác nhận bên dưới được giữ làm lịch sử.
 

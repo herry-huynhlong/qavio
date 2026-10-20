@@ -1,5 +1,7 @@
 # Đưa QAVIO lên VPS bằng Docker
 
+> Hiện tại đã deploy C sau khi chủ dự án yêu cầu đưa lên web. Dùng `compose.production.yaml` cùng cấu hình base cho PostgreSQL riêng, migration và worker; xem `PHASE_C_DEPLOYMENT.md` cho kết quả, secret files và rollback. Các bước A/B phía dưới được giữ làm lịch sử; không áp dụng quy trình web-only để nâng cấp C mà bỏ qua backup/migration. Form và email production hiện đóng.
+
 ## Trạng thái bản này
 
 Repo có Dockerfile multi-stage, Next standalone, container chạy bằng user `node`, health check, Compose riêng tên `qavio`, mẫu Nginx. Website A + B đã được triển khai lên **https://qavio.longh.org** ngày 20/10/2026 sau khi chủ dự án duyệt; chưa có database/admin/form thật. Xem `VPS_SETUP.md` để biết trạng thái vận hành và `AGENTS.md` cho ủy quyền push/deploy các cập nhật thông thường sau khi kiểm tra đạt.
