@@ -16,7 +16,15 @@
     "db:migrate": "node scripts/database.mjs dev",
     "db:migrate:test": "node scripts/database.mjs test",
     "test:integration": "tsx scripts/integration.ts",
-    "email:worker": "tsx scripts/outbox.ts"
+    "email:worker": "tsx scripts/outbox.ts",
+    "admin:bootstrap": "tsx scripts/bootstrap-admin.ts",
+    "test:admin": "tsx scripts/integration-admin.ts",
+    "test:admin:http": "tsx scripts/check-admin-http.ts",
+    "test:admin:fixtures": "tsx scripts/admin-browser-fixtures.ts",
+    "test:operations": "tsx scripts/integration-operations.ts",
+    "ops:status": "tsx scripts/ops-status.ts",
+    "ops:backup": "node scripts/ops-backup.mjs",
+    "test:smtp": "tsx scripts/check-smtp.ts"
   },
   "dependencies": {
     "@prisma/client": "6.19.2",
@@ -26,6 +34,8 @@
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "react-hook-form": "7.90.0",
+    "sanitize-html": "^2.18.1",
+    "sharp": "0.35.5",
     "zod": "4.6.7"
   },
   "devDependencies": {
@@ -34,6 +44,7 @@
     "@types/nodemailer": "^8.0.2",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/sanitize-html": "^2.16.2",
     "eslint": "^9.0.0",
     "eslint-config-next": "16.4.2",
     "prisma": "6.19.2",

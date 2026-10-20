@@ -1,0 +1,30 @@
+# Prepared overlay only; approval required before applying on the VPS.
+# Use with compose.yaml + compose.production.yaml AFTER a verified rehearsal.
+services:
+  web:
+    # Provisional headroom; approve only after Linux measurement and host budget review.
+    mem_limit: 512m
+    memswap_limit: 768m
+    stop_grace_period: 75s
+    environment:
+      QAVIO_MEDIA_ROOT: /var/lib/qavio/media
+      QAVIO_OPS_ROOT: /var/lib/qavio/ops
+      QAVIO_MEDIA_MAX_BYTES: '1073741824'
+      QAVIO_ADMIN_ENABLED: 'false'
+      QAVIO_CMS_ENABLED: 'false'
+      QAVIO_PUBLIC_FORMS_ENABLED: 'false'
+      QAVIO_DATA_POLICY_APPROVED: 'false'
+      SITE_INDEXING_ENABLED: 'false'
+      EMAIL_PROVIDER: disabled
+    volumes: [qavio_media:/var/lib/qavio/media, qavio_ops:/var/lib/qavio/ops]
+  worker:
+    command: [node, --import, tsx, scripts/outbox.ts, --loop]
+    stop_grace_period: 90s
+    environment:
+      QAVIO_MEDIA_ROOT: /var/lib/qavio/media
+      QAVIO_OPS_ROOT: /var/lib/qavio/ops
+    volumes: [qavio_ops:/var/lib/qavio/ops, qavio_media:/var/lib/qavio/media]
+    healthcheck: {test: [CMD, node, --import, tsx, scripts/ops-status.ts, --worker-health], interval: 30s, timeout: 10s, start_period: 30s, retries: 3}
+volumes:
+  qavio_media:
+  qavio_ops:

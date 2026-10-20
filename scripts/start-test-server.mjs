@@ -7,4 +7,5 @@ process.env.QAVIO_PUBLIC_FORMS_ENABLED='true';
 process.env.EMAIL_PROVIDER='disabled';
 process.env.LEAD_RECEIPT_ENABLED='true';
 process.env.APP_ORIGIN='http://127.0.0.1:3100';
+process.env.QAVIO_OPS_ROOT=new URL('../.runtime/ops-test',import.meta.url).pathname.replace(/^\/(?=[A-Z]:)/,'');
 await import('./start-local.mjs');

@@ -13,3 +13,7 @@ runtime
 .runtime
 .test-artifacts
 Qavio.png
+.secrets/
+**/*.key
+**/*.pem
+**/*.qvb

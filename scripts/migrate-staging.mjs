@@ -1,0 +1,4 @@
+import {spawnSync} from 'node:child_process';
+import {PrismaClient} from '@prisma/client';
+async function main(){const url=new URL(process.env.DATABASE_URL||'');if(process.env.QAVIO_DEPLOYMENT_ENV!=='staging'||process.env.QAVIO_STAGING_MIGRATION_APPROVED!=='true'||url.hostname!=='qavio-postgres'||url.pathname!=='/qavio_staging'||url.username!=='qavio_owner')throw Error('STAGING_TARGET_NOT_APPROVED');const result=spawnSync(process.execPath,['node_modules/prisma/build/index.js','migrate','deploy'],{stdio:'inherit',env:process.env});if(result.status!==0)throw Error('MIGRATION_FAILED');const client=new PrismaClient({log:[]});try{await client.$executeRawUnsafe('REVOKE ALL ON TABLE "_prisma_migrations" FROM qavio_app');}finally{await client.$disconnect();}console.log('QAVIO_STAGING_MIGRATIONS_COMPLETE');}
+main().catch(()=>{console.error('QAVIO_STAGING_MIGRATION_FAILED');process.exitCode=1;});

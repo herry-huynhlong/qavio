@@ -75,6 +75,9 @@ model Lead {
   updatedAt            DateTime       @updatedAt @db.Timestamptz(3)
   activities           LeadActivity[]
   emails               EmailOutbox[]
+  version              Int            @default(1)
+  assignedToId         String?        @db.Uuid
+  assignedTo           AdminUser?     @relation(fields: [assignedToId], references: [id], onDelete: SetNull)
 
   @@index([status, createdAt])
   @@index([inquiryType, createdAt])
@@ -168,9 +171,160 @@ model EmailOutbox {
   lead          Lead?                 @relation(fields: [leadId], references: [id], onDelete: Cascade)
   subscriberId  String?               @db.Uuid
   subscriber    NewsletterSubscriber? @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+  version       Int                   @default(1)
+  manualRetries Int                   @default(0)
 
   @@index([status, nextAttemptAt])
   @@index([subscriberId])
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+enum ContentKind {
+  POST
+  PRODUCT
+  COMPANY
+  MISSION
+  VISION
+  VALUES
+  FAQ
+  CTA
+  CONTACT
+  PRIVACY
+  TERMS
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model AdminUser {
+  id             String         @id @default(uuid()) @db.Uuid
+  email          String         @unique @db.VarChar(254)
+  name           String         @db.VarChar(120)
+  passwordHash   String         @db.VarChar(512)
+  role           AdminRole
+  isActive       Boolean        @default(true)
+  sessionVersion Int            @default(1)
+  version        Int            @default(1)
+  createdAt      DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime       @updatedAt @db.Timestamptz(3)
+  sessions       AdminSession[]
+  leads          Lead[]
+  audits         AuditLog[]
+  contents       ContentEntry[]
+  media          MediaAsset[]
+}
+
+model AdminSession {
+  id             String    @id @default(uuid()) @db.Uuid
+  userId         String    @db.Uuid
+  user           AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash      String    @unique @db.VarChar(64)
+  sessionVersion Int
+  expiresAt      DateTime  @db.Timestamptz(3)
+  lastSeenAt     DateTime  @default(now()) @db.Timestamptz(3)
+  revokedAt      DateTime? @db.Timestamptz(3)
+  createdAt      DateTime  @default(now()) @db.Timestamptz(3)
+
+  @@index([userId, expiresAt])
+}
+
+model AuditLog {
+  id         String     @id @default(uuid()) @db.Uuid
+  actorId    String?    @db.Uuid
+  actor      AdminUser? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action     String     @db.VarChar(60)
+  targetType String     @db.VarChar(40)
+  targetId   String?    @db.VarChar(128)
+  changes    Json
+  createdAt  DateTime   @default(now()) @db.Timestamptz(3)
+
+  @@index([createdAt, id])
+  @@index([actorId, createdAt])
+  @@index([action, targetType])
+}
+
+model Category {
+  id        String         @id @default(uuid()) @db.Uuid
+  name      String         @db.VarChar(120)
+  slug      String         @unique @db.VarChar(120)
+  version   Int            @default(1)
+  entries   ContentEntry[]
+  createdAt DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime       @updatedAt @db.Timestamptz(3)
+}
+
+model ContentEntry {
+  id              String            @id @default(uuid()) @db.Uuid
+  kind            ContentKind
+  slug            String            @db.VarChar(120)
+  title           String            @db.VarChar(200)
+  summary         String            @db.VarChar(1000)
+  bodyHtml        String
+  data            Json
+  status          ContentStatus     @default(DRAFT)
+  version         Int               @default(1)
+  seoTitle        String?           @db.VarChar(160)
+  seoDescription  String?           @db.VarChar(300)
+  publishedAt     DateTime?         @db.Timestamptz(3)
+  authorId        String            @db.Uuid
+  author          AdminUser         @relation(fields: [authorId], references: [id])
+  categoryId      String?           @db.Uuid
+  category        Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  featuredMediaId String?           @db.Uuid
+  featuredMedia   MediaAsset?       @relation(fields: [featuredMediaId], references: [id], onDelete: SetNull)
+  revisions       ContentRevision[]
+  createdAt       DateTime          @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime          @updatedAt @db.Timestamptz(3)
+
+  @@unique([kind, slug])
+  @@index([kind, status, publishedAt])
+}
+
+model ContentRevision {
+  id        String       @id @default(uuid()) @db.Uuid
+  entryId   String       @db.Uuid
+  entry     ContentEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  version   Int
+  actorId   String       @db.Uuid
+  snapshot  Json
+  createdAt DateTime     @default(now()) @db.Timestamptz(3)
+
+  @@unique([entryId, version])
+}
+
+model MediaAsset {
+  id          String         @id @default(uuid()) @db.Uuid
+  storageKey  String         @unique @db.VarChar(80)
+  mimeType    String         @db.VarChar(40)
+  width       Int
+  height      Int
+  byteSize    Int
+  label       String         @db.VarChar(120)
+  createdById String         @db.Uuid
+  createdBy   AdminUser      @relation(fields: [createdById], references: [id])
+  entries     ContentEntry[]
+  createdAt   DateTime       @default(now()) @db.Timestamptz(3)
+}
+
+model DataRequest {
+  id           String   @id @default(uuid()) @db.Uuid
+  subscriberId String   @db.Uuid
+  type         String   @db.VarChar(30)
+  status       String   @default("RECORDED") @db.VarChar(30)
+  evidence     String   @db.VarChar(500)
+  actorId      String   @db.Uuid
+  version      Int      @default(1)
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(3)
+
+  @@index([subscriberId, createdAt])
 }
 
 model RateLimitBucket {

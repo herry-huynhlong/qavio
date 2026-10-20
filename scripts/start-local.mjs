@@ -3,6 +3,10 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const standalone = resolve(".next/standalone");
+// The standalone server changes cwd. Keep development media outside its artifact.
+if(process.env.QAVIO_DEPLOYMENT_ENV!=='production'&&!process.env.QAVIO_MEDIA_ROOT){
+  process.env.QAVIO_MEDIA_ROOT=resolve('.runtime/media');
+}
 try {
   await access(resolve(standalone, "server.js"));
 } catch {

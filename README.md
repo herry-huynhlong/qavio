@@ -4,7 +4,7 @@ Website thương hiệu QAVIO. Dự án độc lập tại `D:\anh\qavio`, remot
 
 ## Trạng thái
 
-Bản hoàn thiện A + Giai đoạn B đã được duyệt, push và triển khai tại **https://qavio.longh.org**. Giai đoạn C đã được chủ dự án cho phép push/deploy và hiện chạy tại **https://qavio.longh.org** với PostgreSQL riêng, Prisma migrations và worker. **Form production vẫn đóng, email provider chưa cấu hình, indexing tắt.** Chưa có admin hoặc thanh toán. Xem `docs/PHASE_C_DEPLOYMENT.md` cho trạng thái phát hành, `docs/PHASE_C.md` cho nghiệm thu local. Chưa có CI/CD tự kích hoạt khi push.
+Bản hoàn thiện A + Giai đoạn B đã được duyệt, push và triển khai tại **https://qavio.longh.org**. Giai đoạn C đã được chủ dự án cho phép push/deploy và hiện chạy tại **https://qavio.longh.org** với PostgreSQL riêng, Prisma migrations và worker. **Form production vẫn đóng, email provider chưa cấu hình, indexing tắt.** Admin/CMS D đã có ở local, E đang chuẩn bị vận hành; chưa phát hành D/E, không có thanh toán. Xem `docs/PHASE_C_DEPLOYMENT.md` cho trạng thái phát hành, `docs/PHASE_C.md` cho nghiệm thu local. Chưa có CI/CD tự kích hoạt khi push.
 
 - Next.js 16 App Router, React 19, TypeScript strict, Tailwind 4.
 - CSS design tokens, nội dung tiếng Việt tách riêng, header sticky và menu mobile.
@@ -42,6 +42,9 @@ pnpm test:public
 ## Tài liệu
 
 - `docs/ARCHITECTURE.md`: kiến trúc và kế hoạch B–E.
+- `docs/PHASE_D.md`: admin/CMS local, RBAC và kiểm thử D.
+- `docs/PHASE_E.md`: bằng chứng local, blocker và GO/NO-GO phát hành.
+- `docs/OPERATIONS_RUNBOOK.md`: staging, backup/restore mã hóa, bootstrap, monitoring và release/rollback (chưa thực thi production).
 - `docs/PHASE_A.md`: phạm vi, tài sản còn thiếu và kết quả kiểm tra.
 - `docs/PHASE_C.md`: backend, database, kiểm thử và hướng dẫn cấu hình local.
 - `docs/PHASE_B.md`: 12 trang B, logo, form, SEO, kiểm tra và chuẩn bị cho C.
@@ -49,6 +52,8 @@ pnpm test:public
 - `docs/DEPLOYMENT.md`: setup VPS Docker, domain/HTTPS, cập nhật và rollback.
 
 ## Docker trên VPS
+
+> Chưa được phép áp dụng cấu hình D/E lên VPS. Các lệnh dưới là hướng dẫn nền; phát hành hiện tại cần dùng runbook và phê duyệt riêng, không bỏ qua backup/migration.
 
 ```bash
 docker compose config --quiet

@@ -57,7 +57,7 @@ services:
     cpus: 0.25
     env_file: .env.migration
     environment:
-      QAVIO_PRODUCTION_MIGRATION_APPROVED: 'true'
+      QAVIO_PRODUCTION_MIGRATION_APPROVED: ${QAVIO_PRODUCTION_MIGRATION_APPROVED:-false}
     command: [node, scripts/migrate-production.mjs]
     depends_on:
       qavio-postgres:

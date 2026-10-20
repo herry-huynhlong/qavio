@@ -19,3 +19,12 @@ Yêu cầu C hiện tại ghi rõ: không commit, push, tạo remote hoặc depl
 Sau báo cáo local, chủ dự án yêu cầu “oke cho lên web”. Được phép commit/push và deploy C tại qavio.longh.org, gồm PostgreSQL riêng và worker. Giữ QAVIO_PUBLIC_FORMS_ENABLED=false, QAVIO_DATA_POLICY_APPROVED=false, EMAIL_PROVIDER=disabled và noindex; yêu cầu đưa lên web chưa phê duyệt chính sách dữ liệu hoặc cấu hình email thật. Giữ image B để rollback; không sửa Restaurant/portfolio. Ngoại lệ không deploy ở trên là lịch sử của lần làm C tại local.
 
 - C đã deploy bằng images `qavio-web:570f8f7`, `qavio-operations:570f8f7`; dùng `compose.yaml` + `compose.production.yaml`. Secrets riêng trên VPS, không in env/config đầy đủ vào logs. Trước migration tiếp theo phải backup QAVIO và kiểm tra target; không dùng reset/drop. Xem `docs/PHASE_C_DEPLOYMENT.md`. Chưa mở form hoặc bắt đầu D.
+
+## Ngoại lệ Giai đoạn D — yêu cầu hiện tại
+Chỉ triển khai D1–D5 và kiểm thử local. Người dùng ghi rõ: không tự commit/push/deploy, không thay đổi cấu hình VPS, không mở tiếp nhận production hoặc indexing. Quy định này ưu tiên hơn ủy quyền triển khai C và quy trình tự deploy trước đó. Không tạo admin mặc định; bootstrap bằng credential chủ dự án cung cấp qua CLI.
+
+## Giai đoạn E — 20/10/2026
+Được thực hiện E1–E4 và kiểm thử hạ tầng tại local/môi trường cô lập. Không tự commit/push/deploy, SSH, dùng credential thật, bật admin/forms/indexing production hoặc sửa VPS. Nếu cần truy cập VPS phải trình phương án và chờ xác nhận mới. Chủ dự án xác nhận chưa có SMTP/test mailbox; chuẩn bị cấu hình, không báo đã gửi thật. Không khởi động Docker Engine chung nếu có thể ảnh hưởng dịch vụ khác; Linux runtime chưa chạy phải đánh dấu chưa kiểm chứng. Backup/restore chỉ thử với dữ liệu tổng hợp trên database cô lập; không restore production.
+
+## Cập nhật ủy quyền D/E — 20/10/2026
+Sau báo cáo E, chủ dự án yêu cầu “oke push lên sever bắt đầu chạy lên web”. Được commit/push D/E, truy cập VPS, build và rehearsal Linux cô lập, sao lưu QAVIO và triển khai ứng viên sau kiểm tra đạt. Ngoại lệ không SSH/deploy D/E phía trên là lịch sử. Giữ admin/CMS/forms/policy/email/indexing production đóng trong lần phát hành này; chưa có credential bootstrap admin hoặc SMTP. Không restore production, không sửa Restaurant/portfolio, không thay Docker Engine chung. Lưu bằng chứng backup/restore cô lập, SHA, health/readiness và rollback image.

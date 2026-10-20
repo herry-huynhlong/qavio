@@ -1,0 +1,83 @@
+# Isolated rehearsal only. Never combine with the production Compose project.
+name: qavio-staging
+services:
+  web:
+    image: qavio-staging-web:${QAVIO_IMAGE_TAG:-candidate}
+    build:
+      context: .
+      target: runner
+      args:
+        SITE_URL: ${QAVIO_STAGING_SITE_URL:?Set the approved staging origin}
+    env_file: ${QAVIO_STAGING_ENV_FILE:-.env.staging}
+    ports: ['127.0.0.1:3102:3000']
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 75s
+    mem_limit: 512m
+    memswap_limit: 768m
+    cpus: 0.75
+    environment:
+      QAVIO_DEPLOYMENT_ENV: staging
+      QAVIO_PUBLIC_FORMS_ENABLED: 'false'
+      QAVIO_DATA_POLICY_APPROVED: 'false'
+      SITE_INDEXING_ENABLED: 'false'
+      EMAIL_PROVIDER: disabled
+      QAVIO_MEDIA_ROOT: /var/lib/qavio/media
+      QAVIO_OPS_ROOT: /var/lib/qavio/ops
+    volumes: [qavio_staging_media:/var/lib/qavio/media, qavio_staging_ops:/var/lib/qavio/ops]
+    depends_on:
+      qavio-postgres: {condition: service_healthy}
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    logging: {driver: json-file, options: {max-size: 5m, max-file: '2'}}
+  qavio-postgres:
+    image: postgres:16-bookworm
+    env_file: ${QAVIO_STAGING_DB_ENV_FILE:-.env.staging.database}
+    volumes: [qavio_staging_data:/var/lib/postgresql/data, './deploy/init-staging-db.sh:/docker-entrypoint-initdb.d/10-qavio.sh:ro']
+    restart: unless-stopped
+    stop_grace_period: 60s
+    mem_limit: 192m
+    memswap_limit: 384m
+    cpus: 0.30
+    command: [postgres, -c, shared_buffers=32MB, -c, max_connections=20]
+    healthcheck: {test: [CMD-SHELL, 'pg_isready -U qavio_owner -d qavio_staging'], interval: 5s, timeout: 3s, retries: 20}
+    security_opt: [no-new-privileges:true]
+    logging: {driver: json-file, options: {max-size: 5m, max-file: '2'}}
+  worker:
+    image: qavio-staging-operations:${QAVIO_IMAGE_TAG:-candidate}
+    build: {context: ., target: operations}
+    env_file: ${QAVIO_STAGING_ENV_FILE:-.env.staging}
+    environment:
+      QAVIO_DEPLOYMENT_ENV: staging
+      EMAIL_PROVIDER: disabled
+      QAVIO_PUBLIC_FORMS_ENABLED: 'false'
+      QAVIO_OPS_ROOT: /var/lib/qavio/ops
+      QAVIO_MEDIA_ROOT: /var/lib/qavio/media
+    volumes: [qavio_staging_ops:/var/lib/qavio/ops, qavio_staging_media:/var/lib/qavio/media]
+    command: [node, --import, tsx, scripts/outbox.ts, --loop]
+    init: true
+    restart: unless-stopped
+    stop_grace_period: 90s
+    mem_limit: 192m
+    memswap_limit: 384m
+    cpus: 0.25
+    depends_on:
+      qavio-postgres: {condition: service_healthy}
+    healthcheck: {test: [CMD, node, --import, tsx, scripts/ops-status.ts, --worker-health], interval: 30s, timeout: 10s, start_period: 30s, retries: 3}
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    logging: {driver: json-file, options: {max-size: 5m, max-file: '2'}}
+  migration:
+    image: qavio-staging-operations:${QAVIO_IMAGE_TAG:-candidate}
+    profiles: [operations]
+    env_file: ${QAVIO_STAGING_MIGRATION_ENV_FILE:-.env.staging.migration}
+    command: [node, scripts/migrate-staging.mjs]
+    restart: 'no'
+    mem_limit: 256m
+    memswap_limit: 512m
+    depends_on:
+      qavio-postgres: {condition: service_healthy}
+volumes:
+  qavio_staging_data:
+  qavio_staging_media:
+  qavio_staging_ops:

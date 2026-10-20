@@ -1,0 +1,24 @@
+# Merge only into QAVIO's reviewed TLS virtual host. Do not install/reload automatically.
+# Requires a separate 0600 include with the SAME random secret as the app:
+# proxy_set_header X-Qavio-Proxy-Secret "<secret>"; (never put its actual value in Git)
+# If behind Cloudflare, first configure/verify real_ip ONLY for current trusted Cloudflare
+# networks and firewall origin access. Never trust CF-Connecting-IP from arbitrary clients.
+location / {
+    proxy_pass http://127.0.0.1:3100;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header X-Qavio-Client-IP $remote_addr;
+    include /etc/nginx/qavio-private/proxy-secret.conf;
+    client_max_body_size 6m;
+    proxy_connect_timeout 5s;
+    proxy_read_timeout 75s;
+    proxy_send_timeout 30s;
+    proxy_cache off;
+}
+# In http{}: use this redacted format; $uri excludes query strings. No auth/cookie headers.
+# map $uri $qavio_route_group { ~^/api/admin/ admin_api; ~^/api/ api; ~^/admin/ admin; ~^/media/ media; default public; }
+# log_format qavio_safe '$time_iso8601 status=$status method=$request_method group=$qavio_route_group duration=$request_time';
+# access_log /var/log/nginx/qavio.access.log qavio_safe;
+# Keep error_log at warn or above; never enable debug dumps of request headers.
+# Use this same bound upstream for readiness; return only generic readiness externally.

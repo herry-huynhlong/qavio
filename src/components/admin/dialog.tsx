@@ -1,0 +1,3 @@
+"use client";
+import {useEffect,useId,useRef} from 'react';
+export function AdminDialog({title,children,onClose,wide=false}:{title:string;children:React.ReactNode;onClose:()=>void;wide?:boolean}){const dialog=useRef<HTMLDialogElement>(null),id=useId();useEffect(()=>{const element=dialog.current;element?.showModal();return()=>{element?.close();};},[]);return <dialog ref={dialog} className={`admin-dialog ${wide?'wide':''}`} aria-labelledby={id} onCancel={event=>{event.preventDefault();onClose();}}><header><h2 id={id}>{title}</h2><button className="admin-icon-button" aria-label="Đóng hộp thoại" onClick={onClose}>×</button></header><div className="admin-dialog-body">{children}</div></dialog>;}

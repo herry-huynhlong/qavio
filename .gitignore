@@ -12,3 +12,9 @@ playwright-report/
 .runtime/
 .test-artifacts/
 backups/
+
+!.env.staging.example
+.secrets/
+**/*.key
+**/*.pem
+**/*.qvb

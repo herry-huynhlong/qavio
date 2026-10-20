@@ -6,21 +6,25 @@ Repository chỉ có `.git`, nhánh `main` chưa có commit; origin `herry-huynh
 
 ## Cấu trúc hiện tại
 
-Cập nhật cuối Giai đoạn B: đã có 12 route công khai chi tiết, `src/lib/site-config.ts`/`seo.tsx`, component trang dùng chung và giao diện kiểm tra form, ảnh gốc trong `public/brand`, sitemap/robots và kiểm tra HTTP `scripts/check-public-pages.mjs`. Backend/database/admin chưa được triển khai. Xem `PHASE_B.md` cho phạm vi đã kiểm tra.
+Cập nhật Giai đoạn D (20/10/2026): A/B/C đã có; C đang chạy production, D chỉ local theo yêu cầu hiện tại. Xem PHASE_D.md cho phạm vi và kết quả kiểm thử. Không commit/push/deploy D hoặc thay VPS trong giai đoạn này.
 
 ```text
-src/
-  app/                 Next.js routes, layout, CSS, error/loading/404/robots
-  components/          Header, footer và tương tác tab QuánPilot
-  content/vi.ts        Nội dung có cấu trúc, sẵn sàng thêm ngôn ngữ/CMS
+src/app/(public)/       Public URL cũ, header/footer riêng; news/products đọc published CMS
+src/app/admin/          Login, layout quản trị, protected pages và preview nội bộ
+src/app/api/admin/      Một API dispatcher dùng cùng backend/service/PostgreSQL C
+src/app/media/[id]/     Ảnh chuẩn hóa, draft có guard
+src/server/admin/      Auth/RBAC, CRM, newsletter, CMS, accounts/audit
+src/server/            C services, worker/shared eligibility, public CMS reads
+prisma/                C migrations + migration D bổ sung (local dev/test)
+scripts/               CLI bootstrap, migration và integration/HTTP tests có DB guard
 docs/                  Yêu cầu, kiến trúc và báo cáo giai đoạn
 ```
 
-Không thêm dependencies database, auth, email trước khi cần. Không thêm starter của hosting khác vì người dùng đã chọn Next.js và local-only.
+Dùng một ứng dụng Next.js modular và một PostgreSQL riêng QAVIO; qavio_test tách khỏi qavio_dev. Không dùng DB/auth/payment Restaurant/QuánPilot. CMS rich text giới hạn tag và sanitize ở server; trường section/social/CTA có schema riêng. Không page builder hoặc HTML không kiểm soát.
 
 ## Cấu trúc mục tiêu
 
-Một ứng dụng modular, không microservices. Các phần sau **là kế hoạch**, chưa được triển khai:
+Một ứng dụng modular, không microservices. Các phần sau là lộ trình ban đầu; A–D đối chiếu theo báo cáo từng giai đoạn, E có code/cấu hình local; Docker/Linux/production chưa được xác minh đầy đủ:
 
 ```text
 src/app/(public)/       About, solutions, products, pricing, news, forms, legal
@@ -35,7 +39,7 @@ prisma/                Schema và migrations PostgreSQL riêng QAVIO
 tests/                 Unit, integration và browser tests
 ```
 
-Public pages ưu tiên Server Components, chỉ dùng client cho tương tác cần thiết. Server tự xác định quyền và validate mọi thao tác. Nội dung CMS theo section có cấu trúc; không HTML tùy ý và không page builder.
+Public pages ưu tiên Server Components; admin dùng client cho form/bảng và server cho guard, quyền, validation. CMS section có cấu trúc; rich text giới hạn whitelist, sanitize khi lưu và render; không HTML tùy ý hoặc page builder.
 
 ## Giai đoạn B — Nội dung
 
@@ -69,3 +73,7 @@ Public pages ưu tiên Server Components, chỉ dùng client cho tương tác c�
 - Docker app/database QAVIO tách riêng cổng, volume, network, compose project, môi trường; backup/restore có hướng dẫn.
 - Typecheck/lint/unit/integration/E2E/build, migration trên database test và staging.
 - Production deployment chỉ thực hiện sau khi người dùng xác nhận. Không restart/chỉnh container QuánPilot.
+
+## Cập nhật E — local, chưa phát hành
+
+Readiness khác liveness, environment validator ở image entrypoint, worker heartbeat/shutdown, ops CLI, media quota/disk checks, backup DB+media mã hóa và restore chỉ DB sandbox trống. Không thêm migration E. Có compose.staging.yaml cô lập và overlay release-candidate tắt các tính năng production theo mặc định; chưa áp dụng lên VPS. Xem PHASE_E.md và OPERATIONS_RUNBOOK.md, không coi cấu hình đã viết là runtime Docker đã chạy.
