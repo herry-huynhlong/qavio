@@ -28,3 +28,6 @@ Chỉ triển khai D1–D5 và kiểm thử local. Người dùng ghi rõ: khôn
 
 ## Cập nhật ủy quyền D/E — 20/10/2026
 Sau báo cáo E, chủ dự án yêu cầu “oke push lên sever bắt đầu chạy lên web”. Được commit/push D/E, truy cập VPS, build và rehearsal Linux cô lập, sao lưu QAVIO và triển khai ứng viên sau kiểm tra đạt. Ngoại lệ không SSH/deploy D/E phía trên là lịch sử. Giữ admin/CMS/forms/policy/email/indexing production đóng trong lần phát hành này; chưa có credential bootstrap admin hoặc SMTP. Không restore production, không sửa Restaurant/portfolio, không thay Docker Engine chung. Lưu bằng chứng backup/restore cô lập, SHA, health/readiness và rollback image.
+
+- D/E source `c205bbd` đã deploy, web/worker healthy, bốn migration; dùng cả ba Compose file gồm `compose.release-candidate.yaml`. Xem `docs/PHASE_DE_DEPLOYMENT.md` trước lần vận hành tiếp. Builder đã dừng, giới hạn trả về 512/1536 MiB.
+- Host chỉ còn khoảng 2,3 GiB disk; một lần worker bảo trì Restaurant tự restart trong thời gian build, chưa xác định nguyên nhân. Không tiếp tục build lớn trên VPS chung 1 GB; chuẩn bị Linux build host/CI riêng và rà soát dung lượng QAVIO trước lần phát hành tiếp. Không tự sửa Restaurant, prune cache chung hoặc xóa rollback/volume.

@@ -1,6 +1,6 @@
 # QAVIO — runbook ứng viên D/E
 
-Chưa phải lệnh được phép chạy trên production. Phải có xác nhận phát hành riêng, image SHA cụ thể, staging đạt và backup đã kiểm tra. Không dùng lệnh của runbook trong thư mục Restaurant hoặc project Docker khác. Không `compose down -v`, prune, migrate reset, drop/truncate dữ liệu thật hoặc tự rollback DDL.
+Lần phát hành website đóng tiếp nhận source `c205bbd` đã được chủ dự án duyệt và triển khai ngày 20/10/2026; xem [PHASE_DE_DEPLOYMENT.md](PHASE_DE_DEPLOYMENT.md) trước khi vận hành. Các phần mô tả “chưa chạy” bên dưới là kế hoạch trước release, cần đối chiếu bằng chứng mới nhất. Admin/SMTP/forms/policy/indexing vẫn chưa được mở. Mỗi lần phát hành tiếp cần SHA, tài nguyên, rehearsal và backup được kiểm tra phù hợp. Không dùng runbook trong Restaurant/project Docker khác; không `compose down -v`, prune chung, reset/drop/truncate dữ liệu thật hoặc tự rollback DDL. Không build lớn tiếp trên VPS chung 1 GB khi chưa có phương án build riêng và dung lượng.
 
 ## Ranh giới và cấu hình
 
@@ -88,7 +88,7 @@ Mở forms thật cần duyệt policy/đơn vị xử lý/kênh chính thức/n
 
 ## Release/rollback gate
 
-Candidate SHA/tag/digest: **TBD sau duyệt commit**; branch làm việc hiện main có D/E chưa commit. Không push hoặc deploy từ working tree chưa định danh.
+Release đang chạy: source `c205bbd92c1c13e696c6d807332a2c5de0c9facc`; tag/digests và ba Compose file nằm trong báo cáo deployment. Mỗi ứng viên tiếp phải có SHA riêng, không dùng SHA C hoặc release cũ như thể chứa các thay đổi mới.
 
 Trước release: staging checklist đạt, owner chốt candidate SHA/tag, snapshot image/config hiện tại không chứa secret trong báo cáo, backup DB+media đã restore thử/offsite, kiểm tài nguyên/proxy/TLS/env, migration list C1–C3 đã có + D `202610200004_admin_cms`. E không thêm migration schema. Kiểm source migration checksum, migrations status và role trên host sau khi được duyệt.
 
@@ -98,4 +98,4 @@ Smoke trước/ sau cutover: health/readiness, HTTPS/assets/logo, 14 public rout
 
 Rollback app: dùng image C đã xác nhận `qavio-web:570f8f7` và operations C tương ứng (hoặc image trước release được ghi manifest), cấu hình C private đã lưu, chỉ cập nhật service QAVIO liên quan. Giữ DB/media volume. Migration D là additive nhưng phải kiểm C client hoạt động với schema D trên staging; rollback code **không rollback schema hoặc dữ liệu CMS**. Nếu có ghi mới, restore backup có thể mất các ghi đó: phải thu thập/reconcile, duyệt RPO/cutover riêng. Không tự rollback database hay xóa D tables.
 
-Người xác nhận release: chủ dự án hoặc người được chỉ định rõ. Hiện chưa có xác nhận phát hành D/E; trạng thái **NO-GO** đến khi đóng các blocker trong PHASE_E.md.
+Người xác nhận release: chủ dự án hoặc người được chỉ định rõ. Chủ dự án đã xác nhận phát hành website D/E đang đóng tiếp nhận; trạng thái hiện tại và các blocker còn lại được ghi trong PHASE_DE_DEPLOYMENT.md. Không suy diễn việc này thành phê duyệt bootstrap admin, SMTP, pháp lý, tiếp nhận dữ liệu thật hoặc indexing.

@@ -1,6 +1,10 @@
 # Chuẩn bị VPS QAVIO — 20/10/2026
 
-## Trạng thái hiện tại: C đã triển khai
+## Trạng thái hiện tại: D/E đã triển khai với tiếp nhận đóng
+
+Source `c205bbd` đã chạy tại https://qavio.longh.org; bốn migration, web/worker healthy, media/ops volumes riêng. Dùng cả ba Compose file, gồm `compose.release-candidate.yaml`. Admin/CMS/forms/email/indexing vẫn tắt. Xem [PHASE_DE_DEPLOYMENT.md](PHASE_DE_DEPLOYMENT.md) cho manifest, backup/restore, dung lượng thấp và một lần worker Restaurant tự restart chưa rõ nguyên nhân. Không tiếp tục build lớn trên VPS chung 1 GB; chuẩn bị build host riêng trước lần phát hành tiếp.
+
+## Lịch sử triển khai C
 
 Ứng dụng C source `570f8f7` chạy tại https://qavio.longh.org, cùng PostgreSQL `qavio_prod` và worker riêng. Web/DB healthy; worker provider disabled; form vẫn đóng, noindex giữ nguyên. Builder đã dừng. Restaurant/portfolio không bị restart. Xem `PHASE_C_DEPLOYMENT.md` cho kiểm tra thực tế, backup và rollback.
 

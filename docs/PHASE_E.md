@@ -2,7 +2,9 @@
 
 Ngày: 20/10/2026, giờ làm việc Asia/Bangkok. Repository `D:\anh\qavio`.
 
-**Quyết định hiện tại: NO-GO phát hành D/E lên production.** Đã thực hiện công việc local và chuẩn bị runbook; chưa xác minh Docker/Linux runtime, staging HTTPS, SMTP thật hoặc cấu hình VPS hiện tại. Không tự coi các mục chưa kiểm chứng là PASS. Hướng dẫn chi tiết: [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md).
+**Cập nhật sau ủy quyền: D/E source c205bbd đã deploy ngày 20/10/2026. GO cho website đang đóng tiếp nhận; admin/CMS/forms/email/indexing vẫn tắt.** Linux rehearsal, backup/restore cô lập và production health/readiness đã được kiểm chứng. Xem [PHASE_DE_DEPLOYMENT.md](PHASE_DE_DEPLOYMENT.md) cho bằng chứng, giới hạn dung lượng và một lần worker Restaurant tự restart chưa rõ nguyên nhân. SMTP thật và các mục vận hành còn thiếu không được coi là PASS.
+
+Các mục 1–17 bên dưới là **biên bản local trước khi chủ dự án cho phép SSH/push/deploy**, giữ lại để đối chiếu; các câu “chưa deploy/chưa xác minh VPS” mô tả thời điểm nghiệm thu local, không phải trạng thái phát hành mới nhất. Runbook: [OPERATIONS_RUNBOOK.md](OPERATIONS_RUNBOOK.md).
 
 ## 1. Git và deployment
 

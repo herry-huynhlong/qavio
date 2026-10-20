@@ -4,7 +4,7 @@ Website thương hiệu QAVIO. Dự án độc lập tại `D:\anh\qavio`, remot
 
 ## Trạng thái
 
-Bản hoàn thiện A + Giai đoạn B đã được duyệt, push và triển khai tại **https://qavio.longh.org**. Giai đoạn C đã được chủ dự án cho phép push/deploy và hiện chạy tại **https://qavio.longh.org** với PostgreSQL riêng, Prisma migrations và worker. **Form production vẫn đóng, email provider chưa cấu hình, indexing tắt.** Admin/CMS D đã có ở local, E đang chuẩn bị vận hành; chưa phát hành D/E, không có thanh toán. Xem `docs/PHASE_C_DEPLOYMENT.md` cho trạng thái phát hành, `docs/PHASE_C.md` cho nghiệm thu local. Chưa có CI/CD tự kích hoạt khi push.
+Bản D/E source `c205bbd` đã được duyệt, push và triển khai tại **https://qavio.longh.org** với PostgreSQL riêng, bốn Prisma migration, worker và persistent volumes. **Admin/CMS/forms production vẫn đóng, chưa bootstrap tài khoản thật, email provider chưa cấu hình, indexing tắt.** Không có thanh toán hoặc tích hợp dữ liệu QuánPilot. Xem [báo cáo triển khai D/E](docs/PHASE_DE_DEPLOYMENT.md) cho kiểm tra Linux/backup/production, giới hạn disk và sự kiện worker bảo trì Restaurant tự restart chưa rõ nguyên nhân. Chưa có CI/CD tự kích hoạt khi push.
 
 - Next.js 16 App Router, React 19, TypeScript strict, Tailwind 4.
 - CSS design tokens, nội dung tiếng Việt tách riêng, header sticky và menu mobile.
