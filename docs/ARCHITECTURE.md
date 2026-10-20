@@ -39,7 +39,7 @@ Public pages ưu tiên Server Components, chỉ dùng client cho tương tác c�
 
 ## Giai đoạn B — Nội dung
 
-Đã triển khai và kiểm tra tại local; chưa deploy B. Các gạch đầu dòng dưới đây là nguyên tắc đã áp dụng, phần CMS/nội dung xuất bản chờ D.
+Đã triển khai, kiểm tra local/Linux và deploy B sau khi chủ dự án xác nhận ngày 20/10/2026. Các gạch đầu dòng dưới đây là nguyên tắc đã áp dụng, phần CMS/nội dung xuất bản chờ D.
 
 - Thêm đầy đủ route công khai theo brief, metadata, breadcrumbs và SEO theo domain được xác nhận.
 - Privacy/terms cần thông tin xử lý dữ liệu và nội dung được chủ dự án duyệt trước khi nhận lead.

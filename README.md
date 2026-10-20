@@ -4,7 +4,7 @@ Website thương hiệu QAVIO. Dự án độc lập tại `D:\anh\qavio`, remot
 
 ## Trạng thái
 
-Giai đoạn A đang chạy trên VPS theo xác nhận trước đó. Bản hoàn thiện A + Giai đoạn B đã triển khai và kiểm tra tại **local**, chưa deploy bản B. **Chưa sẵn sàng nhận dữ liệu khách hàng:** không có database, email, admin hay thanh toán.
+Bản hoàn thiện A + Giai đoạn B đã được duyệt, push và triển khai tại **https://qavio.longh.org**. **Chưa sẵn sàng nhận dữ liệu khách hàng:** không có database, email, admin hay thanh toán. Quy trình đã được chủ dự án xác nhận: công việc hoàn tất và kiểm tra đạt thì agent commit/push/deploy QAVIO; xem `AGENTS.md`. Chưa bắt đầu C và chưa có CI/CD tự kích hoạt khi push.
 
 - Next.js 16 App Router, React 19, TypeScript strict, Tailwind 4.
 - CSS design tokens, nội dung tiếng Việt tách riêng, header sticky và menu mobile.

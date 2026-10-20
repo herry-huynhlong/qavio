@@ -1,5 +1,7 @@
 # Báo cáo Giai đoạn B — 20/10/2026
 
+> Cập nhật triển khai: chủ dự án đã duyệt toàn bộ A/B và yêu cầu sau khi công việc đạt kiểm tra thì push/deploy, không cần hỏi lại cho cập nhật thông thường. Bản B đã push trong commit `1ba0f3a`, build image Linux `qavio-web:1ba0f3a` và triển khai tại **https://qavio.longh.org**. Bộ kiểm tra trong container đạt 13 trang/346 liên kết; CSS và ảnh tối ưu trả 200. Qua HTTPS công khai, 13 trang và health đều trả 200; đã kiểm tra logo/navigation trên trình duyệt, không thấy warning/error. Giai đoạn C chưa bắt đầu.
+
 ## 1. Các trang đã hoàn thành tại local
 
 | Route | Nội dung |
@@ -68,7 +70,7 @@ Các trang cùng dùng hệ thống navy/vàng kim, header/footer, breadcrumbs v
 | Ảnh | Logo gốc có alt, tải thành công, giữ tỷ lệ trên desktop/mobile |
 | `git diff --check` | PASS cho các thay đổi đã được Git theo dõi; chỉ cảnh báo chuẩn hóa LF/CRLF |
 
-Đây là kiểm tra giao diện/SEO và hồi quy HTTP trên build local, không thay thế audit WCAG đầy đủ, Lighthouse hoặc kiểm thử backend Giai đoạn C. Chưa chạy lại Docker Linux vì không deploy bản B.
+Đây là kiểm tra giao diện/SEO và hồi quy HTTP, không thay thế audit WCAG đầy đủ, Lighthouse hoặc kiểm thử backend Giai đoạn C. Sau khi được duyệt đã chạy lại Docker Linux và kiểm tra production như cập nhật triển khai đầu báo cáo.
 
 ## 6. Thông tin còn thiếu và cấu hình
 
@@ -90,7 +92,7 @@ Các trang cùng dùng hệ thống navy/vàng kim, header/footer, breadcrumbs v
 5. Email outbox/retry và trạng thái gửi chính xác khi provider chưa có cấu hình.
 6. Rate limit có lưu trữ dùng chung, chống spam, giới hạn payload và integration tests; admin/auth/CMS vẫn theo giai đoạn D.
 
-Không có migration mới ở B. **Chưa triển khai C và chưa deploy production bản B.** Các thay đổi B hiện ở local để chủ dự án rà soát; bản A đang chạy trên VPS giữ nguyên.
+Không có migration mới ở B. **Chưa triển khai C. Bản B đã được triển khai sau khi chủ dự án duyệt**, chỉ cập nhật service QAVIO; không thay đổi Restaurant/portfolio. Image A giữ tại `qavio-web:rollback-before-b`, cấu hình trước cập nhật lưu trong `.env.before-b-1ba0f3a` trên VPS (không đưa vào Git).
 
 ## 8. Phạm vi thay đổi
 
