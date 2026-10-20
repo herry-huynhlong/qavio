@@ -1,6 +1,21 @@
 # Kích hoạt Admin production — kiểm tra trước thay đổi
 
-Ngày 20/10/2026 (Asia/Bangkok). **Bước chuẩn bị proxy + backup đã hoàn thành. Chủ dự án đã duyệt bootstrap và bật Admin/CMS; chưa thực hiện vì đang chờ chủ dự án nhập credential qua CLI an toàn.** Sau bootstrap thành công, được kiểm tra audit và bật hai flag mà không xin duyệt lại. Không build, migration, thay thiết kế/D6 hoặc publish dữ liệu QA.
+Ngày 20/10/2026 (Asia/Bangkok). **Đã bootstrap một SUPER_ADMIN và bật Admin/CMS theo phê duyệt. Kiểm tra HTTP/security cơ bản đạt; nghiệm thu CMS sau đăng nhập còn chờ phiên của chủ dự án.** Không build, migration, thay thiết kế/D6 hoặc publish dữ liệu QA.
+
+## Cập nhật kích hoạt — 19:41 Asia/Bangkok
+
+- Chủ dự án chọn “Duyệt bootstrap và bật Admin/CMS”, tự nhập email/tên/password ẩn qua CLI trong Termius và báo CLI thành công. Agent không nhận password.
+- Truy vấn metadata giới hạn: đúng một AdminUser, active SUPER_ADMIN khớp email đã nhập, đúng một audit ADMIN_BOOTSTRAPPED. Không đọc hash/password/session token.
+- Commit cấu hình `dc091df`: hai flag overlay dùng interpolation mặc định false. Đặt riêng Admin/CMS=true trong env Compose và runtime private, kiểm merged config trong bộ nhớ, không in secrets.
+- Chỉ recreate `qavio-web-1`, giữ nguyên image/digest c205bbd. Worker và database giữ nguyên ID; đối chiếu các container đồng trú với baseline: ID/StartedAt/RestartCount không đổi. Không build, restart Docker Engine hoặc sửa Restaurant/portfolio.
+- Snapshot cấu hình hiện tại có proxy secret trước activation tại VPS `.runtime/admin-activation-20261020/` (700, env600), kèm `before.json` và `activation.json` đã lọc. Rollback flags/config có thể dùng snapshot này; giữ tài khoản/dữ liệu, không restore DB. Không dùng snapshot trước khi có proxy secret để rollback riêng activation.
+- Admin/CMS=true; forms/policy/indexing/legal/data-request=false, EMAIL_PROVIDER=disabled. Web/worker/DB healthy, readiness=true. Media/ops UID1000 và mode700 đã enforce sau recreate.
+- `.runtime/verify-admin-live.mjs`: PASS HTTPS, 14 public pages/noindex, CSS/logo, 404, health/readiness, forms closed, login200, anonymous admin redirect, ba API quản trị trả401.
+- CSRF endpoint200; cookie login thực tế có __Host- prefix, Path=/, Secure/HttpOnly/SameSite=Strict, không Domain. Login sai Origin trả403 ORIGIN_REJECTED; đúng Origin nhưng thiếu CSRF trả403 CSRF_REJECTED, chưa đến bước kiểm password. Không tạo login failure hoặc dùng credential suy đoán.
+- Trình duyệt production hiển thị form đăng nhập có label Email/Mật khẩu và nút Đăng nhập. Chưa đăng nhập thay chủ dự án. Cookie session, logout/relogin, RBAC theo tài khoản, draft/edit/preview/upload/persistence và publish/unpublish chưa được ghi PASS production.
+- Không chạy lại lint/TypeScript/build trong bước vận hành này: source ứng dụng và image không thay đổi, yêu cầu hiện tại không build. Compose merged config và kiểm tra runtime/HTTP đã thực hiện; kết quả build D/E trước đó giữ là lịch sử.
+
+**Trạng thái hiện tại: ADMIN/CMS ENABLED; AUTHENTICATED CMS ACCEPTANCE PENDING OWNER LOGIN.** Mở [đăng nhập Admin](https://qavio.longh.org/admin/login) bằng tài khoản vừa bootstrap. Chưa có phê duyệt nội dung/thời gian publish QA; không công khai nội dung thử.
 
 ## Cập nhật bước chuẩn bị đã duyệt — khoảng 19:28–19:32 Asia/Bangkok
 
@@ -19,7 +34,7 @@ Ngày 20/10/2026 (Asia/Bangkok). **Bước chuẩn bị proxy + backup đã hoà
 - Host sau chuẩn bị: khoảng552MiB available RAM, swap còn1,4GiB, disk vẫn2,3GiB/91%. Builder không chạy. Web/worker healthy, DB readiness=true; all approval/forms/indexing flags giữ false, provider disabled, AdminUser=0.
 - Cấu hình trước thay đổi lưu riêng tại `.runtime/admin-prepare-20261020/` trên VPS; không Git secrets/backups. Log và verification JSON có lọc tại cùng thư mục.
 
-Các mục1–14 phía dưới giữ bằng chứng **audit ban đầu**; những chỗ “BLOCKED/thiếu proxy/chưa thay đổi” là lịch sử trước phê duyệt, được cập nhật bởi phần này. Auth/UI production vẫn chưa nghiệm thu. Bước tiếp theo: [CLI bootstrap và phạm vi kích hoạt cần duyệt](ADMIN_BOOTSTRAP_HANDOFF.md).
+Các mục1–14 phía dưới giữ bằng chứng **audit ban đầu**, không phải trạng thái hiện tại; những chỗ “BLOCKED/chưa bootstrap/flags false” là lịch sử trước phê duyệt, được cập nhật bởi hai phần phía trên. Nghiệm thu UI có đăng nhập vẫn đang chờ chủ dự án.
 
 ## 1. Phiên bản production
 
@@ -122,4 +137,4 @@ Chỉ truy vấn QAVIO và tài nguyên host trong audit này; không đọc/s�
 
 Sau khi được thông báo kích hoạt thành công: mở https://qavio.longh.org/admin/login, đăng nhập bằng credential chủ dự án đã nhập qua CLI; vào Bài viết/Nội dung thương hiệu/Sản phẩm/Thông tin & chính sách. Lưu DRAFT và kiểm Preview trước; chỉ xuất bản nội dung thật đã rà soát. Legal approval vẫn đóng. Không có tài khoản hoặc password mặc định để đăng nhập lúc này.
 
-Trạng thái nghiệm thu tổng thể: **PENDING USER APPROVAL + SECURE CREDENTIAL INPUT**, chưa báo hoàn thành.
+Trạng thái audit ban đầu: **PENDING USER APPROVAL + SECURE CREDENTIAL INPUT** (đã được thay thế bởi cập nhật kích hoạt phía đầu tài liệu).
