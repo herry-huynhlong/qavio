@@ -1,0 +1,72 @@
+name: QAVIO isolated release build
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: qavio-release-build
+  cancel-in-progress: false
+jobs:
+  test-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    services:
+      postgres:
+        image: postgres:16-bookworm
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: qavio_ci_ephemeral
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install locked dependencies
+        run: npm install --global pnpm@11.25.0 && pnpm install --frozen-lockfile
+      - name: Configure ephemeral QAVIO test databases
+        env:
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          PGPASSWORD: qavio_ci_ephemeral
+        run: |
+          psql -d postgres -c 'CREATE DATABASE qavio_test'
+          psql -d postgres -c 'CREATE DATABASE qavio_dev'
+          mkdir -p .runtime
+          cat > .env.local <<'ENV'
+          DATABASE_URL=postgresql://postgres:qavio_ci_ephemeral@127.0.0.1:5432/qavio_dev
+          QAVIO_TEST_DATABASE_URL=postgresql://postgres:qavio_ci_ephemeral@127.0.0.1:5432/qavio_test
+          QAVIO_DEPLOYMENT_ENV=development
+          QAVIO_TOKEN_SECRET=qavio_ci_ephemeral_test_secret_32_bytes_minimum
+          APP_ORIGIN=http://127.0.0.1:3100
+          QAVIO_PUBLIC_FORMS_ENABLED=false
+          QAVIO_ADMIN_ENABLED=false
+          QAVIO_CMS_ENABLED=false
+          EMAIL_PROVIDER=disabled
+          ENV
+          pnpm exec prisma generate
+          node --import tsx scripts/database.mjs test
+      - name: Validate application and isolated database behavior
+        run: |
+          pnpm lint
+          node --import tsx scripts/integration.ts
+          node --import tsx scripts/integration-admin.ts
+          node --import tsx scripts/integration-contact.ts
+      - name: Build Linux images away from production VPS
+        run: |
+          TAG="${GITHUB_SHA::7}"
+          docker build --target runner --label org.opencontainers.image.revision="$GITHUB_SHA" -t "qavio-web:$TAG" .
+          mkdir -p release
+          docker image inspect "qavio-web:$TAG" --format '{{json .}}' | jq -s '[.[]|{id:.Id,tags:.RepoTags,size:.Size,revision:.Config.Labels["org.opencontainers.image.revision"]}]' > release/images.json
+          docker save "qavio-web:$TAG" | gzip -1 > release/qavio-images.tar.gz
+          cd release
+          sha256sum qavio-images.tar.gz > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qavio-linux-release-${{ github.sha }}
+          path: release/
+          compression-level: 0
+          retention-days: 7

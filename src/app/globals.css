@@ -553,3 +553,19 @@ button:disabled { opacity: .6; cursor: not-allowed; }
   .legal-document article p { font-size: 14px; }
   .footer-main > .footer-brand > .footer-logo { width: 230px; }
 }
+
+/* Published contact channels only; the public layout never wraps /admin. */
+.contact-actions { display:flex; flex-wrap:wrap; gap:12px; margin-block:22px; }
+.contact-actions .button { gap:10px; flex-wrap:wrap; white-space:normal; text-align:left; }
+.contact-actions img { object-fit:contain; border-radius:7px; flex-shrink:0; }
+.floating-contact { position:fixed; right:max(16px,env(safe-area-inset-right)); bottom:calc(18px + env(safe-area-inset-bottom)); z-index:45; display:flex; flex-direction:column; align-items:flex-end; gap:12px; max-width:calc(100vw - 32px); }
+.floating-contact-toggle { width:54px; height:54px; border:1px solid #d5b56a; border-radius:50%; background:#d5b56a; color:#101c2c; display:grid; place-items:center; box-shadow:0 6px 24px #0006; cursor:pointer; }
+.floating-contact-toggle:hover { background:#f1d899; }
+.floating-contact-toggle:focus-visible,.floating-contact a:focus-visible { outline:3px solid #fff; outline-offset:4px; }
+.floating-contact-panel { width:min(286px,calc(100vw - 32px)); padding:20px; background:#101c2c; color:#f5eddb; border:1px solid #d5b56a80; border-radius:14px; box-shadow:0 8px 28px #0008; }
+.floating-contact-panel .contact-actions { margin:14px 0 0; display:grid; }
+.floating-contact-panel .button { width:100%; font-size:13px; justify-content:flex-start; }
+body:has(.floating-contact) .site-footer { padding-bottom:calc(90px + env(safe-area-inset-bottom)); }
+body:has(.floating-contact) .form-actions { padding-right:72px; scroll-margin-bottom:100px; }
+.consultation-card .form-actions .button { white-space:normal; }
+@media(max-width:760px) { .floating-contact-panel { max-height:55vh; overflow-y:auto; } .consultation-card .form-actions .button { font-size:13px; padding-inline:16px; } }

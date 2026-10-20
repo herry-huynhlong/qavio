@@ -1,5 +1,6 @@
 "use client";
 import Link from 'next/link';
+import {ConsultationForm} from './consultation-form';
 import {useEffect,useId,useRef,useState} from 'react';
 import {useForm,type FieldPath} from 'react-hook-form';
 import {contactSchema,demoSchema,quoteSchema,subscribeSchema,POLICY_VERSION} from '@/lib/submission-schema';
@@ -8,12 +9,13 @@ type Values={fullName:string;email:string;phone:string;companyName:string;restau
 type State='idle'|'validating'|'submitting'|'success'|'validation-error'|'network-error'|'rate-limited';
 const endpoints={contact:'/api/contact',demo:'/api/demo-requests',quote:'/api/quote-requests',subscribe:'/api/newsletter/subscribe'};
 const defaults:Values={fullName:'',email:'',phone:'',companyName:'',restaurantName:'',businessType:'',branchCount:'',subject:'',message:'',planInterest:'UNDECIDED',termMonths:'',website:'',consent:false};
-export function InquiryForm({kind}:{kind:Kind}){
+export function InquiryForm({kind}:{kind:Kind}){return kind==='contact'||kind==='demo'?<ConsultationForm kind={kind}/>:<LegacyInquiryForm kind={kind}/>;}
+function LegacyInquiryForm({kind}:{kind:Kind}){
   const id=useId(),started=useRef(0),busy=useRef(false),logical=useRef({payload:'',key:''});
-  const [availability,setAvailability]=useState<{enabled:boolean;emailConfigured:boolean;testing:boolean}|null>(null);
+  const [availability,setAvailability]=useState<{enabled:boolean;emailConfigured:boolean;testing:boolean;newsletterEnabled?:boolean}|null>(null);
   const [state,setState]=useState<State>('idle'),[message,setMessage]=useState('');
   const {register,handleSubmit,setError,clearErrors,reset,formState:{errors}}=useForm<Values>({defaultValues:defaults});
-  useEffect(()=>{started.current=Date.now();let live=true;fetch('/api/forms/status',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(value=>{if(live)setAvailability(value);}).catch(()=>{if(live)setAvailability({enabled:false,emailConfigured:false,testing:false});});return()=>{live=false;};},[]);
+  useEffect(()=>{started.current=Date.now();let live=true;fetch('/api/forms/status',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(value=>{if(live)setAvailability({...value,enabled:kind==='subscribe'?value.newsletterEnabled===true:value.enabled});}).catch(()=>{if(live)setAvailability({enabled:false,emailConfigured:false,testing:false});});return()=>{live=false;};},[kind]);
   async function submit(values:Values,resend=false){
     if(busy.current||!availability?.enabled)return;
     busy.current=true;setState('validating');clearErrors();

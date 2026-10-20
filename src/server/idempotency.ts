@@ -17,11 +17,12 @@ export async function idempotent(scope: string, key: string | null, input: objec
       return existing.response;
     }
     if (existing) await tx.idempotencyRecord.delete({ where: { id: existing.id } });
-    const body = input as { website: string; startedAt: number; email: string };
+    const body = input as { website: string; startedAt: number; email?: string|null; phone?: string };
     const age = Date.now() - body.startedAt;
     if (body.website || age < 1200 || age > 2 * 60 * 60 * 1000) throw new HttpError(422, 'SUBMISSION_REJECTED');
     await rateLimit(tx, `new:${scope}:ip:${ip}`, 30, 15 * 60 * 1000);
-    await rateLimit(tx, `new:${scope}:email:${body.email}`, 5, 15 * 60 * 1000);
+    const identity=body.email?`email:${body.email}`:`phone:${body.phone||ip}`;
+    await rateLimit(tx, `new:${scope}:${identity}`, 5, 15 * 60 * 1000);
     const result = await create(tx);
     await tx.idempotencyRecord.create({ data: { scope, keyHash, fingerprint, response: result, expiresAt: new Date(Date.now() + 86400000) } });
     return result;

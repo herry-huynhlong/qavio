@@ -7,7 +7,7 @@ export async function createLead(raw: LeadInput, key: string | null, ip: string)
   const input = normalized(raw);
   return idempotent('lead', key, input, ip, async tx => {
     const lead = await tx.lead.create({ data: {
-      fullName: input.fullName, email: input.email, phone: input.phone,
+      fullName: input.fullName, email: input.email || null, phone: input.phone,
       inquiryType: input.inquiryType, sourcePage: input.sourcePage,
       subject: 'subject' in input ? input.subject : 'Yêu cầu báo giá QuánPilot', message: input.message,
       companyName: 'companyName' in input ? input.companyName || null : null,
@@ -20,8 +20,9 @@ export async function createLead(raw: LeadInput, key: string | null, ip: string)
       consentAcceptedAt: new Date(), privacyPolicyVersion: input.privacyPolicyVersion,
       activities: { create: { type: 'CREATED', note: 'PUBLIC_FORM_CONSENT_ACCEPTED' } },
     } });
-    if (process.env.LEAD_NOTIFICATION_EMAIL) await tx.emailOutbox.create({ data: { kind: 'LEAD_ADMIN', recipient: process.env.LEAD_NOTIFICATION_EMAIL, payload: {}, leadId: lead.id } });
-    if (process.env.LEAD_RECEIPT_ENABLED === 'true') await tx.emailOutbox.create({ data: { kind: 'LEAD_RECEIPT', recipient: lead.email, payload: {}, leadId: lead.id } });
-    return { ok: true, code: 'LEAD_ACCEPTED', emailDelivery: mailConfigured() ? 'queued_if_enabled' : 'not_configured' };
+    const consultOnly=['DEMO','CONTACT'].includes(input.inquiryType);
+    if (!consultOnly && process.env.LEAD_NOTIFICATION_EMAIL) await tx.emailOutbox.create({ data: { kind: 'LEAD_ADMIN', recipient: process.env.LEAD_NOTIFICATION_EMAIL, payload: {}, leadId: lead.id } });
+    if (!consultOnly && lead.email && process.env.LEAD_RECEIPT_ENABLED === 'true') await tx.emailOutbox.create({ data: { kind: 'LEAD_RECEIPT', recipient: lead.email, payload: {}, leadId: lead.id } });
+    return { ok: true, code: 'LEAD_ACCEPTED', emailDelivery: consultOnly ? 'not_requested' : mailConfigured() ? 'queued_if_enabled' : 'not_configured' };
   });
 }

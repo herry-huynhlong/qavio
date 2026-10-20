@@ -3,6 +3,8 @@ import { contactSchema,demoSchema,quoteSchema,subscribeSchema,tokenSchema } from
 import { createLead } from './lead-service';
 import { subscribe,consumeNewsletterToken } from './newsletter-service';
 import { guard,readJson,response,failure,clientBucket } from './http';
+import {mailConfigured} from './config';
+import {HttpError} from './http';
 import { transaction } from './db';
 import { rateLimit } from './rate-limit';
 
@@ -11,6 +13,7 @@ export type PublicOperation = keyof typeof schemas;
 export async function publicPost(request:Request, operation:PublicOperation) {
   try {
     guard(request);
+    if(operation==='subscribe'&&!mailConfigured())throw new HttpError(503,'NEWSLETTER_NOT_ENABLED');
     const ip=clientBucket(request);
     await transaction(tx=>rateLimit(tx,`envelope:${ip}`,100,60000));
     if(operation==='confirm'||operation==='unsubscribe')await transaction(tx=>rateLimit(tx,`token:${ip}`,40,60000));

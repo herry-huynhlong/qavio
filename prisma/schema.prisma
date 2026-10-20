@@ -54,7 +54,7 @@ enum EmailKind {
 model Lead {
   id                   String         @id @default(uuid()) @db.Uuid
   fullName             String         @db.VarChar(120)
-  email                String         @db.VarChar(254)
+  email                String?        @db.VarChar(254)
   phone                String         @db.VarChar(24)
   companyName          String?        @db.VarChar(160)
   restaurantName       String?        @db.VarChar(160)

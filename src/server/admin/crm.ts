@@ -9,12 +9,12 @@ export function leadFilter(request:Request){
   const filters=query(request),{q,params,dateRange}=filters;
   const status=params.get('status'),type=params.get('type');
   if(status&&!Object.values(LeadStatus).includes(status as LeadStatus)||type&&!Object.values(InquiryType).includes(type as InquiryType))throw new HttpError(422,'FILTER_INVALID');
-  const where:Prisma.LeadWhereInput={status:status as LeadStatus||undefined,inquiryType:type as InquiryType||undefined,createdAt:dateRange,...(q?{OR:[{fullName:{contains:q,mode:'insensitive'}},{email:{contains:q,mode:'insensitive'}},{phone:{contains:q}}]}:{})};
+  const where:Prisma.LeadWhereInput={status:status as LeadStatus||undefined,inquiryType:type as InquiryType||undefined,createdAt:dateRange,...(q?{OR:[{fullName:{contains:q,mode:'insensitive'}},{email:{contains:q,mode:'insensitive'}},{phone:{contains:q}},{message:{contains:q,mode:'insensitive'}}]}:{})};
   return {...filters,where};
 }
 export async function listLeads(request:Request){
   const {where,page,size,skip}=leadFilter(request);
-  const [total,rows]=await db().$transaction([db().lead.count({where}),db().lead.findMany({where,skip,take:size,orderBy:[{createdAt:'desc'},{id:'desc'}],select:{id:true,fullName:true,email:true,phone:true,inquiryType:true,status:true,createdAt:true,version:true,assignedTo:{select:{id:true,name:true}}}})]);
+  const [total,rows]=await db().$transaction([db().lead.count({where}),db().lead.findMany({where,skip,take:size,orderBy:[{createdAt:'desc'},{id:'desc'}],select:{id:true,fullName:true,email:true,phone:true,message:true,sourcePage:true,inquiryType:true,status:true,createdAt:true,version:true,assignedTo:{select:{id:true,name:true}}}})]);
   return {rows,total,page,size};
 }
 export async function leadDetail(id:string){

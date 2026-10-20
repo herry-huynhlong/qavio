@@ -29,7 +29,7 @@ services:
         max-size: 5m
         max-file: '2'
   worker:
-    image: qavio-operations:${QAVIO_IMAGE_TAG:-local}
+    image: qavio-operations:${QAVIO_OPERATIONS_IMAGE_TAG:-${QAVIO_IMAGE_TAG:-local}}
     restart: unless-stopped
     init: true
     mem_limit: 128m
@@ -49,8 +49,9 @@ services:
         max-size: 5m
         max-file: '2'
   migration:
-    image: qavio-operations:${QAVIO_IMAGE_TAG:-local}
+    image: qavio-operations:${QAVIO_OPERATIONS_IMAGE_TAG:-${QAVIO_IMAGE_TAG:-local}}
     profiles: [operations]
+    volumes: [./prisma:/app/prisma:ro]
     restart: 'no'
     mem_limit: 256m
     memswap_limit: 512m

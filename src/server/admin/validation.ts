@@ -1,6 +1,7 @@
 import {z} from 'zod';
 import sanitizeHtml from 'sanitize-html';
 import {HttpError} from '../http';
+import {contactChannelsSchema} from '@/lib/contact-settings';
 export const uuid=z.uuid();
 const short=(max:number)=>z.string().trim().max(max);
 export const email=z.string().trim().toLowerCase().email().max(254);
@@ -23,12 +24,11 @@ export const cleanHtml=(html:string)=>sanitizeHtml(html,{
   allowedAttributes:{a:['href','title']},allowedSchemes:['https'],allowProtocolRelative:false,
   transformTags:{a:(_tag,attributes)=>({tagName:'a',attribs:{...attributes,rel:'noopener noreferrer'}})},
 });
-const url=z.string().url().max(500).refine(value=>{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password;});
 export function cleanData(kind:z.infer<typeof contentSchema>['kind'],data:Record<string,unknown>){
   const shape=kind==='FAQ'?z.object({items:z.array(z.object({question:short(300).min(2),answer:short(3000).min(2)}).strict()).max(30)}).strict():
     kind==='VALUES'||kind==='PRODUCT'?z.object({items:z.array(z.object({title:short(120).min(2),text:short(3000).min(2)}).strict()).max(30)}).strict():
     kind==='CTA'?z.object({label:short(80).min(2),href:z.enum(['/contact','/request-demo','/request-quote','/solutions','/products','/subscribe'])}).strict():
-    kind==='CONTACT'?z.object({email:email.or(z.literal('')).optional(),phone:short(30).regex(/^[+0-9 .()-]*$/).optional(),address:short(300).optional(),social:z.array(z.object({label:short(80).min(1),url}).strict()).max(10).optional()}).strict():z.object({}).strict();
+    kind==='CONTACT'?contactChannelsSchema:z.object({}).strict();
   const result=shape.safeParse(data);
   if(!result.success)throw new HttpError(422,'CONTENT_DATA_INVALID');
   return result.data;
