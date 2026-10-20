@@ -24,6 +24,8 @@ docker buildx build --builder qavio-builder --load --progress plain \
 
 Thông số trên giới hạn builder 512 MiB RAM, tổng RAM+swap 1536 MiB và 0.5 CPU; không giới hạn hay restart container Restaurant/portfolio. Sau khi build xong có thể `docker buildx stop qavio-builder` để giải phóng tài nguyên chạy; không xóa cache/volume dùng chung.
 
+Compose giới hạn app QAVIO riêng ở 256 MiB RAM, tổng RAM+swap 512 MiB và 0.5 CPU theo mặc định. Có thể điều chỉnh qua các biến `QAVIO_MEMORY_LIMIT`, `QAVIO_MEMORY_SWAP_LIMIT`, `QAVIO_CPUS` trong `.env` QAVIO khi tải thực tế thay đổi; không áp dụng cho service đang chạy của dự án khác.
+
 ## Bước mở web cần xác nhận triển khai
 
 Theo yêu cầu gốc phần 24/26, không tự deploy production trước khi người dùng xác nhận. Các bước dưới đây là phương án đã chuẩn bị, không đồng nghĩa đã áp dụng:
