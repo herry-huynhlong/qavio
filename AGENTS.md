@@ -31,3 +31,10 @@ Sau báo cáo E, chủ dự án yêu cầu “oke push lên sever bắt đầu c
 
 - D/E source `c205bbd` đã deploy, web/worker healthy, bốn migration; dùng cả ba Compose file gồm `compose.release-candidate.yaml`. Xem `docs/PHASE_DE_DEPLOYMENT.md` trước lần vận hành tiếp. Builder đã dừng, giới hạn trả về 512/1536 MiB.
 - Host chỉ còn khoảng 2,3 GiB disk; một lần worker bảo trì Restaurant tự restart trong thời gian build, chưa xác định nguyên nhân. Không tiếp tục build lớn trên VPS chung 1 GB; chuẩn bị Linux build host/CI riêng và rà soát dung lượng QAVIO trước lần phát hành tiếp. Không tự sửa Restaurant, prune cache chung hoặc xóa rollback/volume.
+
+## Kích hoạt Admin production — yêu cầu mới 20/10/2026
+Chủ dự án yêu cầu audit read-only trước, không build hay phát triển D6. Proxy sai/DB sai/tài nguyên không đủ phải dừng báo cáo. Audit thấy đúng images c205bbd, bốn migration, AdminUser=0 nhưng thiếu proxy secret/header và upload limit1m. Chưa bootstrap hoặc thay cấu hình production. Xem `docs/ADMIN_PRODUCTION_ACTIVATION.md` và phương án chờ duyệt `docs/ADMIN_ACTIVATION_PLAN.md`.
+- Mọi thay đổi production cần xác nhận thao tác cụ thể theo yêu cầu mới; phê duyệt sửa proxy/backup không tự bao gồm bootstrap hoặc bật flags.
+- Phải dừng cho chủ dự án nhập email, tên và mật khẩu qua kênh CLI an toàn trước bootstrap; không hỏi password trong chat, tạo credential suy đoán hoặc dùng mật khẩu SSH cho admin. Chưa nhận input thì không bootstrap.
+- Không publish QA public khi chưa duyệt nội dung/thời gian cụ thể. Forms/policy/email/indexing/legal/data-request vẫn đóng khi kích hoạt Admin/CMS. Không thay logo, thiết kế hoặc thêm page builder trong lần này.
+- Chủ dự án đã chọn “Duyệt bước chuẩn bị proxy và backup”. Đã tạo/restore thử backup mới đủ4migration, sửa proxy QAVIO/secret/Cloudflare ingress/upload6m/safe access logs, graceful reload Nginx và recreate riêng web bằng image c205bbd. Admin/CMS vẫn false, AdminUser=0; các container khác không đổi trạng thái. Không suy diễn phê duyệt này thành bootstrap hoặc bật flag. Chờ phê duyệt bước tiếp và credential chủ dự án nhập qua CLI; xem `docs/ADMIN_BOOTSTRAP_HANDOFF.md`.
