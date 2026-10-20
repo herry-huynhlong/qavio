@@ -23,4 +23,6 @@ Chưa có nội dung public test được duyệt. Có thể chuẩn bị đề 
 
 Cập nhật: hai phê duyệt đã nhận và đã thực hiện proxy/backup, chủ dự án bootstrap qua Termius, agent bật Admin/CMS bằng image hiện có. Phần xin duyệt bên dưới là lịch sử. Hiện chờ chủ dự án đăng nhập cho nghiệm thu CMS; publish QA vẫn cần duyệt nội dung/thời gian riêng.
 
+Cập nhật cuối: chủ dự án đã đăng nhập và duyệt bộ QA cùng xuất bản bài thử tối đa5phút; đã nghiệm thu, gỡ bài sau35giây, giữ các nội dung khác nháp và kiểm logout. Trạng thái hiện tại ở `docs/ADMIN_PRODUCTION_ACTIVATION.md`; không còn chờ duyệt cho các thao tác đã hoàn tất này, không tự mở D6 hoặc xuất bản lại dữ liệu QA.
+
 Chỉ xin duyệt **bước1–7 và chuẩn bị kênh nhập an toàn bước8**. Không bootstrap, bật Admin/CMS hoặc publish public chỉ từ phê duyệt sửa proxy/backup. Bước8 cần credential do chủ dự án nhập, bước9 cần xác nhận thao tác cụ thể sau các điều kiện đạt. Không tự phát triển D6.

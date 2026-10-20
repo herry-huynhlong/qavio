@@ -1,6 +1,8 @@
-# Bước tiếp theo — đã duyệt, chờ chủ dự án nhập CLI
+# Quy trình bootstrap lịch sử — đã hoàn tất, không chạy lại
 
 **Cập nhật: chủ dự án đã bootstrap qua Termius; agent đã xác minh một SUPER_ADMIN/audit và bật Admin/CMS lúc19:41 ngày20/10/2026. Không chạy lại CLI bên dưới.** Hiện mở https://qavio.longh.org/admin/login và đăng nhập bằng credential vừa nhập. Hướng dẫn CLI dưới đây giữ làm bằng chứng quy trình trước đó; nghiệm thu CMS có đăng nhập còn chờ chủ dự án.
+
+**Cập nhật nghiệm thu tiếp theo:** chủ dự án đã đăng nhập, các luồng CMS được kiểm và báo cáo tại `docs/ADMIN_PRODUCTION_ACTIVATION.md`. Đã kiểm logout, activeSessions=0; chủ dự án đăng nhập lại để sử dụng. Bài QA được duyệt đã publish35giây rồi gỡ, chín draft còn giữ riêng tư; không chạy bootstrap hoặc publish lại QA.
 
 Chủ dự án đã chọn “Duyệt bootstrap và bật Admin/CMS”. Proxy/backup đã chuẩn bị; **chưa tạo tài khoản và chưa bật Admin/CMS**, đang chờ chủ dự án tự nhập email, tên và mật khẩu qua CLI. Không gửi password trong chat. Không cần duyệt lại hai thao tác này; agent không tự điền credential hoặc chạy thay chủ dự án khi chưa có input an toàn.
 
