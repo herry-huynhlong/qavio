@@ -1,0 +1,19 @@
+name: qavio-development
+services:
+  qavio-postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: qavio_local
+      POSTGRES_PASSWORD: ${QAVIO_DEV_DB_PASSWORD:?Set a local QAVIO-only password}
+      POSTGRES_DB: qavio_dev
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - qavio_development_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U qavio_local -d qavio_dev']
+      interval: 5s
+      timeout: 3s
+      retries: 15
+volumes:
+  qavio_development_data:

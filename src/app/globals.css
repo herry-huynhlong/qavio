@@ -488,6 +488,10 @@ svg { flex-shrink: 0; }
 .form-actions { display: flex; gap: 20px; align-items: center; margin-top: 25px; flex-wrap: wrap; }
 .form-actions .text-link { background: none; border: 0; color: #c2ccd9; font-size: 12px; }
 .form-status { font-size: 12px; color: #c7d0dc; margin-top: 22px; }
+.form-fields { border: 0; padding: 0; margin: 0; min-width: 0; }
+.field-error { display: block; color: #ffb8ae; margin-top: 7px; font-size: 12px; }
+.honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+button:disabled { opacity: .6; cursor: not-allowed; }
 .legal-document { max-width: 860px; }
 .draft-notice { margin-bottom: 45px; }
 .legal-document article h2 { font-size: 25px; letter-spacing: -.5px; margin-top: 35px; margin-bottom: 16px; }

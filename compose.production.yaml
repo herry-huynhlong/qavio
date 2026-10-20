@@ -1,0 +1,66 @@
+# Apply only on the approved QAVIO host; secrets are separate, ignored files.
+services:
+  web:
+    env_file: .env.production
+    depends_on:
+      qavio-postgres:
+        condition: service_healthy
+  qavio-postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    mem_limit: 128m
+    memswap_limit: 256m
+    cpus: 0.25
+    command: [postgres, -c, shared_buffers=32MB, -c, max_connections=20]
+    env_file: .env.database
+    volumes:
+      - qavio_production_data:/var/lib/postgresql/data
+      - ./deploy/init-qavio-db.sh:/docker-entrypoint-initdb.d/10-qavio.sh:ro
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U qavio_owner -d qavio_prod']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: '2'
+  worker:
+    image: qavio-operations:${QAVIO_IMAGE_TAG:-local}
+    restart: unless-stopped
+    init: true
+    mem_limit: 128m
+    memswap_limit: 256m
+    cpus: 0.20
+    env_file: .env.production
+    command: [pnpm, email:worker, --loop]
+    depends_on:
+      qavio-postgres:
+        condition: service_healthy
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: '2'
+  migration:
+    image: qavio-operations:${QAVIO_IMAGE_TAG:-local}
+    profiles: [operations]
+    restart: 'no'
+    mem_limit: 256m
+    memswap_limit: 512m
+    cpus: 0.25
+    env_file: .env.migration
+    environment:
+      QAVIO_PRODUCTION_MIGRATION_APPROVED: 'true'
+    command: [node, scripts/migrate-production.mjs]
+    depends_on:
+      qavio-postgres:
+        condition: service_healthy
+volumes:
+  qavio_production_data:

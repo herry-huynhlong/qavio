@@ -2,6 +2,7 @@
 FROM node:24-bookworm-slim AS base
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
+RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-certificates && rm -rf /var/lib/apt/lists/*
 
 FROM base AS dependencies
 RUN npm install --global pnpm@11.25.0
@@ -11,6 +12,11 @@ RUN pnpm install --frozen-lockfile
 FROM dependencies AS builder
 COPY . .
 RUN pnpm lint && pnpm build
+
+FROM builder AS operations
+ENV NODE_ENV=production
+USER node
+CMD ["pnpm", "email:worker", "--loop"]
 
 FROM base AS runner
 ENV NODE_ENV=production \

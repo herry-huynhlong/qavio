@@ -1,0 +1,182 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum InquiryType {
+  CONTACT
+  DEMO
+  QUOTE
+  PRODUCT_INQUIRY
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CONVERTED
+  CLOSED
+  SPAM
+}
+
+enum SubscriberStatus {
+  PENDING
+  CONFIRMED
+  UNSUBSCRIBED
+}
+
+enum TokenPurpose {
+  CONFIRM
+  UNSUBSCRIBE
+}
+
+enum EmailStatus {
+  PENDING
+  SENDING
+  SENT
+  FAILED
+  CANCELLED
+}
+
+enum EmailKind {
+  LEAD_ADMIN
+  LEAD_RECEIPT
+  NEWSLETTER_CONFIRM
+  NEWSLETTER_WELCOME
+  NEWSLETTER_UNSUBSCRIBED
+  MARKETING
+}
+
+model Lead {
+  id                   String         @id @default(uuid()) @db.Uuid
+  fullName             String         @db.VarChar(120)
+  email                String         @db.VarChar(254)
+  phone                String         @db.VarChar(24)
+  companyName          String?        @db.VarChar(160)
+  restaurantName       String?        @db.VarChar(160)
+  businessType         String?        @db.VarChar(40)
+  location             String?        @db.VarChar(160)
+  branchCount          Int?
+  productInterest      String?        @db.VarChar(60)
+  inquiryType          InquiryType
+  subject              String         @db.VarChar(160)
+  message              String         @db.VarChar(3000)
+  planInterest         String?        @db.VarChar(12)
+  termMonths           Int?
+  sourcePage           String         @db.VarChar(120)
+  status               LeadStatus     @default(NEW)
+  consentAcceptedAt    DateTime       @db.Timestamptz(3)
+  privacyPolicyVersion String         @db.VarChar(60)
+  createdAt            DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt            DateTime       @updatedAt @db.Timestamptz(3)
+  activities           LeadActivity[]
+  emails               EmailOutbox[]
+
+  @@index([status, createdAt])
+  @@index([inquiryType, createdAt])
+}
+
+model LeadActivity {
+  id        String   @id @default(uuid()) @db.Uuid
+  leadId    String   @db.Uuid
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  type      String   @db.VarChar(40)
+  actorId   String?  @db.VarChar(120)
+  note      String?  @db.VarChar(3000)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([leadId, createdAt])
+}
+
+model IdempotencyRecord {
+  id          String   @id @default(uuid()) @db.Uuid
+  scope       String   @db.VarChar(40)
+  keyHash     String   @db.VarChar(64)
+  fingerprint String   @db.VarChar(64)
+  response    Json
+  expiresAt   DateTime @db.Timestamptz(3)
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+
+  @@unique([scope, keyHash])
+  @@index([expiresAt])
+}
+
+model NewsletterSubscriber {
+  id              String                   @id @default(uuid()) @db.Uuid
+  emailNormalized String                   @unique @db.VarChar(254)
+  name            String?                  @db.VarChar(120)
+  status          SubscriberStatus         @default(PENDING)
+  source          String                   @db.VarChar(120)
+  version         Int                      @default(1)
+  confirmedAt     DateTime?                @db.Timestamptz(3)
+  unsubscribedAt  DateTime?                @db.Timestamptz(3)
+  createdAt       DateTime                 @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime                 @updatedAt @db.Timestamptz(3)
+  events          NewsletterConsentEvent[]
+  tokens          NewsletterToken[]
+  emails          EmailOutbox[]
+
+  @@index([status, createdAt])
+}
+
+model NewsletterConsentEvent {
+  id            String               @id @default(uuid()) @db.Uuid
+  subscriberId  String               @db.Uuid
+  subscriber    NewsletterSubscriber @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+  type          String               @db.VarChar(40)
+  policyVersion String               @db.VarChar(60)
+  source        String               @db.VarChar(120)
+  createdAt     DateTime             @default(now()) @db.Timestamptz(3)
+
+  @@index([subscriberId, createdAt])
+}
+
+model NewsletterToken {
+  id           String               @id @default(uuid()) @db.Uuid
+  subscriberId String               @db.Uuid
+  subscriber   NewsletterSubscriber @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+  tokenHash    String               @unique @db.VarChar(64)
+  purpose      TokenPurpose
+  version      Int
+  expiresAt    DateTime             @db.Timestamptz(3)
+  usedAt       DateTime?            @db.Timestamptz(3)
+  createdAt    DateTime             @default(now()) @db.Timestamptz(3)
+
+  @@index([subscriberId, purpose])
+  @@index([expiresAt])
+}
+
+model EmailOutbox {
+  id            String                @id @default(uuid()) @db.Uuid
+  kind          EmailKind
+  recipient     String                @db.VarChar(254)
+  payload       Json
+  status        EmailStatus           @default(PENDING)
+  attempts      Int                   @default(0)
+  nextAttemptAt DateTime              @default(now()) @db.Timestamptz(3)
+  leaseUntil    DateTime?             @db.Timestamptz(3)
+  claimToken    String?               @db.Uuid
+  sentAt        DateTime?             @db.Timestamptz(3)
+  lastError     String?               @db.VarChar(60)
+  createdAt     DateTime              @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime              @updatedAt @db.Timestamptz(3)
+  leadId        String?               @db.Uuid
+  lead          Lead?                 @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  subscriberId  String?               @db.Uuid
+  subscriber    NewsletterSubscriber? @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+
+  @@index([status, nextAttemptAt])
+  @@index([subscriberId])
+}
+
+model RateLimitBucket {
+  key     String   @id @db.VarChar(64)
+  count   Int
+  resetAt DateTime @db.Timestamptz(3)
+
+  @@index([resetAt])
+}

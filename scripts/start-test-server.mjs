@@ -1,0 +1,10 @@
+import {assertDatabaseUrl} from '../src/server/db-safety.ts';
+process.loadEnvFile('.env.local');
+assertDatabaseUrl(process.env.QAVIO_TEST_DATABASE_URL,'test');
+process.env.DATABASE_URL=process.env.QAVIO_TEST_DATABASE_URL;
+process.env.QAVIO_DEPLOYMENT_ENV='test';
+process.env.QAVIO_PUBLIC_FORMS_ENABLED='true';
+process.env.EMAIL_PROVIDER='disabled';
+process.env.LEAD_RECEIPT_ENABLED='true';
+process.env.APP_ORIGIN='http://127.0.0.1:3100';
+await import('./start-local.mjs');

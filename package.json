@@ -1,8 +1,44 @@
 {
-  "name": "qavio", "version": "0.1.0", "private": true,
+  "name": "qavio",
+  "version": "0.1.0",
+  "private": true,
   "packageManager": "pnpm@11.25.0",
-  "engines": { "node": ">=22" },
-  "scripts": { "dev": "next dev --hostname 127.0.0.1 --port 3100", "build": "next build", "start": "node scripts/start-local.mjs", "typecheck": "tsc --noEmit", "lint": "eslint .", "test:public": "node scripts/check-public-pages.mjs" },
-  "dependencies": { "next": "16.4.2", "react": "19.3.1", "react-dom": "19.3.1", "lucide-react": "^0.577.0" },
-  "devDependencies": { "@tailwindcss/postcss": "4.3.3", "tailwindcss": "4.3.3", "typescript": "^5.9.3", "@types/node": "^24.0.0", "@types/react": "^19.0.0", "@types/react-dom": "^19.0.0", "eslint": "^9.0.0", "eslint-config-next": "16.4.2" }
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1 --port 3100",
+    "build": "prisma generate && next build",
+    "start": "node scripts/start-local.mjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test:public": "node scripts/check-public-pages.mjs",
+    "db:migrate": "node scripts/database.mjs dev",
+    "db:migrate:test": "node scripts/database.mjs test",
+    "test:integration": "tsx scripts/integration.ts",
+    "email:worker": "tsx scripts/outbox.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.2",
+    "lucide-react": "^0.577.0",
+    "next": "16.4.2",
+    "nodemailer": "10.1.7",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-hook-form": "7.90.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "^24.0.0",
+    "@types/nodemailer": "^8.0.2",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "16.4.2",
+    "prisma": "6.19.2",
+    "tailwindcss": "4.3.3",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  }
 }

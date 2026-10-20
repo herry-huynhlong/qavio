@@ -11,3 +11,9 @@
 - Giữ nguyên noindex đến khi có yêu cầu bật tìm kiếm. Chưa tích hợp database/auth/payment QuánPilot. Form B không tiếp nhận dữ liệu thật.
 - Logo chính thức ở `public/brand/Qavio.png`. File gốc `Qavio.png` tại root là bản người dùng cung cấp; giữ nguyên, không cần commit thêm bản trùng khi ảnh đã có trong public.
 - Lưu trạng thái triển khai, kiểm tra và giới hạn đúng thực tế trong docs. Không suy diễn việc push Git đã tự deploy: hiện quy trình deploy do agent thực hiện, chưa có CI/CD tự kích hoạt.
+
+## Ngoại lệ Giai đoạn C — 20/10/2026
+Yêu cầu C hiện tại ghi rõ: không commit, push, tạo remote hoặc deploy production. Quy định này ưu tiên hơn ủy quyền A/B phía trên. Chỉ làm C1–C5 tại local; không mở admin, chiến dịch marketing hoặc tích hợp QuánPilot. Bản privacy vẫn là dự thảo; tiếp nhận dữ liệu thật trên production cần được chủ dự án xác nhận.
+
+## Cập nhật ủy quyền triển khai C — 20/10/2026
+Sau báo cáo local, chủ dự án yêu cầu “oke cho lên web”. Được phép commit/push và deploy C tại qavio.longh.org, gồm PostgreSQL riêng và worker. Giữ QAVIO_PUBLIC_FORMS_ENABLED=false, QAVIO_DATA_POLICY_APPROVED=false, EMAIL_PROVIDER=disabled và noindex; yêu cầu đưa lên web chưa phê duyệt chính sách dữ liệu hoặc cấu hình email thật. Giữ image B để rollback; không sửa Restaurant/portfolio. Ngoại lệ không deploy ở trên là lịch sử của lần làm C tại local.
