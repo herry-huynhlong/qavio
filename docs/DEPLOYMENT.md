@@ -79,9 +79,9 @@ Giữ nguyên `QAVIO_HTTP_PORT` khi rollback. Không chạy `docker system prune
 
 ## Kiểm tra và giới hạn
 
-- Local có Docker CLI/Compose nhưng Docker Engine chưa chạy: chưa build/run image Linux tại máy này.
+- Local có Docker CLI/Compose nhưng Docker Engine chưa chạy. Sau đó image Linux đã được build và kiểm tra bằng container tạm trên VPS; xem `VPS_SETUP.md`.
 - Có thể validate `docker compose config --quiet` khi engine tắt.
-- Phải build/run trên Linux staging và xác minh health/HTTP trước khi kết luận container vận hành đạt.
+- Đã xác minh home/CSS/health HTTP 200 trên loopback bằng container thử Linux. Chưa kiểm tra đường truy cập QAVIO qua Nginx/HTTPS vì chưa công bố website.
 - `pnpm lint` và `pnpm build` (gồm TypeScript): PASS sau khi thêm standalone/health route.
 - `docker compose config --quiet`: PASS; chỉ có service `web`, project `qavio`.
 - `pnpm start` chạy standalone local: trang chủ, `/api/health` và CSS đều trả HTTP 200.

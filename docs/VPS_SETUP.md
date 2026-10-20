@@ -39,3 +39,15 @@ Theo yêu cầu gốc phần 24/26, không tự deploy production trước khi n
 7. Kiểm tra HTTPS origin theo hostname, HTTPS qua Cloudflare, health, CSS và các domain hiện có. Xác minh renewal timer/hook reload phù hợp với Certbot hiện tại.
 
 Không restart Docker Engine, không đổi subscription/database QuánPilot, không thêm container PostgreSQL trước Giai đoạn C. Automatic deploy khi git push chưa được thiết lập; hiện chỉ có quy trình pull/build/update thủ công trong DEPLOYMENT.md.
+
+## Kết quả chuẩn bị và kiểm tra
+
+- Đã build thành công image Linux `qavio-web:1471c12` trên VPS; Docker build kết thúc mã 0, gồm lint và Next production build.
+- Đã chuẩn bị `.env` QAVIO riêng trên host với domain, cổng và image tag; không có credential database/email/SSH trong Git.
+- Test bằng container tạm `qavio-smoke`, user `node`, RAM 256 MiB, restart=no, chỉ publish `127.0.0.1:3101`.
+- Trang chủ, CSS và `/api/health`: HTTP 200. Health trả `status=ok`, `service=qavio` cả từ trong container và host loopback.
+- Đã dừng và xóa container tạm; builder QAVIO đã dừng. Image/cache build được giữ lại cho bước triển khai.
+- `nginx -t` cấu hình hiện tại: PASS. HTTP template: PASS trong main config tạm. HTTPS template: PASS kiểm tra cú pháp với đường dẫn chứng chỉ hiện có **chỉ trong file tạm**; chứng chỉ mới QAVIO vẫn chưa được cấp.
+- Restaurant trả HTTP 307 (redirect), portfolio HTTP 200 sau kiểm tra. Các container sẵn có vẫn chạy; không chỉnh file virtual host hiện hành, không reload Nginx, không restart dịch vụ cũ.
+- Git checkout VPS đã cập nhật cấu hình chuẩn bị. Còn khoảng 3.2 GB đĩa trống sau build; không prune cache/image chung.
+- **Chưa mở website QAVIO công khai; chưa cấp TLS riêng; chưa bật deploy tự động.** Chờ xác nhận triển khai theo yêu cầu gốc.
