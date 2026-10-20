@@ -23,7 +23,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends openssl ca-cert
 COPY --from=builder /usr/local/bin/node /usr/local/bin/node
 COPY --from=builder /usr/local/lib/node_modules/pnpm /usr/local/lib/node_modules/pnpm
 RUN ln -s /usr/local/lib/node_modules/pnpm/bin/pnpm.cjs /usr/local/bin/pnpm
-COPY --from=builder --chown=node:node /app /app
+COPY --from=builder --chown=node:node /app/node_modules ./node_modules
+COPY --from=builder --chown=node:node /app/package.json /app/pnpm-lock.yaml /app/pnpm-workspace.yaml /app/tsconfig.json ./
+COPY --from=builder --chown=node:node /app/scripts ./scripts
+COPY --from=builder --chown=node:node /app/src ./src
+COPY --from=builder --chown=node:node /app/deploy ./deploy
+COPY --from=builder --chown=node:node /app/prisma ./prisma
 RUN mkdir -p /var/lib/qavio/media /var/lib/qavio/ops && chown -R node:node /var/lib/qavio
 USER node
 ENTRYPOINT []
