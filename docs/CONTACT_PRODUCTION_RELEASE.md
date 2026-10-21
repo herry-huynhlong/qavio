@@ -22,6 +22,7 @@ Yêu cầu ngày21/10/2026, attachment7b5e7d61. Chủ dự án phê duyệt comm
 - Public14trang/371internal links, metadata/sitemap/404/logo PASS.
 - Browser với qavio_test: CONTACT mobile tênQA chuông CONTACT, DEMO tênQA chuông DEMO, số tổng hợp +12025550184/+12025550185, lời nhắn QA. Cả hai thành công đúng câu, DB đúng1Lead mỗi form/email null/0outbox; chuông24→25, mở thấy tên/số/nguồn/lời nhắn, vào đúng deep link, đánh dấu CONTACTED rồi25→24; CONTACT có ghi chú. Chuyển về Admin từ tab public làm poll tiếp tục đúng trạng thái visibility. Chỉ QA local, không đưa dữ liệu giả vào production.
 - Browser `/admin/settings` từ trống vẫn hiện đầy đủ; lưu số/Zalo tổng hợp + toggles, widget dùng icon chính thức và đúng URL. Mobile304px không tràn ngang, nút nổi thu gọn không che gửi. Ảnh bằng chứng `.runtime/contact-production-evidence/` (ignored).
+- Kiểm thêm Admin mobile304px: header không tràn ngang, popup nằm trong viewport; đăng xuất về login và không còn chuông. Test lifecycle xác minh request/timer dừng khi dispose. Fixture/tài khoản QA của lượt này đã dọn và server/PG test riêng đã dừng.
 
 ## Điều kiện chưa được xác nhận
 
@@ -37,4 +38,11 @@ Phê duyệt deploy không tự phê duyệt policy. Sau khi có quyết định
 
 Backup production mới, mã hóa và copy off-host; SHA256 `83194abbafc571c17a056c136e6a2a8769f4b5f9d3baebc9371e782ca6b928aa`. Restore cô lập PASS ngày21/10, đủ5migration, row counts/1media khớp. Quiesce ngắn riêng web/worker QAVIO khi backup rồi khởi động lại; không restore production hoặc chạm Restaurant/portfolio.
 
-Đang chuẩn bị CI/image và deploy riêng web; kết quả commit SHA, image digest, domain/health/ready và xác minh container khác sẽ cập nhật sau thực thi. Build ngoài VPS1GB, dùng đủ3Compose hiện có, giữ worker c205bbd và image rollback68ba267. Không prune/xóa volume/restart Docker Engine.
+Đã commit/push/deploy source `e299485f01960404af15ecb01f9b4777a857e59c` ngày21/10/2026. [CI39535637852](https://github.com/herry-huynhlong/qavio/actions/runs/39535637852) success; artifact12316359965, ZIP SHA256 `0802bc1454a717adea03b75b8d5a210ee156fd43ac883c4c67a47e802280296f` khớp GitHub. Archive SHA và chuỗi OCI/config/toàn bộ layer/platform/revision được xác minh trước khi cập nhật. Không build trên VPS.
+
+- Web image `qavio-web:e299485`; config digest `sha256:8696750932bd3f2ee9ffc23563662af14b4fe8754ccdad62ae6caf9ae5bceacf`, runtime OCI manifest digest `sha256:73d17f9ab8edbb552aa78bc0c3d82315021a673f78b9ad3a4db4a4206c901a17`. Hai digest thuộc hai đối tượng khác nhau trong chuỗi đã xác minh.
+- Chỉ recreate web với đủ3Compose hiện có. Web/worker c205bbd/PostgreSQL healthy và ready; vẫn5migration, không áp dụng DDL. Row counts ứng dụng không đổi. Container worker/DB/Restaurant/portfolio giữ ID/StartedAt/RestartCount so với baseline ngay trước deploy; quiesce backup trước đó có stop/start riêng web/worker QAVIO như đã ghi.
+- HTTP14public pages, HTTPS/readiness/assets, cookie login, Origin/CSRF, anonymous denial/no-store PASS. API bell401 khi chưa đăng nhập, deep link chuyển login, không public đọc Lead. `/privacy` đã có nội dung dự thảo mới; form3trường, số0935269851, phone icon/tooltip đúng, Zalo không cấu hình nên ẩn, noindex giữ nguyên. Không gửi QA vào production.
+- Browser domain thật: mobile304px không tràn ngang, tooltip “Liên hệ qua điện thoại”, không Zalo giả; /admin yêu cầu login. Chưa dùng mật khẩu production để nghiệm thu UI có quyền; chuông/CRUD đã kiểm trọn luồng trên qavio_test và phát hành đúng image đã test.
+- Intake/policy vẫn false, Admin/CMS true; email disabled, newsletter/legal/data-request/indexing không mở. Không thay thông tin liên hệ hoặc dữ liệu CMS production. Vì chưa có phê duyệt cụ thể về policy và URL Zalo, **chưa hoàn tất tiêu chí gửi form production và mở kênh Zalo thật**. SMTP không phải blocker của CONTACT/DEMO.
+- VPS còn khoảng11GiB disk (56% used), RAM available542MiB tại health check; không prune/xóa volume/restart Docker Engine. Giữ web68ba267 để rollback, không đảo DB. Bằng chứng private `.runtime/contact-production-release/deployed.json`; snapshot env không đưa vào Git. Các commit tài liệu saue299485 không yêu cầu rebuild image.
