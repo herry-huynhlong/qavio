@@ -20,7 +20,7 @@ async function main(){
  const admin=await actor('ADMIN'),editor=await actor('EDITOR'),id=await upload(admin,'public/images/qavio/qr-cafe.webp'),nextId=await upload(admin,'public/images/qavio/owner.webp');
  const draft={action:'draft',slot:'hero',mediaId:id,alt:'Khách quét QR minh họa trong môi trường QA.',caption:'Ảnh minh họa AI; QR không hoạt động.',origin:'AI',version:0};
  await check('anonymous cannot read or mutate visuals',async()=>{assert.equal((await call(undefined)).status,401);assert.equal((await call(undefined,'PATCH',draft)).status,401);});
- await check('editor can read all 17 slots including empty ones',async()=>{const r=await call(editor);assert.equal(r.status,200);assert.equal(r.body.slots.length,17);assert.ok(r.body.slots.every((s:{live:unknown;draft:unknown})=>!s.live&&!s.draft));});
+ await check('editor can read all 18 slots including empty ones',async()=>{const r=await call(editor);assert.equal(r.status,200);assert.equal(r.body.slots.length,18);assert.ok(r.body.slots.every((s:{live:unknown;draft:unknown})=>!s.live&&!s.draft));});
  await check('CSRF and origin enforced',async()=>{assert.equal((await call(admin,'PATCH',draft,{'x-csrf-token':''})).status,403);assert.equal((await call(admin,'PATCH',draft,{origin:'https://untrusted.invalid'})).status,403);});
  await check('unknown slot and forged fields rejected',async()=>{assert.equal((await call(admin,'PATCH',{...draft,slot:'unknown'})).status,422);assert.equal((await call(admin,'PATCH',{...draft,status:'PUBLISHED'})).status,422);});
  await check('missing media and invalid alt rejected',async()=>{assert.equal((await call(admin,'PATCH',{...draft,mediaId:randomUUID()})).status,422);assert.equal((await call(admin,'PATCH',{...draft,alt:''})).status,422);});
