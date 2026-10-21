@@ -20,6 +20,22 @@ export const visualSlots = [
 export type VisualSlot = typeof visualSlots[number][0];
 export type VisualImage = {src:string;width:number;height:number;alt:string;caption:string;origin:'AI'|'SCREENSHOT'|'PHOTO'};
 export type VisualImages = Partial<Record<VisualSlot,VisualImage>>;
+const photoCaptions:Record<string,string>={
+ 'qr-cafe':'Xem thực đơn và gọi món ngay tại bàn.',
+ service:'Tiếp nhận yêu cầu và hỗ trợ khách hàng thuận tiện hơn.',
+ kitchen:'Phối hợp chuẩn bị món và theo dõi tiến độ phục vụ.',
+ cashier:'Quản lý thanh toán và hoàn tất phiên bàn.',
+ owner:'Theo dõi hoạt động kinh doanh trên một hệ thống tập trung.',
+ tables:'Tổ chức không gian và theo dõi hoạt động phục vụ.',
+ technology:'Công nghệ đồng hành cùng hoạt động kinh doanh.',
+};
+// Source information remains in origin/CMS and the image-prompt documentation.
+// Normalize historical technical captions without rewriting stored CMS content.
+export function naturalVisualCaption(caption:string,slot:VisualSlot){
+ if(!/Ảnh minh họa AI|Illustration|Bối cảnh sử dụng sản phẩm|Mã QR trong ảnh không dùng để quét/i.test(caption))return caption;
+ const file=visualSlots.find(s=>s[0]===slot)?.[2];
+ return photoCaptions[file||'technology'];
+}
 export function defaultVisuals():VisualImages {
-  return {...Object.fromEntries(visualSlots.filter(s=>s[2]).map(([key,,file,alt])=>[key,{src:`/images/qavio/${file}.webp`,width:file==='qr-cafe'||file==='technology'?1600:1200,height:900,alt,caption:file==='qr-cafe'?'Ảnh minh họa AI · Mã QR trong ảnh không dùng để quét.':'Ảnh minh họa AI · Bối cảnh sử dụng sản phẩm.',origin:'AI'}])), 'dashboard-screen':{src:'/images/qavio/dashboard-desktop.webp',width:970,height:822,alt:'Dashboard chủ quán QuánPilot Long Phụng, TRAIN quyền BASIC.',caption:'Screenshot QuánPilot thật do chủ dự án cung cấp · TRAIN/BASIC · Đã cắt bỏ tên tài khoản.',origin:'SCREENSHOT'}};
+  return {...Object.fromEntries(visualSlots.filter(s=>s[2]).map(([key,,file,alt])=>[key,{src:`/images/qavio/${file}.webp`,width:file==='qr-cafe'||file==='technology'?1600:1200,height:900,alt,caption:photoCaptions[file||'technology'],origin:'AI'}])), 'dashboard-screen':{src:'/images/qavio/dashboard-desktop.webp',width:970,height:822,alt:'Dashboard chủ quán QuánPilot Long Phụng, TRAIN quyền BASIC.',caption:'Tổng quan hoạt động nhà hàng trên QuánPilot.',origin:'SCREENSHOT'}};
 }

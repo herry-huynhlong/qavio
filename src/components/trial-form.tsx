@@ -339,6 +339,7 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
       <div className="notice">
         <strong>Gói dùng thử: TRAIN — Quyền BASIC — 1 tháng</strong>
         <p>Phí đăng ký ban đầu: 0 VND. Không cần thanh toán trước.</p>
+        <p>Màn hình riêng cho bếp, thu ngân và vai trò quản lý thuộc PRO, không nằm trong quyền dùng thử BASIC.</p>
       </div>
       {!checked ? (
         <p role="status">Đang kiểm tra đăng ký…</p>

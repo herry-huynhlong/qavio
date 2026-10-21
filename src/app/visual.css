@@ -52,11 +52,12 @@
 .visual-flow li h3{font-size:17px;margin-bottom:10px;letter-spacing:-.3px}
 .visual-flow li p{font-size:12px;line-height:1.7;color:#a9b8cb}
 .visual-role-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.visual-role-cards article{min-width:0;background:#101e2d;border:1px solid #ffffff12;border-radius:8px;overflow:hidden;transition:transform .2s}
+.visual-role-cards article{display:flex;flex-direction:column;min-width:0;background:#101e2d;border:1px solid #ffffff12;border-radius:8px;overflow:hidden;transition:transform .2s}
 .visual-role-cards article:hover{transform:translateY(-4px)}
 .visual-role-cards .visual-photo{border-radius:0}
 .visual-role-cards .visual-figure figcaption{padding-inline:18px;font-size:10px!important}
-.visual-role-cards article>div{padding:15px 24px 20px}
+.visual-role-cards article>div{display:flex;flex-direction:column;align-items:flex-start;flex:1;padding:15px 24px 20px}
+.visual-role-cards article>div>.text-link{margin-top:auto;padding-top:18px}
 .visual-role-cards h3{font-size:25px;margin:9px 0}
 .visual-role-cards p{color:#aebed0;font-size:14px}
 .visual-plan{display:inline-block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#e7c98e;border-bottom:1px solid #d4af6740;padding-block:4px;margin-block:9px}
