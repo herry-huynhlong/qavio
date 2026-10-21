@@ -37,3 +37,7 @@ Menu QR, giỏ hàng cần phiên khách; không tạo phiên production để c
 - Cấu hình rollback riêng web: khôi phục `QAVIO_IMAGE_TAG=7ebeb22` từ snapshot tại `/opt/websites/qavio/.runtime/screenshots-release-20261021/snapshot`, recreate service web với ba Compose hiện tại (`--no-build --no-deps`), kiểm `/api/ready`. Không đổi các env khác hoặc restore DB.
 - Ảnh mặc định đã hiện trong CMS QAVIO mục Ảnh giới thiệu sản phẩm; không upload/ghi đè nội dung CMS production. Kiểm thử thao tác CMS có xác thực thực hiện trên DB cô lập, không dùng credential QuánPilot cho CMS QAVIO.
 - Bằng chứng: `docs/real-product-screenshots/` gồm hash ảnh, kiểm HTTP, deploy, responsive và ảnh chụp website thật.
+
+## Bổ sung màn phục vụ
+
+Sau bản898451b, đã kiểm tra thêm route phục vụ cho phép OWNER hiện có truy cập. Chụp tab Khu vực & Bàn (các tab món chờ/yêu cầu khách/order và bộ lọc bàn), không cấp thêm quyền/gói hoặc tạo đơn. Thêm slot `service-screen` bằng ảnh thật, 1233×600; tổng cộng năm ảnh. Menu QR/giỏ hàng vẫn cần phiên khách, bếp/thu ngân riêng cần PRO nên bốn slot đó giữ ẩn. Đã đăng xuất phiên bổ sung.
