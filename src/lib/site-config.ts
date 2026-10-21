@@ -27,6 +27,7 @@ export const publicPages = {
   '/request-quote': { title: 'Yêu cầu báo giá QuánPilot', description: 'Chia sẻ gói BASIC, PRO hoặc nhu cầu chưa xác định, thời hạn và số cơ sở để QAVIO tiếp nhận yêu cầu báo giá.' },
   '/news': { title: 'Tin tức và góc nhìn', description: 'Nơi chia sẻ tin tức QAVIO, thông tin sản phẩm, công nghệ, kiến thức quản lý và chuyển đổi số khi bài viết được xuất bản.' },
   '/contact': { title: 'Kết nối với QAVIO', description: 'Chuẩn bị nội dung trao đổi về sản phẩm, giải pháp, báo giá hoặc hợp tác cùng QAVIO. Tình trạng tiếp nhận được hiển thị tại biểu mẫu.' },
+  '/trial': { title: 'Dùng thử QuánPilot miễn phí trong 1 tháng', description: 'Tự đăng ký nhà hàng QuánPilot với TRAIN, quyền BASIC trong một tháng lịch. Xác nhận email qua Google, không cần thanh toán trước.' },
   '/request-demo': { title: 'Đăng ký tư vấn và demo', description: 'Chuẩn bị nhu cầu tư vấn hoặc demo QuánPilot cho nhà hàng, quán ăn và quán nước. Tình trạng tiếp nhận được hiển thị tại biểu mẫu.' },
   '/subscribe': { title: 'Theo dõi QAVIO', description: 'Tìm hiểu kênh nhận thông tin sản phẩm và kiến thức từ QAVIO. Đăng ký có cơ chế xác nhận và hủy qua email khi tính năng được mở.' },
   '/faq': { title: 'Câu hỏi thường gặp', description: 'Giải đáp những câu hỏi về QAVIO, QuánPilot, gọi món QR, phân quyền nhân viên và thông tin gói dịch vụ.' },

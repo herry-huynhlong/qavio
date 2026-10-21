@@ -27,7 +27,7 @@ export const cleanHtml=(html:string)=>sanitizeHtml(html,{
 export function cleanData(kind:z.infer<typeof contentSchema>['kind'],data:Record<string,unknown>){
   const shape=kind==='FAQ'?z.object({items:z.array(z.object({question:short(300).min(2),answer:short(3000).min(2)}).strict()).max(30)}).strict():
     kind==='VALUES'||kind==='PRODUCT'?z.object({items:z.array(z.object({title:short(120).min(2),text:short(3000).min(2)}).strict()).max(30)}).strict():
-    kind==='CTA'?z.object({label:short(80).min(2),href:z.enum(['/contact','/request-demo','/request-quote','/solutions','/products','/subscribe'])}).strict():
+    kind==='CTA'?z.object({label:short(80).min(2),href:z.enum(['/contact','/trial','/request-demo','/request-quote','/solutions','/products','/subscribe'])}).strict():
     kind==='CONTACT'?contactChannelsSchema:z.object({}).strict();
   const result=shape.safeParse(data);
   if(!result.success)throw new HttpError(422,'CONTENT_DATA_INVALID');

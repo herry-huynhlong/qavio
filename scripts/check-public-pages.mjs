@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 
 // Acceptance routes, independently checked against the running production build.
-const routes = ['/', '/about', '/solutions', '/products', '/products/quanpilot', '/pricing', '/news', '/contact', '/request-demo', '/request-quote', '/subscribe', '/faq', '/privacy', '/terms'];
+const routes = ['/', '/about', '/solutions', '/products', '/products/quanpilot', '/pricing', '/news', '/contact', '/trial', '/request-quote', '/subscribe', '/faq', '/privacy', '/terms'];
 const base = new URL(process.env.TEST_BASE_URL || 'http://127.0.0.1:3100');
 if (!['localhost', '127.0.0.1', '[::1]'].includes(base.hostname)) throw new Error('Use a local test server only.');
 const pages = new Map();
@@ -28,6 +28,7 @@ for (const route of routes) {
     assert.ok(['WebSite', 'BreadcrumbList'].includes(data['@type']), `${route}: verified structured data only`);
   }
 }
+const legacy=await fetch(new URL('/request-demo',base),{redirect:'manual'});assert.equal(legacy.status,308);assert.equal(new URL(legacy.headers.get('location'),base).pathname,'/trial');
 let linksChecked = 0;
 for (const [route, html] of pages) {
   for (const [, raw] of html.matchAll(/<a\b[^>]*href="([^"]+)"/g)) {

@@ -22,7 +22,7 @@ export default function Home() {
         <h1 id="hero-title">Công nghệ<br/>kiến tạo <span>giá trị.</span></h1>
         <p className="hero-subtitle">Giải pháp đồng hành cùng doanh nghiệp.</p>
         <p className="hero-description">Những giải pháp số được xây dựng để đơn giản hóa vận hành, kết nối con người và mở ra khả năng phát triển bền vững.</p>
-        <div className="hero-actions"><Link className="button" href="/solutions">Khám phá giải pháp <ArrowUpRight size={18}/></Link><Link className="text-link" href="/contact">Liên hệ tư vấn <ArrowRight size={17}/></Link></div>
+        <div className="hero-actions"><Link className="button" href="/trial">Đăng ký dùng thử <ArrowUpRight size={18}/></Link><Link className="text-link" href="/contact">Liên hệ tư vấn <ArrowRight size={17}/></Link></div>
         <Link className="scroll-cue" href="#about"><span><ArrowDown size={15}/></span> Cùng khám phá QAVIO</Link>
       </div>
       <div className="hero-brand"><BrandImage priority /></div></div>
@@ -46,7 +46,7 @@ export default function Home() {
       <div className="section-meta"><span className="eyebrow">03 — HỆ SINH THÁI SẢN PHẨM</span><span className="section-side-note">Bắt đầu từ vận hành mỗi ngày</span></div>
       <div className="product-layout"><div className="product-copy"><span className="product-badge"><UtensilsCrossed size={14}/> SẢN PHẨM ĐẦU TIÊN TỪ QAVIO</span><h2>QuánPilot<span className="gold-period">.</span></h2><p className="product-tagline">Quản lý quán thuận tiện hơn.<br/>Kết nối mọi bộ phận.</p><p>Từ khách hàng quét QR gọi món, phục vụ và bếp phối hợp xử lý đơn, đến thu ngân thanh toán và chủ quán theo dõi hoạt động — trên một hệ thống thống nhất.</p>
         <ul className="feature-list">{["Menu QR và đặt món tại bàn", "Quản lý bàn, đơn hàng và nhân viên", "Phối hợp phục vụ, bếp và thu ngân", "Thanh toán, hóa đơn và báo cáo"].map(item => <li key={item}><Check size={16}/>{item}</li>)}</ul>
-        <Link href="/products/quanpilot" className="button">Tìm hiểu QuánPilot <ArrowUpRight size={18}/></Link><p className="product-note">Tính năng và thiết bị được đối chiếu theo gói và điều kiện triển khai thực tế.</p>
+        <Link href="/trial" className="button">Dùng thử QuánPilot 1 tháng <ArrowUpRight size={18}/></Link><p className="product-note">Tính năng và thiết bị được đối chiếu theo gói và điều kiện triển khai thực tế.</p>
       </div><ProductExplorer /></div>
       <div className="ecosystem-note"><Blocks size={22} strokeWidth={1.3}/><p><strong>Một khởi đầu. Một tầm nhìn dài hạn.</strong><span>QuánPilot là bước đầu trong định hướng xây dựng hệ sinh thái giải pháp công nghệ QAVIO.</span></p><ArrowUpRight size={24} aria-hidden="true"/></div>
     </div></section>

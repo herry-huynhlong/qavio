@@ -18,7 +18,7 @@ export function PublicPage({ path, eyebrow, title, intro, children }: {
 
 export async function ConsultationCta() {
   const entry=await publishedContent('CTA','consultation'),data=entry?.data as {label:string;href:string}|undefined;
-  return <section className="inner-cta"><div className="container"><div><span className="eyebrow">BẮT ĐẦU TỪ NHU CẦU THỰC TẾ</span><h2>{entry?.title||<>Cùng tìm hiểu điều phù hợp<br/>với doanh nghiệp của bạn.</>}</h2><p>{entry?.summary||'Chuẩn bị nhu cầu để cuộc trao đổi có điểm bắt đầu rõ ràng.'}</p></div><Link className="button" href={data?.href||'/request-demo'}>{data?.label||'Chuẩn bị yêu cầu tư vấn'} <ArrowUpRight size={18} /></Link></div></section>;
+  return <section className="inner-cta"><div className="container"><div><span className="eyebrow">BẮT ĐẦU TỪ NHU CẦU THỰC TẾ</span><h2>{entry?.title||<>Cùng tìm hiểu điều phù hợp<br/>với doanh nghiệp của bạn.</>}</h2><p>{entry?.summary||'Chuẩn bị nhu cầu để cuộc trao đổi có điểm bắt đầu rõ ràng.'}</p></div><Link className="button" href={data?.href||'/trial'}>{data?.label||'Đăng ký dùng thử'} <ArrowUpRight size={18} /></Link></div></section>;
 }
 
 export async function FaqList({ extended = false }: { extended?: boolean }) {
