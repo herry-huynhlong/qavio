@@ -17,3 +17,4 @@ Qavio.png
 **/*.key
 **/*.pem
 **/*.qvb
+client_secret_*.json
