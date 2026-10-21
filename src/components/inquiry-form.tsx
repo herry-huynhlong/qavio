@@ -12,10 +12,10 @@ const defaults:Values={fullName:'',email:'',phone:'',companyName:'',restaurantNa
 export function InquiryForm({kind}:{kind:Kind}){return kind==='contact'||kind==='demo'?<ConsultationForm kind={kind}/>:<LegacyInquiryForm kind={kind}/>;}
 function LegacyInquiryForm({kind}:{kind:Kind}){
   const id=useId(),started=useRef(0),busy=useRef(false),logical=useRef({payload:'',key:''});
-  const [availability,setAvailability]=useState<{enabled:boolean;emailConfigured:boolean;testing:boolean;newsletterEnabled?:boolean}|null>(null);
+  const [availability,setAvailability]=useState<{enabled:boolean;emailConfigured:boolean;testing:boolean;newsletterEnabled?:boolean;quoteEnabled?:boolean}|null>(null);
   const [state,setState]=useState<State>('idle'),[message,setMessage]=useState('');
   const {register,handleSubmit,setError,clearErrors,reset,formState:{errors}}=useForm<Values>({defaultValues:defaults});
-  useEffect(()=>{started.current=Date.now();let live=true;fetch('/api/forms/status',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(value=>{if(live)setAvailability({...value,enabled:kind==='subscribe'?value.newsletterEnabled===true:value.enabled});}).catch(()=>{if(live)setAvailability({enabled:false,emailConfigured:false,testing:false});});return()=>{live=false;};},[kind]);
+  useEffect(()=>{started.current=Date.now();let live=true;fetch('/api/forms/status',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json();}).then(value=>{if(live)setAvailability({...value,enabled:kind==='subscribe'?value.newsletterEnabled===true:kind==='quote'?value.quoteEnabled===true:value.enabled});}).catch(()=>{if(live)setAvailability({enabled:false,emailConfigured:false,testing:false});});return()=>{live=false;};},[kind]);
   async function submit(values:Values,resend=false){
     if(busy.current||!availability?.enabled)return;
     busy.current=true;setState('validating');clearErrors();

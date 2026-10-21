@@ -16,8 +16,8 @@ export function failure(error: unknown) {
   console.error(JSON.stringify({ event: 'qavio_api_unavailable' }));
   return response({ ok: false, code: 'SERVICE_UNAVAILABLE' }, 503);
 }
-export function guard(request: Request) {
-  if (!formsEnabled()) throw new HttpError(503, 'FORMS_NOT_ENABLED');
+export function guard(request: Request,enabled=formsEnabled()) {
+  if (!enabled) throw new HttpError(503, 'FORMS_NOT_ENABLED');
   if (request.headers.get('origin') !== appOrigin()) throw new HttpError(403, 'ORIGIN_REJECTED');
   const fetchSite = request.headers.get('sec-fetch-site');
   if (fetchSite && !['same-origin', 'none'].includes(fetchSite)) throw new HttpError(403, 'ORIGIN_REJECTED');

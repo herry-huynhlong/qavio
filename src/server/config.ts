@@ -3,6 +3,14 @@ export function formsEnabled() {
   const tier = process.env.QAVIO_DEPLOYMENT_ENV || (process.env.NODE_ENV === 'production' ? 'production' : 'development');
   return ['development','test','staging','production'].includes(tier) && process.env.QAVIO_PUBLIC_FORMS_ENABLED === 'true' && (tier !== 'production' || process.env.QAVIO_DATA_POLICY_APPROVED === 'true');
 }
+// CONTACT/DEMO are a separate, explicitly operated intake channel.
+// Enabling them never opens quote/newsletter or claims legal approval.
+export function consultationEnabled(){
+  const tier=process.env.QAVIO_DEPLOYMENT_ENV||(process.env.NODE_ENV==='production'?'production':'development');
+  if(!['development','test','staging','production'].includes(tier))return false;
+  if(process.env.QAVIO_CONSULTATION_FORMS_ENABLED!==undefined)return process.env.QAVIO_CONSULTATION_FORMS_ENABLED==='true';
+  return tier==='production'?false:formsEnabled();
+}
 export function appOrigin() {
   const value = process.env.APP_ORIGIN || 'http://127.0.0.1:3100';
   const url = new URL(value);

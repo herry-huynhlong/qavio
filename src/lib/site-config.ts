@@ -30,7 +30,7 @@ export const publicPages = {
   '/request-demo': { title: 'Đăng ký tư vấn và demo', description: 'Chuẩn bị nhu cầu tư vấn hoặc demo QuánPilot cho nhà hàng, quán ăn và quán nước. Tình trạng tiếp nhận được hiển thị tại biểu mẫu.' },
   '/subscribe': { title: 'Theo dõi QAVIO', description: 'Tìm hiểu kênh nhận thông tin sản phẩm và kiến thức từ QAVIO. Đăng ký có cơ chế xác nhận và hủy qua email khi tính năng được mở.' },
   '/faq': { title: 'Câu hỏi thường gặp', description: 'Giải đáp những câu hỏi về QAVIO, QuánPilot, gọi món QR, phân quyền nhân viên và thông tin gói dịch vụ.' },
-  '/privacy': { title: 'Chính sách bảo mật — Bản dự thảo', description: 'Bản dự thảo chính sách bảo mật QAVIO, đang chờ rà soát thông tin đơn vị vận hành và cơ chế xử lý dữ liệu trước khi áp dụng chính thức.' },
+  '/privacy': { title: 'Thông tin liên hệ và bảo mật', description: 'QAVIO sử dụng họ tên, số điện thoại và lời nhắn để tiếp nhận yêu cầu và liên hệ tư vấn.' },
   '/terms': { title: 'Điều khoản sử dụng — Bản dự thảo', description: 'Bản dự thảo điều khoản sử dụng website QAVIO. Cần rà soát và xác nhận trước khi công bố áp dụng chính thức.' },
 } as const;
 export type PublicPath = keyof typeof publicPages;
