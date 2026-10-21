@@ -25,7 +25,6 @@ export function ProductExplorer({images={}}:{images?:VisualImages}) {
     </div>
     {productRoles.map((role, index) => <div key={role.id} id={`panel-${role.id}`} role="tabpanel" aria-labelledby={`tab-${role.id}`} tabIndex={0} hidden={selected !== index} className="role-panel">
       {selected===index&&<><VisualFigure image={images[(['qr','service','kitchen','cashier','owner'] as VisualSlot[])[index]]} showCaption={false}/><ScreenshotViewer image={images[(['menu-screen','service-screen','kitchen-screen','cashier-screen','dashboard-screen'] as VisualSlot[])[index]]} title={role.label}/></>}
-      
       <h3>{role.title}</h3><p>{role.text}</p>
       <ol className="flow-steps">{role.steps.map((step, i) => <li key={step}><span>{`0${i + 1}`}</span>{step}{i < role.steps.length - 1 && <ArrowRight size={14} aria-hidden="true" />}</li>)}</ol>
     </div>)}
