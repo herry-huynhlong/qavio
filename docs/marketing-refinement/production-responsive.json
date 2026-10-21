@@ -1,0 +1,44 @@
+[
+  {
+    "content": 360,
+    "path": "/products/quanpilot",
+    "roleBadges": 0,
+    "technicalCaptions": false,
+    "width": 375
+  },
+  {
+    "content": 360,
+    "path": "/products",
+    "roleBadges": 0,
+    "technicalCaptions": false,
+    "width": 375
+  },
+  {
+    "content": 360,
+    "path": "/solutions",
+    "roleBadges": 0,
+    "technicalCaptions": false,
+    "width": 375
+  },
+  {
+    "content": 360,
+    "path": "/pricing",
+    "roleBadges": 0,
+    "technicalCaptions": false,
+    "width": 375
+  },
+  {
+    "content": 360,
+    "path": "/trial",
+    "roleBadges": 0,
+    "technicalCaptions": false,
+    "width": 375
+  },
+  {
+    "content": 360,
+    "path": "/",
+    "roleBadges": 0,
+    "technicalCaptions": false,
+    "width": 375
+  }
+]
