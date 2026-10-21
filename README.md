@@ -1,13 +1,13 @@
 # QAVIO
 
-Domain chính thức: https://qavio.site. Admin hiện có dùng cùng ứng dụng Next.js tại https://admin.qavio.site/admin; root subdomain chuyển đến /admin. Không có dịch vụ Admin mới. Trạng thái chuyển domain và điều kiện nghiệm thu: docs/DOMAIN_MIGRATION.md.
+Domain chính thức: https://qavio.site. CMS QAVIO dùng cùng ứng dụng Next.js tại https://qavio.site/admin. QuánPilot hiện ở https://admin.qavio.site, đăng ký Google tại https://qavio.site/trial. Trạng thái mới nhất: [Google/trial production](docs/GOOGLE_TRIAL_ACTIVATION.md); báo cáo domain trước đó là lịch sử.
 
 
 Website thương hiệu QAVIO. Dự án độc lập tại `D:\anh\qavio`, remote `https://github.com/herry-huynhlong/qavio.git`.
 
 ## Trạng thái
 
-Bản D/E source `c205bbd` đã được duyệt, push và triển khai tại **https://qavio.site** với PostgreSQL riêng, bốn Prisma migration, worker và persistent volumes. **Admin/CMS/forms production vẫn đóng, chưa bootstrap tài khoản thật, email provider chưa cấu hình, indexing tắt.** Không có thanh toán hoặc tích hợp dữ liệu QuánPilot. Xem [báo cáo triển khai D/E](docs/PHASE_DE_DEPLOYMENT.md) cho kiểm tra Linux/backup/production, giới hạn disk và sự kiện worker bảo trì Restaurant tự restart chưa rõ nguyên nhân. Chưa có CI/CD tự kích hoạt khi push.
+Production hiện chạy QAVIO `cf2a207` và worker `c205bbd`, PostgreSQL riêng với5migration. Admin/CMS, CONTACT/DEMO và đăng ký dùng thử Google đã bật; trial quota100 nhà hàng. Email/newsletter/QUOTE/indexing tiếp tục đóng. QuánPilot chạy `2e8d0b1`, TRAIN/BASIC1tháng không thanh toán. Linux image build bằng GitHub Actions, deploy thủ công sau kiểm tra, không tự deploy chỉ nhờ push. Các báo cáo giai đoạn phía dưới giữ lại lịch sử và không thay thế [trạng thái hiện tại](docs/GOOGLE_TRIAL_ACTIVATION.md).
 
 - Next.js 16 App Router, React 19, TypeScript strict, Tailwind 4.
 - CSS design tokens, nội dung tiếng Việt tách riêng, header sticky và menu mobile.
