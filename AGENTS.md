@@ -66,3 +66,5 @@ Chủ dự án yêu cầu “bỏ toàn bộ mấy cái chính sách vớ vẩn 
 
 ## Trial QuánPilot — yêu cầu mới 21/10/2026
 Attachment d4db893c cho phép sửa source QAVIO và Restaurant ở local để T1–T4, tạo API provisioning riêng và form /trial; đây là ngoại lệ cho các dòng lịch sử “không sửa Restaurant”. Chủ dự án chọn Google OAuth xác nhận email. Không deploy production hai app hoặc mở đăng ký thật theo ủy quyền tự deploy cũ: task mới bắt buộc staging được duyệt/đạt, rồi xác nhận riêng T6. CONTACT production hiện có phải giữ. Chỉ dùng qavio_test và restaurant_trial_test loopback cho QA, không tạo nhà hàng production. Source nhánh codex/qavio-self-service-trial ở cả hai repo; xem docs/TRIAL_REGISTRATION.md.
+
+- 21/10/2026: Sau yêu cầu mới “oke lên web đi”, đã push main/deploy QAVIO41218f7 và QuánPilot3408242 với trial flags=false do chưa có Google OAuth thật. Contact/DEMO intake giữ mở, worker/mail/newsletter/indexing không đổi. docs/TRIAL_REGISTRATION.md có CI/backup/restore/migration/deploy/rollback. Không coi release code này là đã nghiệm thu Google hoặc được tạo QA tenant production.
