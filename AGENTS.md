@@ -89,3 +89,5 @@ Yêu cầu mới cho phép thêm entry an toàn vào Restaurant nếu cần, ki�
 ## Phê duyệt phát hành giao diện đầy đủ
 
 Chủ dự án yêu cầu tiếp “ủa sao ở local? push lên đi”: được commit/push/deploy toàn bộ nâng cấp hình ảnh/CMS/Roboto đã kiểm thử. Không chờ đủ bảy screenshot còn thiếu; các slot thiếu ảnh giữ ẩn, không giả lập UI. Chỉ recreate web QAVIO bằng image CI mới, giữ worker/DB/QuánPilot/Portfolio và mọi runtime env/flags; không migration. Giữ image697a6a1 làm rollback. Không yêu cầu lại quyền phát hành này.
+
+- Đã hoàn tất: image3c22501, CI39593104588 success gồm CMS13ca. Backup mới/off-host/restore5 và27migration PASS. Web healthy, environment/flags không đổi; QuánPilotbe133f2/worker/PostgreSQL/Portfolio giữ nguyên container. ProductionHTTP14trang,7trang có ảnh,9WebP,3Roboto,privateCMS và browserdesktop/mobile PASS. Disk3.5G/86%; chỉ dọn archive của release, giữ rollback697a6a1. docs/QAVIO_VISUAL_UPGRADE.md là báo cáo hiện tại; hình ảnh/CMS/font đã lên production, không còn chờ duyệt phát hành.

@@ -1,6 +1,6 @@
 # Nâng cấp hình ảnh QAVIO — 21/10/2026
 
-Trạng thái: chủ dự án đã phê duyệt push/deploy toàn bộ giao diện bằng chỉ đạo “ủa sao ở local? push lên đi”. Đang thực hiện phát hành; không chờ các screenshot còn thiếu. Bộ screenshot chức năng chưa đủ và các slot thiếu giữ ẩn.
+Trạng thái: đã push và deploy toàn bộ giao diện/CMS ảnh/Roboto sau chỉ đạo “ủa sao ở local? push lên đi”. Production đã kiểm tra đạt; xem kết quả phát hành bên dưới. Bảy screenshot chức năng chưa có giữ ẩn, bổ sung sau qua CMS.
 
 ## Đánh giá trực tiếp trước khi sửa
 
@@ -72,7 +72,7 @@ Lighthouse13.5.0 chạy Chrome headless riêng trên production build local, mob
 
 ## Git/deployment và phần còn lại
 
-Các thay đổi hình ảnh/CMS/font chưa commit/push/deploy. Phần đăng nhập được giao sau có commit/push riêng ở hai repo; xem ghi nhận dưới đây. Production/VPS không bị sửa trong nhiệm vụ này. Không build VPS, không migration, không đổi flag production. Production đang giữ release trước cf2a207/2e8d0b1.
+Toàn bộ thay đổi hình ảnh/CMS/font đã commit/push và phát hành image3c22501. Chỉ web QAVIO được recreate, không build VPS hoặc migration. QuánPilot giữ imagebe133f2 và container hiện có; runtime env/flags không đổi.
 
 Bảy screenshot chức năng còn thiếu có thể bổ sung sau bằng CMS. Chủ dự án đã phê duyệt phát hành bản giao diện hiện có; không chờ đủ hình và không yêu cầu lại quyền commit/push/deploy. Không tạo UI giả thay cho các screenshot thiếu.
 
@@ -119,3 +119,20 @@ Trước — mobile:
 Sau — mobile:
 
 ![Sau nâng cấp mobile](visual-upgrade/after-mobile.png)
+
+## Kết quả phát hành production
+
+- Source `3c22501b46b6523f60e98b84620c90f0702922e4`, image `qavio-web:3c22501`. [CI39593104588](https://github.com/herry-huynhlong/qavio/actions/runs/39593104588) success: lint/type/build và các integration Admin/Contact/CMS ảnh13ca trên PostgreSQL cô lập đạt. Build Linux ngoài VPS.
+- Đã xác minh SHA256 artifact ZIP/archive, OCI manifest/config/rootfs/revision và image đang chạy. [Proof image/flags/container](visual-upgrade/deployment-proof.json).
+- Backup mới mã hóa hai DB và media/uploads, tải off-host và restore cô lập5/27migration PASS. Ciphertext SHA256 `b3ae476919042bb4b7fce5759c932531e10bb84ff9e12a4b99cef57e53d34787`. Bản restore/plaintext đã dọn; giữ backup mã hóa. Không migration/restore DB production.
+- Chỉ recreate `qavio-web-1`, healthy. So toàn bộ environment trước/sau khớp; không đổi secrets hoặc flags. Worker QAVIO, hai PostgreSQL, QuánPilot, maintenance worker và Portfolio giữ nguyên ID/start/restart count. PortfolioHTTPS200. Contact/DEMO và trial vẫn mở; quota100; email/QUOTE/newsletter/indexing vẫn đóng.
+- HTTP production7trang nâng cấp có ảnh,9WebP/759134bytes và3font Roboto tải200; dashboard thật hiển thị, private CMS ảnh anonymous401/login redirect307. HTTP hồi quy14trang, API/HTTPS/cookie/login entry/contact/trial đạt. [Kết quả ảnh/font](visual-upgrade/public-smoke.json).
+- Browser production: font-family Roboto, hero tải thành công, dashboard lightbox mở/đóng; home desktop1280px không tràn. Bảy trang tại390px đều mộtH1/không tràn; console không warn/error. [Số đo mobile](visual-upgrade/production-responsive.json). Không tạo/sửa nội dung hoặc nhận PII thử trên production; CMS draft/publish đã kiểm local và CI, không dùng mật khẩu khách để nghiệm thu CMS production.
+- Disk trước lượt này3.7G trống/85%; sau deploy và dọn đúng archive riêng của release3,706,843,136bytes, `df -h`3.5G/86%. Không prune Docker, xóa volume, uploads hay rollback image.
+- Rollback giữ `qavio-web:697a6a1`. Snapshot private `/opt/websites/qavio/.runtime/visual-release-20261021/snapshot`; khôi phục `.env` từ `qavio.env` rồi recreate riêng web bằng ba Compose file hiện có. Không restore DB, không sửa Nginx hoặc QuánPilot. Snapshot có secrets, không đưa vào Git/log. Commit báo cáo sau3c22501 không yêu cầu rebuild.
+
+Website thật: https://qavio.site . Quản lý ảnh: https://qavio.site/admin/visuals . Bảy slot screenshot chức năng chưa có tiếp tục ẩn, có thể bổ sung từ CMS sau.
+
+![Giao diện desktop trên production](visual-upgrade/production-desktop.png)
+
+![Giao diện mobile trên production](visual-upgrade/production-mobile.png)

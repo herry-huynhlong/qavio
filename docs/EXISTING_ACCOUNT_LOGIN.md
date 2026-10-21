@@ -30,7 +30,7 @@ Ngày thực hiện: 21/10/2026. Phạm vi attachment943a7817. Đã triển khai
 4. Phát hành QAVIO sau. Giữ mọi env/flags/contact/trial/mail/indexing hiện tại. Không migration, không đổi OAuth callback hay Nginx.
 5. Nếu lỗi, rollback web QAVIO trước, rồi app QuánPilot về image cũ. PostgreSQL/worker/Restaurant data/Portfolio không recreate hoặc restore.
 
-Bản nâng cấp hình ảnh đang làm riêng ở working tree, chưa được duyệt commit/deploy theo yêu cầu hình ảnh. Commit đăng nhập không bao gồm các file hình ảnh/CMS/font đó.
+Bản nâng cấp hình ảnh được làm và duyệt riêng sau release đăng nhập; đã phát hành bằng image3c22501, xem docs/QAVIO_VISUAL_UPGRADE.md. Các commit đăng nhập ban đầu không bao gồm hình ảnh/CMS/font.
 
 ## Phát hành production đã hoàn tất
 
