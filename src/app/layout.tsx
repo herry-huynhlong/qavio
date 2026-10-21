@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { pageMetadata } from '@/lib/seo';
 import { site } from '@/lib/site-config';
 import "./globals.css";
+import "./fonts.css";
+import "./visual.css";
 
 export const metadata: Metadata = {
   ...pageMetadata('/'),

@@ -4,7 +4,7 @@
   --color-navy: #081320;
   --color-gold: #d4af67;
   --color-ivory: #f5f3ee;
-  --font-sans: "Segoe UI", Arial, Helvetica, sans-serif;
+  --font-sans: "Roboto", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 }
 
 :root { --navy: #081320; --navy-mid: #101f31; --navy-light: #1a2b40; --gold: #d4af67; --gold-light: #f0d69b; --ivory: #f5f3ee; --muted: #a9b3c1; --line: #ffffff17; }

@@ -11,6 +11,7 @@ import {listSubscribers,subscriberDetail,recordDataRequest,reviewDataRequest,lis
 import {listContent,contentDetail,saveContent,listCategories,saveCategory} from './cms';
 import {listMedia,uploadMedia} from './media';
 import {readContactSettings,saveContactSettings} from './contact-settings';
+import {readVisuals,saveVisual} from './visuals';
 import {audit} from './audit';
 import {hashPassword,verifyPassword} from './password';
 import {loginSchema,password,parsed,query,uuid} from './validation';
@@ -22,7 +23,7 @@ export function requiredPermission(path:string[]):Permission{
   if(resource==='subscribers')return 'subscribers';
   if(resource==='data-requests')return 'privacy';
   if(resource==='email')return action==='retry'?'retry':'email';
-  if(resource==='content'||resource==='categories'||resource==='media')return 'content';
+  if(resource==='content'||resource==='categories'||resource==='media'||resource==='visuals')return 'content';
   if(resource==='settings')return 'settings';
   if(resource==='accounts')return 'accounts';
   if(resource==='audit')return 'audit';
@@ -60,6 +61,7 @@ export async function adminApi(request:Request,path:string[]){
       mutationOrigin(request);if(!equalSecret(request.headers.get('x-csrf-token')||'',auth.csrf))throw new HttpError(403,'CSRF_REJECTED');
       if(resource!=='media'&&request.headers.get('content-type')?.split(';')[0]!=='application/json')throw new HttpError(415,'JSON_REQUIRED');
     }
+    if(resource==='visuals'&&path.length===1){if(request.method==='GET')return response(await readVisuals());if(request.method==='PATCH')return response(await saveVisual(request,await readJson(request)));}
     if(resource==='auth'&&path.length===2){
       if(id==='me'&&request.method==='GET')return response({ok:true,user:publicUser(auth.user),csrfToken:auth.csrf,permissions:Object.keys((await import('./permissions')).permissions).filter(p=>allowed(auth.user.role,p as Permission))});
       if(id==='logout'&&request.method==='POST')return await logout(request);

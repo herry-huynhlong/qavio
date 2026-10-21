@@ -1,0 +1,38 @@
+[
+  {
+    "page": "home-mobile",
+    "scores": {
+      "performance": 85,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 69
+    },
+    "lcp": "3.8 s",
+    "cls": "0",
+    "version": "13.5.0"
+  },
+  {
+    "page": "product-mobile",
+    "scores": {
+      "performance": 88,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 69
+    },
+    "lcp": "3.5 s",
+    "cls": "0",
+    "version": "13.5.0"
+  },
+  {
+    "page": "home-desktop",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 69
+    },
+    "lcp": "0.7 s",
+    "cls": "0.004",
+    "version": "13.5.0"
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "tool": "image_gen built-in",
+  "date": "2026-10-21",
+  "common": "Use case: ads-marketing. Generate a project asset for QAVIO hospitality technology website. [ASSET SCENE] Photorealistic premium commercial photography (except abstract technology still life), coherent warm natural sunlight, deep navy and muted gold accents, realistic human anatomy, sophisticated Vietnamese hospitality context. No text overlays, no watermarks, no other brand logos. This is illustrative AI imagery, never a claim to depict QAVIO staff/offices/customers or actual software UI. No AI-created software screens. High quality, natural editorial composition.",
+  "assets": [
+    [
+      "qr-cafe",
+      "Modern Vietnamese cafe, two Vietnamese young adult customers seated at walnut table, one holding smartphone aimed naturally at small tabletop QR stand, specialty coffee and pastry. QR visually recognizable but explicitly decorative nonfunctional. Show authentic hands and correct phone camera orientation. Horizontal 16:9 hero."
+    ],
+    [
+      "service",
+      "Vietnamese restaurant server in neat navy apron using a small tablet, welcoming modern cafe dining room, medium candid portrait. Device screen turned away or softly out of focus, no readable software UI. Horizontal 4:3."
+    ],
+    [
+      "kitchen",
+      "Vietnamese professional chef in clean modern restaurant kitchen looking at an angled tablet while preparing plated food, warm stainless steel and natural light, tablet screen not readable, no invented software. Horizontal 4:3."
+    ],
+    [
+      "cashier",
+      "Vietnamese cafe cashier behind elegant walnut counter using a desktop computer, unobtrusive receipt and coffee equipment nearby, screen angled away and not readable, no claim of peripheral integration. Horizontal 4:3."
+    ],
+    [
+      "owner",
+      "Vietnamese cafe owner seated beside window reviewing laptop, thoughtful relaxed expression, coffee, sophisticated small restaurant, laptop screen turned away or naturally blurred so no fabricated dashboard. Horizontal 4:3."
+    ],
+    [
+      "tables",
+      "Wide contemporary Vietnamese restaurant with many neatly arranged tables, customers in background and attentive server walking between tables, wooden textures, navy upholstery, warm gold lighting, inviting daytime atmosphere. Horizontal 4:3."
+    ],
+    [
+      "technology",
+      "Abstract premium technology still life, sculptural dark navy glass planes with fine warm golden light paths and subtle reflections, architectural precision, restrained elegant composition, no letters no logos no people no office, generous negative space. Horizontal 16:9."
+    ]
+  ]
+}

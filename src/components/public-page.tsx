@@ -5,13 +5,13 @@ import { publicPages, site, type PublicPath } from '@/lib/site-config';
 import { faqs } from '@/content/vi';
 import {publishedContent} from '@/server/public-content';
 
-export function PublicPage({ path, eyebrow, title, intro, children }: {
-  path: PublicPath; eyebrow: string; title: string; intro: string; children: React.ReactNode;
+export function PublicPage({ path, eyebrow, title, intro, children, visual, enhanced=false }: {
+  path: PublicPath; eyebrow: string; title: string; intro: string; children: React.ReactNode;visual?:React.ReactNode;enhanced?:boolean;
 }) {
   const crumbs = [{ name: 'Trang chủ', path: '/' }, ...(path === '/products/quanpilot' ? [{ name: 'Sản phẩm', path: '/products' }] : []), { name: publicPages[path].title, path }];
-  return <main id="main-content">
+  return <main id="main-content" className={visual||enhanced?'visual-site':undefined}>
     <JsonLd data={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: crumbs.map((item, i) => ({ '@type': 'ListItem', position: i + 1, name: item.name, item: new URL(item.path, site.url).href })) }} />
-    <section className="page-hero"><div className="container"><nav aria-label="Đường dẫn trang" className="breadcrumbs"><ol>{crumbs.map((item, i) => <li key={item.path}>{i < crumbs.length - 1 ? <><Link href={item.path}>{item.name}</Link><ArrowRight size={12} aria-hidden="true" /></> : <span aria-current="page">{item.name}</span>}</li>)}</ol></nav><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{intro}</p></div></section>
+    <section className={`page-hero ${visual?'visual-page-hero':''}`}><div className="container"><nav aria-label="Đường dẫn trang" className="breadcrumbs"><ol>{crumbs.map((item, i) => <li key={item.path}>{i < crumbs.length - 1 ? <><Link href={item.path}>{item.name}</Link><ArrowRight size={12} aria-hidden="true" /></> : <span aria-current="page">{item.name}</span>}</li>)}</ol></nav><div className={visual?'visual-hero-layout':undefined}><div><span className="eyebrow">{eyebrow}</span><h1>{title}</h1><p>{intro}</p></div>{visual}</div></div></section>
     {children}
   </main>;
 }

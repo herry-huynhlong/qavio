@@ -10,7 +10,7 @@ export async function listContent(request:Request,role:string){
   const {page,size,skip,q,params}=query(request),kind=params.get('kind'),status=params.get('status');
   if(kind&&!Object.values(ContentKind).includes(kind as ContentKind)||status&&!Object.values(ContentStatus).includes(status as ContentStatus))throw new HttpError(422,'FILTER_INVALID');
   if(kind&&sensitiveKinds.includes(kind)&&role!=='SUPER_ADMIN')throw new HttpError(403,'PERMISSION_DENIED');
-  const where:Prisma.ContentEntryWhereInput={kind:kind as ContentKind||{notIn:role==='SUPER_ADMIN'?[]:sensitiveKinds as ContentKind[]},status:status as ContentStatus||undefined,...(q?{title:{contains:q,mode:'insensitive'}}:{})};
+  const where:Prisma.ContentEntryWhereInput={NOT:{AND:[{kind:'COMPANY'},{slug:{startsWith:'visual-'}}]},kind:kind as ContentKind||{notIn:role==='SUPER_ADMIN'?[]:sensitiveKinds as ContentKind[]},status:status as ContentStatus||undefined,...(q?{title:{contains:q,mode:'insensitive'}}:{})};
   const [total,rows]=await db().$transaction([db().contentEntry.count({where}),db().contentEntry.findMany({where,skip,take:size,orderBy:[{updatedAt:'desc'},{id:'desc'}],select:{id:true,kind:true,slug:true,title:true,status:true,version:true,publishedAt:true,updatedAt:true,category:{select:{name:true}}}})]);
   return {rows,total,page,size};
 }
@@ -20,6 +20,7 @@ export async function contentDetail(id:string,role:string){
 }
 export async function saveContent(request:Request,id:string|null,input:unknown){
   const value=parsed(contentSchema,input),bodyHtml=cleanHtml(value.bodyHtml),data=cleanData(value.kind,value.data);
+  if(value.kind==='COMPANY'&&value.slug.startsWith('visual-'))throw new HttpError(422,'VISUAL_EDITOR_REQUIRED');
   return authenticatedMutation(request,'content',async(tx,auth)=>{
     const old=id?await tx.contentEntry.findUnique({where:{id}}):null;
     if(id&&!old)throw new HttpError(404,'NOT_FOUND');
