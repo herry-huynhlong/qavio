@@ -100,3 +100,5 @@ Chủ dự án yêu cầu tiếp “ủa sao ở local? push lên đi”: đư�
 
 ## Screenshot thật từ quán Thiên Đảo — 21/10/2026
 Chủ dự án cấp tài khoản và yêu cầu tự chụp/cắt ảnh bổ sung QAVIO. Đã đăng nhập, đọc/chụp và đăng xuất, không sửa dữ liệu Restaurant. Bốn ảnh thật dashboard/bàn/báo cáo/quản lý thực đơn đã thêm mặc định CMS/public; menu-admin-screen riêng với menu khách. Các slot menu/cart/service/kitchen/cashier thiếu ảnh giữ ẩn; không tạo phiên khách hoặc nâng PRO để chụp. QAVIO898451b, CI39606849452 PASS, deploy riêng web; runtime env/flag và mọi container khác giữ nguyên. Backup/offhost/restore5/27 và productionHTTP/assets/browser PASS. Disk còn1.91GiB, giữ rollback7ebeb22, không build/prune VPS. Báo cáo docs/REAL_PRODUCT_SCREENSHOTS.md.
+
+- Bổ sung cuối lượt: OWNER hiện có truy cập được màn phục vụ, đã chụp thêm service-screen và đăng xuất, tổng năm ảnh. Image hiện tại d590b1c, CI39608397020 PASS; chỉ web recreate, env/container khác giữ nguyên. Production5ảnh/hash/mobile375/dialog/14trang PASS, disk1.72GiB. Menu/cart/kitchen/cashier thiếu ảnh giữ ẩn; báo cáo REAL_PRODUCT_SCREENSHOTS.md là trạng thái cuối, thay phần bốn ảnh phía trên.

@@ -1,43 +1,41 @@
 # Ảnh giao diện thật QuánPilot — 21/10/2026
 
-Nguồn: chủ dự án cho phép đăng nhập quán Thiên Đảo trên production và chụp giao diện có sẵn. Phiên đã đăng xuất. Không ghi thông tin đăng nhập vào tài liệu/Git; không tạo/sửa món, bàn, đơn, phiên khách hoặc thanh toán.
+Đã push và deploy năm ảnh thật từ quán Thiên Đảo lên https://qavio.site/products/quanpilot và ảnh mặc định của CMS QAVIO. Source image hiện tại `qavio-web:d590b1c` (`d590b1c917cf30969948df8bcb1921f46fb6bcbe`).
 
-## Ảnh đã bổ sung
+## Ảnh đã hoàn thành
 
-- Dashboard: thay ảnh Long Phụng cũ bằng tổng quan quán Thiên Đảo, TRAIN/BASIC.
-- Sơ đồ bàn: khu vực A, trạng thái bàn đang phục vụ/trống.
-- Báo cáo: giao diện hiện tại chưa có hóa đơn; giữ nguyên số liệu thật bằng 0.
-- Quản lý thực đơn: ảnh món, giá và trạng thái có sẵn; slot CMS mới `menu-admin-screen`, riêng với `menu-screen` cho khách.
+| Vị trí | Kích thước | Nội dung |
+| --- | --- | --- |
+| dashboard-screen | 953×760 | Tổng quan TRAIN/BASIC, số liệu hiện có |
+| tables-screen | 953×620 | Sơ đồ khu vực A và trạng thái bàn |
+| reports-screen | 968×520 | Báo cáo hiện chưa có hóa đơn, giữ nguyên số0 |
+| menu-admin-screen | 953×730 | Ảnh món, tên món, giá và trạng thái bán |
+| service-screen | 1233×600 | Các tab phục vụ, tìm/lọc bàn và trạng thái bàn |
 
-Bốn WebP tổng khoảng 122 KiB. Chỉ cắt khung và nén ảnh thật, không vẽ lại UI. Loại phần tài khoản, sidebar tên người dùng và header khỏi ảnh công khai. Metadata origin=SCREENSHOT, alt/caption tiếng Việt. CMS mặc định có 18 slot; nội dung CMS đã publish tiếp tục ưu tiên hơn ảnh mặc định.
+Năm WebP tổng153.030byte (~149KiB). Chỉ cắt khung/nén screenshot thật, không vẽ lại UI. Phần tài khoản và thông tin cá nhân đã loại khỏi ảnh công khai. Metadata origin=SCREENSHOT, alt/caption tiếng Việt, giữ tỷ lệ và có nút phóng lớn/đóng ảnh. Các ảnh desktop không đặt trong khung điện thoại.
 
-## Phần còn thiếu
+CMS có18slot, thêm riêng `menu-admin-screen` để không nhầm quản lý thực đơn với menu khách. Các ảnh này là mặc định trong code, không ghi đè dữ liệu CMS production; ảnh CMS đã publish vẫn ưu tiên. Có thể quản lý tại https://qavio.site/admin/visuals bằng tài khoản CMS QAVIO. Không dùng credential QuánPilot để đăng nhập CMS QAVIO.
 
-Menu QR, giỏ hàng cần phiên khách; không tạo phiên production để chụp. Phục vụ chưa có ảnh riêng. Bếp/thu ngân riêng thuộc PRO, tài khoản đang TRAIN/BASIC; không nâng gói hoặc vượt quyền. Năm slot này tiếp tục ẩn khi chưa có ảnh thật. Ảnh quản lý thực đơn không thay thế ảnh menu khách.
+## Nguồn và phạm vi
 
-## Kiểm tra
+Chủ dự án cho phép đăng nhập quán Thiên Đảo và chụp dữ liệu có sẵn. Đã đăng nhập/đăng xuất bình thường; không lưu credential vào Git/tài liệu. Route phục vụ cho phép OWNER hiện có truy cập; không tạo vai trò, cấp thêm quyền/gói hoặc giả mạo phiên.
 
-- ESLint, TypeScript, production build PASS.
-- CMS integration: 13 ca PASS trên qavio_test, bao gồm 18 slot, phân quyền, CSRF, provenance, publish/concurrency/audit.
-- Public smoke: 14 trang, 379 liên kết, SEO/sitemap/404/logo PASS.
-- Browser desktop: bốn ảnh đúng vị trí, phóng lớn/đóng ảnh hoạt động; mobile375 không tràn ngang, ảnh desktop không đặt vào khung điện thoại.
-- Không migration; không sửa Restaurant. Tiếp nhận Contact/DEMO, trial/OAuth và các flag giữ nguyên.
+Không tạo/sửa món, bàn, đơn, phiên khách hoặc thanh toán. Không sửa source/DB/container Restaurant. Bốn slot còn thiếu giữ ẩn: menu QR/giỏ hàng cần phiên khách riêng; bếp/thu ngân riêng thuộc PRO trong khi quán đang TRAIN/BASIC. Không tạo phiên khách production hoặc nâng gói chỉ để chụp.
 
-## Phát hành
+## Kiểm thử
 
-Đang chuẩn bị CI Linux và triển khai riêng web QAVIO. Chỉ đánh dấu production sau kiểm tra domain, assets, health và container. Rollback về qavio-web:7ebeb22 bằng cấu hình image cũ; không restore dữ liệu.
+- ESLint, TypeScript và production build PASS.
+- CMS integration13ca PASS trên qavio_test:18slot, phân quyền, CSRF/origin, nguồn screenshot, draft/publish, concurrency, revision/audit.
+- Public smoke14trang/379liên kết, SEO/sitemap/404/logo PASS.
+- CI Linux [39608397020](https://github.com/herry-huynhlong/qavio/actions/runs/39608397020) success; build ngoài VPS. Bản bốn ảnh ban đầu898451b qua CI39606849452 cũng đã được kiểm chứng trước khi bổ sung phục vụ.
+- Production năm WebP trả200 và hash khớp file nguồn; trang sản phẩm chứa đủ năm ảnh. API CMS chặn khách401.
+- Browser production: ảnh phóng lớn/đóng hoạt động; tab phục vụ có ảnh; mobile375 không overflow, năm screenshot rộng320px; không warn/error. Bằng chứng tại `docs/real-product-screenshots/`.
+- Production HTTPS/14trang/login entry/cookie/guard/Contact/DEMO/trial PASS. Không gửi yêu cầu khách QA vào production.
 
-## Production đã hoàn tất
+## Phát hành và vận hành
 
-- Source image `qavio-web:898451b` (`898451b3153e83b16b75d5442b340bd9cba74316`), CI [39606849452](https://github.com/herry-huynhlong/qavio/actions/runs/39606849452) success.
-- Đã kiểm archive digest, source revision và OCI config/layers trước deploy. Chỉ recreate `qavio-web-1`; web healthy. Toàn bộ runtime env giữ nguyên. Worker, hai PostgreSQL, QuánPilot và Portfolio giữ nguyên container/start/restart count.
-- Backup mới mã hóa, tải off-host và restore cô lập đủ 5/27 migration PASS; đã dọn bản plaintext/DB restore. Không migration hoặc sửa dữ liệu production. Chỉ đăng nhập/đăng xuất tài khoản được cấp để đọc/chụp.
-- Production HTTPS: 14 trang, session guard/cookie, Contact/DEMO/trial và các flag PASS. Bốn WebP trả200, hash khớp hoàn toàn file nguồn; API CMS không cho truy cập ẩn danh. Browser375 không overflow, dialog ảnh hoạt động, không warn/error trên trang sản phẩm.
-- Disk trước: khoảng2.1GiB trống/91%; sau: 2,047,995,904 byte (~1.91GiB). Đã xóa đúng archive phát hành sau xác minh/load; không prune image/cache/volume. Giữ image `7ebeb22` để rollback.
-- Cấu hình rollback riêng web: khôi phục `QAVIO_IMAGE_TAG=7ebeb22` từ snapshot tại `/opt/websites/qavio/.runtime/screenshots-release-20261021/snapshot`, recreate service web với ba Compose hiện tại (`--no-build --no-deps`), kiểm `/api/ready`. Không đổi các env khác hoặc restore DB.
-- Ảnh mặc định đã hiện trong CMS QAVIO mục Ảnh giới thiệu sản phẩm; không upload/ghi đè nội dung CMS production. Kiểm thử thao tác CMS có xác thực thực hiện trên DB cô lập, không dùng credential QuánPilot cho CMS QAVIO.
-- Bằng chứng: `docs/real-product-screenshots/` gồm hash ảnh, kiểm HTTP, deploy, responsive và ảnh chụp website thật.
-
-## Bổ sung màn phục vụ
-
-Sau bản898451b, đã kiểm tra thêm route phục vụ cho phép OWNER hiện có truy cập. Chụp tab Khu vực & Bàn (các tab món chờ/yêu cầu khách/order và bộ lọc bàn), không cấp thêm quyền/gói hoặc tạo đơn. Thêm slot `service-screen` bằng ảnh thật, 1233×600; tổng cộng năm ảnh. Menu QR/giỏ hàng vẫn cần phiên khách, bếp/thu ngân riêng cần PRO nên bốn slot đó giữ ẩn. Đã đăng xuất phiên bổ sung.
+- Archive SHA256, revision và OCI config/layers được kiểm trước deploy. Chỉ recreate qavio-web-1, web healthy.
+- Runtime env giữ nguyên hoàn toàn: Contact/DEMO và trial mở, quota100; email/newsletter/QUOTE/indexing giữ đóng. Worker, hai PostgreSQL, QuánPilot và Portfolio giữ nguyên ID/start/restart count.
+- Không migration, đủ5/27migration. Backup mã hóa mới trong lượt phát hành này, tải off-host và restore cô lập5/27 PASS; bản plaintext và DB restore đã dọn. Bản bổ sung phục vụ dùng lại backup đã kiểm của cùng lượt vì chỉ thêm ảnh, không thay schema/dữ liệu.
+- Disk trước khoảng2.1GiB trống/91%; sau cùng1.845.936.128byte (~1.72GiB). Chỉ xóa archive của chính release sau load/xác minh. Không build trên VPS, prune hoặc xóa volume/image rollback.
+- Rollback riêng web về `qavio-web:898451b` bằng cấu hình image cũ trong `/opt/websites/qavio/.runtime/screenshots-service-release-20261021/snapshot`; recreate web với ba Compose hiện tại, `--no-build --no-deps`, kiểm `/api/ready`. Không đổi env khác hoặc restore DB. Image7ebeb22 trước toàn bộ lượt cập nhật cũng còn được giữ.
