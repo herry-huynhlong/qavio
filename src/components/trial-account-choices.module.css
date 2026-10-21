@@ -1,0 +1,6 @@
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 24px}
+.choice{border:1px solid var(--line);border-radius:6px;padding:18px;min-width:0}
+.choice strong{display:block;color:var(--gold-light);font-size:16px}
+.choice p{font-size:13px;margin:8px 0 12px}
+.choice a{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:4px;color:var(--gold-light)}
+@media(max-width:600px){.choices{grid-template-columns:1fr}}

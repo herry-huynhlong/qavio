@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import choices from './trial-account-choices.module.css';
 import { useEffect, useRef, useState } from "react";
 import {
   slugifyTrial,
@@ -38,7 +39,7 @@ const messages: Record<string, string> = {
   IDEMPOTENCY_CONFLICT:
     "Thông tin của yêu cầu đang xử lý đã thay đổi. Vui lòng liên hệ QAVIO để kiểm tra trước khi gửi yêu cầu khác.",
 };
-export function TrialForm() {
+export function TrialForm({loginUrl}:{loginUrl:string}) {
   const [values, setValues] = useState(initial),
     [identity, setIdentity] = useState<Identity | null>(null),
     [enabled, setEnabled] = useState(false),
@@ -293,7 +294,7 @@ export function TrialForm() {
           không được hiển thị lại.
         </p>
         <a className="button" href={result.loginUrl}>
-          Đăng nhập QuánPilot ↗
+          Đăng nhập và bắt đầu sử dụng ↗
         </a>
         <p>
           <a href={result.loginUrl}>{result.loginUrl}</a>
@@ -351,6 +352,10 @@ export function TrialForm() {
         </div>
       ) : null}
       <div className="trial-identity">
+        <div className={choices.choices} aria-label="Chọn đăng ký hoặc đăng nhập">
+          <div className={choices.choice}><strong>Đăng ký dùng thử</strong><p>Khách mới: xác nhận email bên dưới để tạo nhà hàng.</p></div>
+          <div className={choices.choice}><strong>Đã có tài khoản QuánPilot?</strong><p>Tiếp tục sử dụng nhà hàng hiện có, không cần xác minh Google lại.</p><a href={loginUrl}>Đăng nhập ↗</a></div>
+        </div>
         <h2>Xác nhận email chủ quán</h2>
         <p>
           {identity ? (

@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { navigation } from "@/content/vi";
 
-export function SiteHeader() {
+export function SiteHeader({quanpilotLoginUrl}:{quanpilotLoginUrl:string}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -37,6 +37,7 @@ export function SiteHeader() {
       <Link href="/" className="wordmark" aria-label="QAVIO — Trang chủ">QAVIO<span className="brand-dot" /></Link>
       <nav aria-label="Điều hướng chính" id="main-navigation" className={open ? "navigation is-open" : "navigation"}>
         {navigation.map(item => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? 'page' : undefined} onClick={() => setOpen(false)}>{item.label}</Link>)}
+        <a href={quanpilotLoginUrl} onClick={() => setOpen(false)}>Đăng nhập</a>
         <Link href="/trial" className="button button-small" onClick={() => setOpen(false)}>Đăng ký dùng thử <ArrowUpRight size={16} /></Link>
       </nav>
       <button ref={menuButton} type="button" className="menu-toggle" aria-expanded={open} aria-controls="main-navigation" aria-label={open ? "Đóng menu" : "Mở menu"} onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</button>

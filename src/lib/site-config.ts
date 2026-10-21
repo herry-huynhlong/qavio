@@ -13,8 +13,9 @@ export const site = {
   url: publicUrl(process.env.SITE_URL, 'https://qavio.site')!,
   indexingEnabled: process.env.SITE_INDEXING_ENABLED === 'true',
   brandImage: '/brand/Qavio.png',
-  // No production product URL has been confirmed. Never infer one from the VPS.
+  // Product hostname explicitly confirmed by the project owner.
   quanpilotUrl: publicUrl(process.env.QUANPILOT_PUBLIC_URL),
+  quanpilotLoginUrl: new URL('/restaurant-login', publicUrl(process.env.QUANPILOT_PUBLIC_URL, 'https://admin.qavio.site')!).href,
 } as const;
 
 export const publicPages = {

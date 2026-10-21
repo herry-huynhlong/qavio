@@ -1,3 +1,4 @@
+import {site} from '@/lib/site-config';
 import { PublicPage } from "@/components/public-page";
 import { TrialForm } from "@/components/trial-form";
 import { pageMetadata } from "@/lib/seo";
@@ -12,7 +13,7 @@ export default function TrialPage() {
     >
       <section className="section">
         <div className="container trial-layout">
-          <TrialForm />
+          <TrialForm loginUrl={site.quanpilotLoginUrl} />
         </div>
       </section>
     </PublicPage>
