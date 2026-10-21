@@ -1,10 +1,13 @@
 # QAVIO
 
+Domain chính thức: https://qavio.site. Admin hiện có dùng cùng ứng dụng Next.js tại https://admin.qavio.site/admin; root subdomain chuyển đến /admin. Không có dịch vụ Admin mới. Trạng thái chuyển domain và điều kiện nghiệm thu: docs/DOMAIN_MIGRATION.md.
+
+
 Website thương hiệu QAVIO. Dự án độc lập tại `D:\anh\qavio`, remote `https://github.com/herry-huynhlong/qavio.git`.
 
 ## Trạng thái
 
-Bản D/E source `c205bbd` đã được duyệt, push và triển khai tại **https://qavio.longh.org** với PostgreSQL riêng, bốn Prisma migration, worker và persistent volumes. **Admin/CMS/forms production vẫn đóng, chưa bootstrap tài khoản thật, email provider chưa cấu hình, indexing tắt.** Không có thanh toán hoặc tích hợp dữ liệu QuánPilot. Xem [báo cáo triển khai D/E](docs/PHASE_DE_DEPLOYMENT.md) cho kiểm tra Linux/backup/production, giới hạn disk và sự kiện worker bảo trì Restaurant tự restart chưa rõ nguyên nhân. Chưa có CI/CD tự kích hoạt khi push.
+Bản D/E source `c205bbd` đã được duyệt, push và triển khai tại **https://qavio.site** với PostgreSQL riêng, bốn Prisma migration, worker và persistent volumes. **Admin/CMS/forms production vẫn đóng, chưa bootstrap tài khoản thật, email provider chưa cấu hình, indexing tắt.** Không có thanh toán hoặc tích hợp dữ liệu QuánPilot. Xem [báo cáo triển khai D/E](docs/PHASE_DE_DEPLOYMENT.md) cho kiểm tra Linux/backup/production, giới hạn disk và sự kiện worker bảo trì Restaurant tự restart chưa rõ nguyên nhân. Chưa có CI/CD tự kích hoạt khi push.
 
 - Next.js 16 App Router, React 19, TypeScript strict, Tailwind 4.
 - CSS design tokens, nội dung tiếng Việt tách riêng, header sticky và menu mobile.
@@ -37,7 +40,7 @@ pnpm start
 pnpm test:public
 ```
 
-`.env.example` là mẫu cấu hình; không commit `.env` hoặc secret. A/B không cần credential để chạy. `SITE_URL` mặc định là domain đã xác nhận `https://qavio.longh.org`; đặt giá trị phù hợp ở lúc build khi đổi môi trường. Để trống `QUANPILOT_PUBLIC_URL` đến khi có URL chính thức được chủ dự án xác nhận.
+`.env.example` là mẫu cấu hình; không commit `.env` hoặc secret. A/B không cần credential để chạy. `SITE_URL` mặc định là domain đã xác nhận `https://qavio.site`; đặt giá trị phù hợp ở lúc build khi đổi môi trường. Để trống `QUANPILOT_PUBLIC_URL` đến khi có URL chính thức được chủ dự án xác nhận.
 
 ## Tài liệu
 

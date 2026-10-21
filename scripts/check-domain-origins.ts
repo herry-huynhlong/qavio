@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {adminOrigin} from '../src/server/config';
+import {guard,HttpError} from '../src/server/http';
+import {mutationOrigin,loginCsrf} from '../src/server/admin/auth';
+import {validateEnvironment} from '../deploy/runtime-environment.mjs';
+process.env.APP_ORIGIN='https://qavio.site';process.env.QAVIO_ADMIN_ORIGIN='https://admin.qavio.site';process.env.QAVIO_DEPLOYMENT_ENV='production';process.env.QAVIO_ADMIN_ENABLED='true';process.env.QAVIO_TOKEN_SECRET='isolated-domain-check-secret-minimum-32-bytes';
+const req=(origin:string,host=origin)=>new Request(host+'/api/test',{method:'POST',headers:{origin,'content-type':'application/json','sec-fetch-site':'same-origin'}});
+mutationOrigin(req('https://admin.qavio.site'));guard(req('https://qavio.site'),true);
+for(const origin of ['https://qavio.site','https://qavio.longh.org','https://evil.example','https://admin.qavio.site:444'])assert.throws(()=>mutationOrigin(req(origin)),e=>e instanceof HttpError&&e.status===403);
+assert.throws(()=>guard(req('https://admin.qavio.site'),true),e=>e instanceof HttpError&&e.status===403);
+const cookie=loginCsrf(new Request('https://admin.qavio.site/api/admin/auth/csrf')).headers.get('set-cookie')!;for(const s of ['__Host-qavio_login=','Path=/','HttpOnly','SameSite=Strict','Secure'])assert.ok(cookie.includes(s));assert.ok(!/Domain=/i.test(cookie));
+const base={QAVIO_DEPLOYMENT_ENV:'production',DATABASE_URL:'postgresql://qavio_app:qa-only@qavio-postgres/qavio_prod',APP_ORIGIN:'https://qavio.site',QAVIO_TOKEN_SECRET:'isolated-domain-check-secret-minimum-32-bytes',QAVIO_OPS_ROOT:'/var/lib/qavio/ops',EMAIL_PROVIDER:'disabled'};
+assert.equal(validateEnvironment({...base,QAVIO_ADMIN_ORIGIN:'https://admin.qavio.site'}).tier,'production');for(const value of ['http://admin.qavio.site','https://admin.qavio.site/path','https://user:pass@admin.qavio.site'])assert.throws(()=>validateEnvironment({...base,QAVIO_ADMIN_ORIGIN:value}));
+delete process.env.QAVIO_ADMIN_ORIGIN;assert.equal(adminOrigin(),'https://qavio.site');console.log('PASS separate public/Admin origins, cross-origin rejection, host-only secure CSRF cookie, runtime validation and local fallback');

@@ -20,3 +20,11 @@ export function appOrigin() {
 export function mailConfigured() {
   return process.env.EMAIL_PROVIDER === 'smtp' && !!process.env.SMTP_HOST && !!process.env.EMAIL_FROM;
 }
+
+// A separate Admin browser origin still uses this application's backend.
+export function adminOrigin() {
+  const value = process.env.QAVIO_ADMIN_ORIGIN || appOrigin();
+  const url = new URL(value);
+  if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || url.origin !== value) throw new Error('INVALID_ADMIN_ORIGIN');
+  return value;
+}

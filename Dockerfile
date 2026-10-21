@@ -10,7 +10,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile --network-concurrency=4 --child-concurrency=1
 
 FROM dependencies AS builder
-ARG SITE_URL=https://qavio.longh.org
+ARG SITE_URL=https://qavio.site
 ENV SITE_URL=$SITE_URL SITE_INDEXING_ENABLED=false
 COPY . .
 RUN NODE_OPTIONS=--max-old-space-size=512 pnpm lint && NODE_OPTIONS=--max-old-space-size=512 pnpm build && node scripts/check-runtime-rendering.mjs

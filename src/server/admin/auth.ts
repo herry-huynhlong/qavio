@@ -2,7 +2,7 @@ import {randomBytes} from 'node:crypto';
 import type {AdminRole} from '@prisma/client';
 import {db,transaction,type Transaction} from '../db';
 import {HttpError,clientBucket,response} from '../http';
-import {appOrigin} from '../config';
+import {adminOrigin} from '../config';
 import {equalSecret,hmac,sha256} from '../crypto';
 import {rateLimit} from '../rate-limit';
 import {lock} from '../repository';
@@ -18,7 +18,7 @@ const loginCookieName=()=>production()?'__Host-qavio_login':'qavio_login';
 export function cookiesOf(request:Request){return Object.fromEntries((request.headers.get('cookie')||'').split(';').map(v=>{const i=v.indexOf('=');return [v.slice(0,i).trim(),v.slice(i+1)];}).filter(([k])=>k));}
 function cookie(name:string,value:string,maxAge:number){return `${name}=${value}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}${production()?'; Secure':''}`;}
 export function mutationOrigin(request:Request){
-  if(request.headers.get('origin')!==appOrigin())throw new HttpError(403,'ORIGIN_REJECTED');
+  if(request.headers.get('origin')!==adminOrigin())throw new HttpError(403,'ORIGIN_REJECTED');
   const site=request.headers.get('sec-fetch-site');
   if(site&&!['same-origin','none'].includes(site))throw new HttpError(403,'ORIGIN_REJECTED');
 }

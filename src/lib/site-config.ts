@@ -10,7 +10,7 @@ function publicUrl(value: string | undefined, fallback?: string) {
 
 export const site = {
   name: 'QAVIO',
-  url: publicUrl(process.env.SITE_URL, 'https://qavio.longh.org')!,
+  url: publicUrl(process.env.SITE_URL, 'https://qavio.site')!,
   indexingEnabled: process.env.SITE_INDEXING_ENABLED === 'true',
   brandImage: '/brand/Qavio.png',
   // No production product URL has been confirmed. Never infer one from the VPS.
