@@ -1,0 +1,27 @@
+{
+  "assets": [
+    {
+      "path": "/images/qavio/dashboard-thien-dao.webp",
+      "bytes": 31116,
+      "identical": true
+    },
+    {
+      "path": "/images/qavio/tables-thien-dao.webp",
+      "bytes": 25388,
+      "identical": true
+    },
+    {
+      "path": "/images/qavio/reports-thien-dao.webp",
+      "bytes": 21342,
+      "identical": true
+    },
+    {
+      "path": "/images/qavio/menu-admin-thien-dao.webp",
+      "bytes": 40986,
+      "identical": true
+    }
+  ],
+  "page": "PASS",
+  "privateCms": "PASS",
+  "result": "PASS"
+}

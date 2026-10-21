@@ -1,0 +1,26 @@
+{
+  "overflow": false,
+  "shots": [
+    {
+      "phone": false,
+      "title": "Chủ quán nhìn rõ hoạt động. ",
+      "width": 320
+    },
+    {
+      "phone": false,
+      "title": "Dashboard chủ quán ",
+      "width": 320
+    },
+    {
+      "phone": false,
+      "title": "Bàn, thực đơn và nhân viên. Cùng một nơi. ",
+      "width": 320
+    },
+    {
+      "phone": false,
+      "title": "Quản lý thực đơn ",
+      "width": 320
+    }
+  ],
+  "viewport": 375
+}
