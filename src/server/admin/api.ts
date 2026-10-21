@@ -6,7 +6,7 @@ import {equalSecret} from '../crypto';
 import {authenticate,authenticatedMutation,login,loginCsrf,logout,mutationOrigin,publicUser} from './auth';
 import {allowed,type Permission} from './permissions';
 import {listUsers,createUser,updateUser} from './accounts';
-import {listLeads,leadDetail,updateLead,exportLeads} from './crm';
+import {listLeads,leadDetail,updateLead,exportLeads,leadNotifications} from './crm';
 import {listSubscribers,subscriberDetail,recordDataRequest,reviewDataRequest,listEmails,retryEmail} from './newsletter';
 import {listContent,contentDetail,saveContent,listCategories,saveCategory} from './cms';
 import {listMedia,uploadMedia} from './media';
@@ -95,6 +95,7 @@ export async function adminApi(request:Request,path:string[]){
       if(resource==='audit')return response(await auditList(filters));
       if(resource==='media')return response(await listMedia(filters));
     }
+    if(resource==='leads'&&id==='notifications'&&path.length===2&&request.method==='GET')return response(await leadNotifications());
     if(resource==='leads'&&id==='assignees'&&request.method==='GET')return response({rows:await db().adminUser.findMany({where:{isActive:true,role:{in:['SUPER_ADMIN','ADMIN']}},select:{id:true,name:true},orderBy:{name:'asc'},take:200})});
     if(resource==='leads'&&id==='export'&&request.method==='POST')return new Response(await exportLeads(request,await filterRequest(request)),{headers:{'Content-Type':'text/csv; charset=utf-8','Content-Disposition':'attachment; filename="qavio-leads.csv"','Cache-Control':'no-store'}});
     if(resource==='media'&&!id&&request.method==='POST')return response(await uploadMedia(request));

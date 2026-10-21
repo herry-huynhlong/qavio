@@ -9,7 +9,7 @@ const name='http-contact-'+randomUUID();
 async function post(path:string,body:unknown,key=randomUUID(),origin=base.origin){return fetch(new URL(path,base),{method:'POST',headers:{'content-type':'application/json',origin,'idempotency-key':key},body:JSON.stringify(body)});}
 async function main(){
  const status=await(await fetch(new URL('/api/forms/status',base))).json();assert.equal(status.testing,true);assert.equal(status.enabled,true);assert.equal(status.emailConfigured,false);assert.equal(status.newsletterEnabled,false);
- for(const path of ['/api/leads','/api/leads/export','/api/subscribers','/api/newsletter/subscribers'])assert.equal((await fetch(new URL(path,base))).status,404);
+ for(const path of ['/api/leads','/api/leads/export','/api/leads/notifications','/api/notifications','/api/subscribers','/api/newsletter/subscribers'])assert.equal((await fetch(new URL(path,base))).status,404);
  for(const path of ['/api/contact','/api/demo-requests','/api/quote-requests','/api/newsletter/subscribe','/api/newsletter/confirm','/api/newsletter/unsubscribe'])assert.equal((await fetch(new URL(path,base))).status,405);
  assert.equal((await post('/api/contact',{},randomUUID(),'https://evil.example')).status,403);assert.equal((await post('/api/contact',{})).status,422);assert.equal((await post('/api/newsletter/subscribe',{})).status,503);
  const body={fullName:name,phone:'+12025550198',consent:true,privacyPolicyVersion:POLICY_VERSION,sourcePage:'/request-demo',inquiryType:'DEMO',website:'',startedAt:Date.now()-5000},key=randomUUID();

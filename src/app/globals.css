@@ -569,3 +569,4 @@ body:has(.floating-contact) .site-footer { padding-bottom:calc(90px + env(safe-a
 body:has(.floating-contact) .form-actions { padding-right:72px; scroll-margin-bottom:100px; }
 .consultation-card .form-actions .button { white-space:normal; }
 @media(max-width:760px) { .floating-contact-panel { max-height:55vh; overflow-y:auto; } .consultation-card .form-actions .button { font-size:13px; padding-inline:16px; } }
+.floating-contact-toggle{position:relative}.floating-contact-phone-badge{position:absolute;right:-2px;bottom:-2px;background:#d5b56a;border:2px solid #101c2c;border-radius:50%;box-sizing:content-box;padding:3px}

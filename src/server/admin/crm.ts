@@ -21,6 +21,11 @@ export async function leadDetail(id:string){
   const row=await db().lead.findUnique({where:{id},include:{assignedTo:{select:{id:true,name:true}},activities:{orderBy:[{createdAt:'desc'},{id:'desc'}],take:100}}});
   if(!row)throw new HttpError(404,'NOT_FOUND');return row;
 }
+export async function leadNotifications(){
+  const where={status:'NEW' as const};
+  const [total,rows]=await db().$transaction([db().lead.count({where}),db().lead.findMany({where,take:10,orderBy:[{createdAt:'desc'},{id:'desc'}],select:{id:true,fullName:true,phone:true,message:true,inquiryType:true,sourcePage:true,createdAt:true}})],{isolationLevel:Prisma.TransactionIsolationLevel.RepeatableRead});
+  return {total,rows:rows.map(row=>({...row,message:row.message.slice(0,160)}))};
+}
 export async function updateLead(request:Request,id:string,input:unknown){
   const value=parsed(leadUpdateSchema,input);
   return authenticatedMutation(request,'crm',async(tx,auth)=>{
