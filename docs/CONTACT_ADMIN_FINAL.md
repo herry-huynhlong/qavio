@@ -1,3 +1,5 @@
+> Cập nhật 21/10/2026: Chủ dự án đã yêu cầu bỏ bước chờ duyệt chính sách cho CONTACT/DEMO. Hai form đã mở production bằng image 5ef3970 và gửi thực tế thành công; xem [CONSULTATION_LIVE.md](CONSULTATION_LIVE.md). Trạng thái chờ/đóng form phía dưới chỉ phản ánh lần phát hành trước.
+
 # QAVIO — Hoàn thiện tư vấn và quản trị khách hàng
 
 Bắt đầu theo lịch 23:58 ngày20/10/2026 (Asia/Bangkok). Chủ dự án phê duyệt push/deploy sau kiểm tra trong tin nhắn đặt lịch. Đây không phải phê duyệt chính sách dữ liệu. Chỉ làm repository `D:\anh\qavio`.
