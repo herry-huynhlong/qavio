@@ -24,3 +24,9 @@ Script lập danh sách và chụp trạng thái trước; trước mỗi lần 
 Sau khi dọn: kiểm lại container/mount/volume và các bản rollback; HTTPS qavio.site/api/ready và admin.qavio.site/restaurant-login PASS. Hai PostgreSQL/QAVIO worker/web healthy, QuánPilot/maintenance worker/Portfolio vẫn Up. Không gửi QA vào production hoặc sửa dữ liệu.
 
 Các mục ghi giữ image rất cũ trong báo cáo phát hành trước là lịch sử: những tag có trong deletedImageTags đã được chủ dự án cho phép dọn trong lượt này. Khi rollback dùng danh sách còn giữ phía trên, không dùng tag đã xóa. Bằng chứng vận hành private ở /opt/websites/qavio/.runtime/disk-cleanup-20261022; bản JSON công khai không chứa env/credential.
+
+## Đợt dọn tiếp theo sau push hardening — 22/10/2026
+
+Chủ dự án tiếp tục yêu cầu kiểm kê và xóa bớt tài nguyên không còn cần. Đã xóa5image không container nào dùng (qavio-web7ebeb22/d590b1c/898451b và quanpilot-app05ff9ad/be133f2) cùng11archive Docker staging cũ đã kiểm checksum, không phải backup dữ liệu. Danh sách giữ ở phần lịch sử phía trên được cập nhật: hiện giữ production QAVIOcc06d0f/QuánPilot1edbfd9, rollback QAVIO5f10868/QuánPilot3574ce4, toàn bộ image container/worker/PG/Portfolio và backup cần thiết.
+
+Thu hồi thêm3.68GiB; free4.89→8.56GiB, df79%→63%;7container/env/mounts và12volumes không đổi, HTTPS PASS. Cache build0B, không dọn log/backup/volume hoặc restart service. Chi tiết và bằng chứng mới ở [DEPLOYMENT_HARDENING.md](DEPLOYMENT_HARDENING.md) và `deployment-hardening/cleanup-20261022.json`. Không dùng những tag vừa xóa để rollback.
