@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-22T03:02:02.363Z",
+  "base": "https://qavio.site",
+  "publicPages": 14,
+  "links": 439,
+  "legacySubscribe": 308,
+  "newIntake": 410,
+  "resend": 410,
+  "confirm": 410,
+  "legacyTokenPages": 200,
+  "unsubscribeValidation": 422,
+  "contactDemoValidation": 422,
+  "adminGuard": true,
+  "quanpilotLogin": true,
+  "httpsVerified": true,
+  "result": "PASS"
+}

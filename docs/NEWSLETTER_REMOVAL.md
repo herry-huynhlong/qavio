@@ -32,4 +32,18 @@ Trước phát hành: VPS df71%, còn6.9G; current QAVIO d590b1c, Restaurant3574
 
 CI/Linux build ở GitHub Actions; không build VPS. Quy trình deploy kiểm tra artifact/image revision/checksum/config/layers, disk, snapshot runtime và rollback d590b1c; chỉ recreate qavio-web. Không migrate, đổi env hoặc bật indexing/email. Kiểm tra fingerprint các bảng newsletter trước/sau và container không liên quan.
 
-Trạng thái CI/commit/deploy và production smoke được bổ sung sau khi xác minh thực tế; chưa coi hoàn tất production ở bản ghi chuẩn bị này.
+## Phát hành đã hoàn tất
+
+- Source commit: `5f10868c4121391c76320fae157b111b2301cf52`, đã push main.
+- GitHub Actions [39713925910](https://github.com/herry-huynhlong/qavio/actions/runs/39713925910): SUCCESS, gồm PostgreSQL regression và Linux image build bên ngoài VPS.
+- Image đang chạy: `qavio-web:5f10868`, id `sha256:3d5f062bffe8ee2f4db2466334dee8ac356f8b3b1ea563207ad4ec3db156fad5`. Artifact ZIP digest `sha256:dc73081c84e3537611b73526f2ae13a08fb78f020631076220d2242e4949d978`; archive, revision, config digest và rootfs layers đã kiểm tra khớp.
+- Lần thay đầu tự rollback vì NODE_VERSION từ base image mới khác snapshot cũ. Đã xác minh đây là khóa duy nhất khác; lần cuối so sánh toàn bộ cấu hình ứng dụng/secret giữ nguyên và kiểm tra NODE_VERSION trùng image đã xác minh cùng binary Node thực tế. Các kiểm tra này đạt, không đổi flag/secret thủ công.
+- Chỉ recreate qavio-web; web HEALTHY. Sáu container còn lại giữ nguyên ID/start/restart count, gồm Restaurant app3574ce4, hai PostgreSQL, hai worker và Portfolio.
+- Không migration; QAVIO vẫn5 migration. Trước/sau triển khai và sau HTTP smoke, count+fingerprint NewsletterSubscriber/NewsletterToken/NewsletterConsentEvent khớp. Không xóa/sửa dữ liệu khách hàng cũ, không truy vấn/sửa database Restaurant trong đợt này.
+- Flags giữ nguyên: Contact/DEMO và trial bật; quota100; SMTP/email, QUOTE và indexing đóng. Không mở Google flow hay tạo quán/lead QA production.
+- Production HTTPS:14 trang (gồm bài CMS hiện có `/news/cnm`),439 liên kết được duyệt, không newsletter CTA/href; sitemap không /subscribe; legacy308 về /; subscribe/resend/confirm410; hai trang token200/noindex; unsubscribe input rỗng422; Contact/DEMO input rỗng422; Admin auth guard/API notification401; QuánPilot login200. Không gửi thông tin cá nhân thử vào production.
+- Browser production desktop/mobile375: footer không còn liên kết newsletter, không lỗi console; mobile không tràn ngang. Admin UI đã kiểm chứng bằng phiên QA local, production kiểm tra guard và image tương ứng, không đăng nhập bằng tài khoản khách để kiểm thử.
+- Sau dọn đúng archive của release: df73%, còn6.5G (6.918.811.648 bytes free), từ71%/6.9G trước release. Giữ image cũ d590b1c và các rollback/container/volume; không prune/down-v.
+- Rollback: snapshot `.env` trong `/opt/websites/qavio/.runtime/newsletter-release-20261022/snapshot/qavio.env`, image `qavio-web:d590b1c`, compose up riêng web `--no-build --no-deps`; không restore đè DB vì không có migration/dữ liệu nghiệp vụ bị đổi.
+
+Bằng chứng: docs/newsletter-removal/production-http.json, production-deploy.json, production-before.json, production-final.json, image-integrity.json và ảnh footer/mobile. Backup off-host giữ mã hóa; DB restore và plaintext tạm đã dọn. Archive image đã load được dọn, rollback image và backup giữ nguyên.
