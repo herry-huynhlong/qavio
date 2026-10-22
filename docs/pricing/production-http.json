@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-22T03:34:43.222Z",
+  "sourceApi": 200,
+  "qavioProxy": 200,
+  "sameVersion": true,
+  "samePublishedPrices": true,
+  "publishedPriceCount": 0,
+  "supportedTerms": [
+    3,
+    6,
+    12
+  ],
+  "writeMethods": 405,
+  "page": 200,
+  "oldWarningRemoved": true,
+  "adminGuard": true,
+  "quanpilotLogin": true,
+  "csrf": true,
+  "https": true,
+  "noProductionTestData": true,
+  "result": "PASS"
+}
