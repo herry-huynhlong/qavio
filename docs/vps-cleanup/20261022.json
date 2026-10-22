@@ -1,0 +1,39 @@
+{
+  "freeBeforeBytes": 1807745024,
+  "freeAfterBytes": 7325618176,
+  "recoveredBytes": 5517873152,
+  "deletedImageTags": [
+    "qavio-web:3c22501",
+    "qavio-web:697a6a1",
+    "quanpilot-app:2e8d0b1",
+    "qavio-web:cf2a207",
+    "qavio-web:f891017",
+    "qavio-web:2018147",
+    "quanpilot-app:3408242",
+    "qavio-web:41218f7",
+    "qavio-web:5ef3970",
+    "qavio-web:e299485",
+    "qavio-web:68ba267",
+    "qavio-web:9de5d5a",
+    "qavio-staging-web:c205bbd",
+    "qavio-web:c205bbd",
+    "qavio-web:570f8f7",
+    "qavio-web:1ba0f3a",
+    "qavio-web:rollback-before-c",
+    "qavio-web:1471c12",
+    "qavio-web:rollback-before-b"
+  ],
+  "keptRollbackTags": [
+    "qavio-web:7ebeb22",
+    "qavio-web:898451b",
+    "qavio-web:d590b1c",
+    "quanpilot-app:05ff9ad",
+    "quanpilot-app:3574ce4",
+    "quanpilot-app:be133f2"
+  ],
+  "containersUnchanged": true,
+  "volumesAndMountsUnchanged": true,
+  "databaseAndUploadsUntouched": true,
+  "publicHttp": "PASS",
+  "result": "PASS"
+}
