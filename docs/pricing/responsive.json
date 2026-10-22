@@ -1,0 +1,218 @@
+[
+  {
+    "cards": [
+      {
+        "plan": "BASIC",
+        "width": 273,
+        "x": 16,
+        "y": 511.1875
+      },
+      {
+        "plan": "PRO",
+        "width": 273,
+        "x": 16,
+        "y": 1226.5625
+      }
+    ],
+    "horizontalOverflow": 0,
+    "scrollWidth": 305,
+    "terms": [
+      {
+        "height": 48,
+        "label": "3 tháng",
+        "width": 82.328125
+      },
+      {
+        "height": 48,
+        "label": "6 tháng",
+        "width": 82.34375
+      },
+      {
+        "height": 48,
+        "label": "12 tháng",
+        "width": 82.328125
+      }
+    ],
+    "width": 320
+  },
+  {
+    "cards": [
+      {
+        "plan": "BASIC",
+        "width": 320,
+        "x": 20,
+        "y": 485.265625
+      },
+      {
+        "plan": "PRO",
+        "width": 320,
+        "x": 20,
+        "y": 1214.1875
+      }
+    ],
+    "horizontalOverflow": 0,
+    "scrollWidth": 360,
+    "terms": [
+      {
+        "height": 48,
+        "label": "3 tháng",
+        "width": 98
+      },
+      {
+        "height": 48,
+        "label": "6 tháng",
+        "width": 98
+      },
+      {
+        "height": 48,
+        "label": "12 tháng",
+        "width": 98
+      }
+    ],
+    "width": 375
+  },
+  {
+    "cards": [
+      {
+        "plan": "BASIC",
+        "width": 335,
+        "x": 20,
+        "y": 485.265625
+      },
+      {
+        "plan": "PRO",
+        "width": 335,
+        "x": 20,
+        "y": 1214.1875
+      }
+    ],
+    "horizontalOverflow": 0,
+    "scrollWidth": 375,
+    "terms": [
+      {
+        "height": 48,
+        "label": "3 tháng",
+        "width": 103
+      },
+      {
+        "height": 48,
+        "label": "6 tháng",
+        "width": 103
+      },
+      {
+        "height": 48,
+        "label": "12 tháng",
+        "width": 103
+      }
+    ],
+    "width": 390
+  },
+  {
+    "cards": [
+      {
+        "plan": "BASIC",
+        "width": 331.5,
+        "x": 32,
+        "y": 465.765625
+      },
+      {
+        "plan": "PRO",
+        "width": 331.5,
+        "x": 389.5,
+        "y": 465.765625
+      }
+    ],
+    "horizontalOverflow": 0,
+    "scrollWidth": 753,
+    "terms": [
+      {
+        "height": 48,
+        "label": "3 tháng",
+        "width": 110
+      },
+      {
+        "height": 48,
+        "label": "6 tháng",
+        "width": 110
+      },
+      {
+        "height": 48,
+        "label": "12 tháng",
+        "width": 110
+      }
+    ],
+    "width": 768
+  },
+  {
+    "cards": [
+      {
+        "plan": "BASIC",
+        "width": 459.5,
+        "x": 32,
+        "y": 484.25
+      },
+      {
+        "plan": "PRO",
+        "width": 459.5,
+        "x": 517.5,
+        "y": 484.25
+      }
+    ],
+    "horizontalOverflow": 0,
+    "scrollWidth": 1009,
+    "terms": [
+      {
+        "height": 48,
+        "label": "3 tháng",
+        "width": 110
+      },
+      {
+        "height": 48,
+        "label": "6 tháng",
+        "width": 110
+      },
+      {
+        "height": 48,
+        "label": "12 tháng",
+        "width": 110
+      }
+    ],
+    "width": 1024
+  },
+  {
+    "cards": [
+      {
+        "plan": "BASIC",
+        "width": 527,
+        "x": 172.5,
+        "y": 492.84375
+      },
+      {
+        "plan": "PRO",
+        "width": 527,
+        "x": 725.5,
+        "y": 492.84375
+      }
+    ],
+    "horizontalOverflow": 0,
+    "scrollWidth": 1425,
+    "terms": [
+      {
+        "height": 48,
+        "label": "3 tháng",
+        "width": 110
+      },
+      {
+        "height": 48,
+        "label": "6 tháng",
+        "width": 110
+      },
+      {
+        "height": 48,
+        "label": "12 tháng",
+        "width": 110
+      }
+    ],
+    "width": 1440
+  }
+]

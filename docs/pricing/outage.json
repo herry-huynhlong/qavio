@@ -1,0 +1,10 @@
+{
+  "source": "local QuánPilot intentionally stopped",
+  "expiredAt": "2026-10-22T02:28:02.012Z",
+  "observedAt": "2026-10-22T02:28:03.041Z",
+  "qavioApiStatus": 503,
+  "pageStatus": 200,
+  "expiredPricesRemoved": true,
+  "contactFallback": true,
+  "result": "PASS"
+}

@@ -24,7 +24,7 @@ export const publicPages = {
   '/solutions': { title: 'Giải pháp công nghệ', description: 'Khám phá cách QAVIO tiếp cận số hóa vận hành, quản lý tập trung, trải nghiệm khách hàng và nền tảng có khả năng mở rộng.' },
   '/products': { title: 'Sản phẩm từ QAVIO', description: 'Khám phá hệ sinh thái sản phẩm QAVIO, bắt đầu với QuánPilot — nền tảng hỗ trợ quản lý nhà hàng, quán ăn và quán nước.' },
   '/products/quanpilot': { title: 'QuánPilot — Nền tảng quản lý nhà hàng', description: 'Menu QR, quản lý bàn, đơn hàng và phối hợp phục vụ, bếp, thu ngân. Tìm hiểu QuánPilot và chuẩn bị nhu cầu tư vấn.' },
-  '/pricing': { title: 'Gói dịch vụ và báo giá', description: 'Tìm hiểu định hướng gói BASIC và PRO cho QuánPilot, thời hạn 3, 6, 12 tháng. Giá chính thức cần được QAVIO xác nhận theo nhu cầu.' },
+  '/pricing': { title: 'Bảng giá QuánPilot', description: 'Khám phá gói BASIC và PRO, lựa chọn thời hạn 3, 6 hoặc 12 tháng phù hợp với nhu cầu và quy mô vận hành của bạn.' },
   '/request-quote': { title: 'Yêu cầu báo giá QuánPilot', description: 'Chia sẻ gói BASIC, PRO hoặc nhu cầu chưa xác định, thời hạn và số cơ sở để QAVIO tiếp nhận yêu cầu báo giá.' },
   '/news': { title: 'Tin tức và góc nhìn', description: 'Nơi chia sẻ tin tức QAVIO, thông tin sản phẩm, công nghệ, kiến thức quản lý và chuyển đổi số khi bài viết được xuất bản.' },
   '/contact': { title: 'Kết nối với QAVIO', description: 'Chuẩn bị nội dung trao đổi về sản phẩm, giải pháp, báo giá hoặc hợp tác cùng QAVIO. Tình trạng tiếp nhận được hiển thị tại biểu mẫu.' },

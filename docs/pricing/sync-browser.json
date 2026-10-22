@@ -1,0 +1,13 @@
+{
+  "environment": "isolated local pricing_test",
+  "basicObservedMs": 23767,
+  "proObservedMs": 13247,
+  "automatic": true,
+  "reload": false,
+  "basicTotal": 700001,
+  "basicAverage": 233334,
+  "basicDiscountBasisPoints": 2222,
+  "proTotal": 1197003,
+  "proAverage": 399001,
+  "proDiscount": false
+}
