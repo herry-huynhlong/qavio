@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 
 // Acceptance routes, independently checked against the running production build.
-const routes = ['/', '/about', '/solutions', '/products', '/products/quanpilot', '/pricing', '/news', '/contact', '/trial', '/request-quote', '/subscribe', '/faq', '/privacy', '/terms'];
+const routes = ['/', '/about', '/solutions', '/products', '/products/quanpilot', '/pricing', '/news', '/contact', '/trial', '/request-quote', '/faq', '/privacy', '/terms'];
 const base = new URL(process.env.TEST_BASE_URL || 'http://127.0.0.1:3100');
 if (!['localhost', '127.0.0.1', '[::1]'].includes(base.hostname)) throw new Error('Use a local test server only.');
 const pages = new Map();
@@ -29,6 +29,8 @@ for (const route of routes) {
   }
 }
 const legacy=await fetch(new URL('/request-demo',base),{redirect:'manual'});assert.equal(legacy.status,308);assert.equal(new URL(legacy.headers.get('location'),base).pathname,'/trial');
+const retired=await fetch(new URL('/subscribe',base),{redirect:'manual'});assert.equal(retired.status,308);assert.equal(new URL(retired.headers.get('location'),base).pathname,'/');
+for(const [route,html] of pages){assert.ok(!/href="\/subscribe(?:["?#])/.test(html),`${route}: no newsletter link`);assert.ok(!/Đăng ký nhận tin|Theo dõi QAVIO/.test(html),`${route}: no newsletter promotion`);}
 let linksChecked = 0;
 for (const [route, html] of pages) {
   for (const [, raw] of html.matchAll(/<a\b[^>]*href="([^"]+)"/g)) {

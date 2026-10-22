@@ -188,11 +188,6 @@ svg { flex-shrink: 0; }
 .faq-list summary > svg { color: var(--gold); transition: transform .2s; }
 .faq-list details[open] summary > svg { transform: rotate(180deg); }
 .faq-list details > p { color: var(--muted); font-size: 13px; padding: 0 35px 24px 0; }
-.newsletter-section { background: #101f31; border-block: 1px solid var(--line); padding-block: 45px; }
-.newsletter-inner { display: grid; grid-template-columns: 1.3fr 1fr; gap: 70px; align-items: center; }
-.newsletter-inner h2 { font-size: 23px; letter-spacing: -.6px; margin-block: 13px 12px; }
-.newsletter-inner p { color: var(--muted); font-size: 12px; }
-.newsletter-status { border-left: 1px solid var(--line); padding-left: 35px; }
 .status-pill { display: inline-flex; border: 1px solid #d4af6740; color: var(--gold-light); font-size: 10px; padding: 4px 10px; border-radius: 30px; margin-bottom: 10px; }
 .contact-section { padding-block: 90px 70px; background: radial-gradient(ellipse at 90% 100%, #23314588, transparent 55%); }
 .contact-section h2 { font-size: clamp(32px, 3.8vw, 53px); letter-spacing: -1.9px; margin-block: 28px 35px; }
@@ -268,7 +263,6 @@ svg { flex-shrink: 0; }
   .news-layout h2 { font-size: 31px; }
   .faq-layout { gap: 45px; }
   .footer-main { gap: 30px; }
-  .newsletter-inner { gap: 35px; }
 }
 @media (max-width: 760px) {
   html { scroll-padding-top: 90px; }
@@ -360,9 +354,6 @@ svg { flex-shrink: 0; }
   .faq-layout h2 { font-size: 33px; margin-block: 18px; }
   .faq-icon { display: none; }
   .faq-list summary { font-size: 13px; padding-block: 21px; }
-  .newsletter-inner { grid-template-columns: 1fr; gap: 23px; }
-  .newsletter-inner h2 { font-size: 24px; }
-  .newsletter-status { border-left: 0; border-top: 1px solid var(--line); padding: 22px 0 0; }
   .contact-section { padding-block: 60px 50px; }
   .contact-section h2 { font-size: 34px; letter-spacing: -1px; margin-block: 24px; }
   .contact-bottom { flex-direction: column; align-items: flex-start; gap: 25px; }

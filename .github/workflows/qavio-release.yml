@@ -53,6 +53,7 @@ jobs:
         run: |
           pnpm lint
           node --import tsx scripts/check-domain-origins.ts
+          node --import tsx scripts/check-newsletter-retired.ts
           node --import tsx scripts/integration.ts
           node --import tsx scripts/integration-admin.ts
           node --import tsx scripts/integration-contact.ts

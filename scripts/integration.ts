@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {assertDatabaseUrl} from '../src/server/db-safety';
 import {db,transaction} from '../src/server/db';
+import {subscribe,consumeNewsletterToken} from '../src/server/newsletter-service';
 import {publicPost} from '../src/server/public-api';
 import {rateLimit} from '../src/server/rate-limit';
 import {runOutboxBatch} from '../src/server/outbox-worker';
@@ -28,6 +29,8 @@ async function post(operation:Parameters<typeof publicPost>[1],body:unknown,key=
   const request=new Request(`http://127.0.0.1:3100/api/${operation}`,{method:'POST',headers:{origin:'http://127.0.0.1:3100','content-type':'application/json','idempotency-key':key,'x-qavio-client-ip':testIp,'x-qavio-proxy-secret':process.env.QAVIO_TRUSTED_PROXY_SECRET!,...extra},body:JSON.stringify(body)});
   const response=await publicPost(request,operation);return {status:response.status,body:await response.json()};
 }
+// Internal legacy lifecycle fixtures only; these are not reachable through retired public APIs.
+async function legacyPost(operation:'subscribe'|'confirm',body:unknown,key=randomUUID()){try{const result=operation==='subscribe'?await subscribe(body as Parameters<typeof subscribe>[0],key,testIp):await consumeNewsletterToken((body as {token:string}).token,'CONFIRM',testIp);return {status:200,body:result};}catch(error){const result=failure(error);return {status:result.status,body:await result.json()};}}
 async function main(){
   await check('database safeguards reject Restaurant, staging and production',async()=>{
     for(const name of ['restaurant_saas','subscription_test','qavio_prod','qavio_staging'])assert.throws(()=>assertDatabaseUrl(`postgresql://x:x@127.0.0.1:55432/${name}`,'test'));
@@ -44,8 +47,8 @@ async function main(){
   // Synthetic provider configuration permits protocol tests; all worker sends use test adapters.
   process.env.EMAIL_PROVIDER='smtp';process.env.SMTP_HOST='smtp.example.invalid';process.env.EMAIL_FROM='qa@example.invalid';
   const sub={email:`newsletter-${email}`,name:'QA test',consent:true,privacyPolicyVersion:POLICY_VERSION,sourcePage:'/subscribe',website:'',startedAt:Date.now()-5000};
-  await check('newsletter PENDING and case-insensitive unique',async()=>{const a=await post('subscribe',sub),b=await post('subscribe',{...sub,email:sub.email.toUpperCase()});assert.deepEqual(a.body,b.body);assert.equal(await db().newsletterSubscriber.count({where:{emailNormalized:sub.email}}),1);assert.equal((await db().newsletterSubscriber.findUniqueOrThrow({where:{emailNormalized:sub.email}})).status,'PENDING');});
-  await check('concurrent newsletter enrollment creates one subscriber/token',async()=>{const body={...sub,email:`race-${email}`};const results=await Promise.all(Array.from({length:4},()=>post('subscribe',body)));assert.ok(results.every(result=>result.status===200));const record=await db().newsletterSubscriber.findUniqueOrThrow({where:{emailNormalized:body.email}});assert.equal(await db().newsletterToken.count({where:{subscriberId:record.id}}),1);});
+  await check('newsletter PENDING and case-insensitive unique',async()=>{const a=await legacyPost('subscribe',sub),b=await legacyPost('subscribe',{...sub,email:sub.email.toUpperCase()});assert.deepEqual(a.body,b.body);assert.equal(await db().newsletterSubscriber.count({where:{emailNormalized:sub.email}}),1);assert.equal((await db().newsletterSubscriber.findUniqueOrThrow({where:{emailNormalized:sub.email}})).status,'PENDING');});
+  await check('concurrent newsletter enrollment creates one subscriber/token',async()=>{const body={...sub,email:`race-${email}`};const results=await Promise.all(Array.from({length:4},()=>legacyPost('subscribe',body)));assert.ok(results.every(result=>result.status===200));const record=await db().newsletterSubscriber.findUniqueOrThrow({where:{emailNormalized:body.email}});assert.equal(await db().newsletterToken.count({where:{subscriberId:record.id}}),1);});
   const subscriber=await db().newsletterSubscriber.findUniqueOrThrow({where:{emailNormalized:sub.email}});
   const token=await db().newsletterToken.findFirstOrThrow({where:{subscriberId:subscriber.id,purpose:'CONFIRM'}});
   const raw=tokenValue(token.id);
@@ -53,19 +56,19 @@ async function main(){
   await check('token cannot be used for a different purpose',async()=>{assert.equal((await post('unsubscribe',{token:raw})).status,400);});
   await check('provider not configured leaves queued emails and subscriber pending',async()=>{process.env.EMAIL_PROVIDER='disabled';try{assert.equal((await runOutboxBatch()).reason,'EMAIL_NOT_CONFIGURED');}finally{process.env.EMAIL_PROVIDER='smtp';}assert.equal(await db().emailOutbox.count({where:{subscriberId:subscriber.id,status:'SENT'}}),0);});
   await check('reject expired tokens and replay, confirm once',async()=>{
-    await db().newsletterToken.update({where:{id:token.id},data:{expiresAt:new Date(Date.now()-1000)}});assert.equal((await post('confirm',{token:raw})).status,410);
+    await db().newsletterToken.update({where:{id:token.id},data:{expiresAt:new Date(Date.now()-1000)}});assert.equal((await legacyPost('confirm',{token:raw})).status,410);
     await db().newsletterToken.update({where:{id:token.id},data:{expiresAt:new Date(Date.now()+86400000)}});
-    const results=await Promise.all([post('confirm',{token:raw}),post('confirm',{token:raw})]);assert.deepEqual(results.map(r=>r.status).sort(),[200,410]);assert.equal((await db().newsletterSubscriber.findUniqueOrThrow({where:{id:subscriber.id}})).status,'CONFIRMED');
+    const results=await Promise.all([legacyPost('confirm',{token:raw}),legacyPost('confirm',{token:raw})]);assert.deepEqual(results.map(r=>r.status).sort(),[200,410]);assert.equal((await db().newsletterSubscriber.findUniqueOrThrow({where:{id:subscriber.id}})).status,'CONFIRMED');
   });
-  await check('newsletter response does not enumerate confirmed email',async()=>{const existing=await post('subscribe',sub);const absent=await post('subscribe',{...sub,email:`fresh-${email}`});assert.deepEqual(existing.body,absent.body);});
-  await check('unsubscribe records consent, no silent re-enrollment',async()=>{const unsub=await db().newsletterToken.findFirstOrThrow({where:{subscriberId:subscriber.id,purpose:'UNSUBSCRIBE'}});assert.equal((await post('unsubscribe',{token:tokenValue(unsub.id)})).status,200);assert.equal((await db().newsletterSubscriber.findUniqueOrThrow({where:{id:subscriber.id}})).status,'UNSUBSCRIBED');assert.equal((await post('subscribe',{...sub,consent:false})).status,422);assert.equal(await db().newsletterConsentEvent.count({where:{subscriberId:subscriber.id,type:'UNSUBSCRIBED'}}),1);});
+  await check('newsletter response does not enumerate confirmed email',async()=>{const existing=await legacyPost('subscribe',sub);const absent=await legacyPost('subscribe',{...sub,email:`fresh-${email}`});assert.deepEqual(existing.body,absent.body);});
+  await check('unsubscribe records consent, no silent re-enrollment',async()=>{const unsub=await db().newsletterToken.findFirstOrThrow({where:{subscriberId:subscriber.id,purpose:'UNSUBSCRIBE'}});assert.equal((await post('unsubscribe',{token:tokenValue(unsub.id)})).status,200);assert.equal((await db().newsletterSubscriber.findUniqueOrThrow({where:{id:subscriber.id}})).status,'UNSUBSCRIBED');assert.equal((await post('subscribe',{...sub,consent:false})).status,410);assert.equal(await db().newsletterConsentEvent.count({where:{subscriberId:subscriber.id,type:'UNSUBSCRIBED'}}),1);});
   await check('marketing blocked for PENDING and UNSUBSCRIBED',async()=>{
     const pending=await db().newsletterSubscriber.findUniqueOrThrow({where:{emailNormalized:`fresh-${email}`}});
     for(const row of [pending,await db().newsletterSubscriber.findUniqueOrThrow({where:{id:subscriber.id}})])await db().emailOutbox.create({data:{kind:'MARKETING',recipient:row.emailNormalized,subscriberId:row.id,payload:{text:'test',version:row.version}}});
     await runOutboxBatch({async send(message){sent.push(message);}},50);
     assert.equal(await db().emailOutbox.count({where:{kind:'MARKETING',subscriberId:{in:[pending.id,subscriber.id]},status:'CANCELLED'}}),2);
   });
-  await check('explicit re-enrollment needs fresh consent and confirmation',async()=>{assert.equal((await post('subscribe',sub)).status,200);const record=await db().newsletterSubscriber.findUniqueOrThrow({where:{id:subscriber.id}});assert.equal(record.status,'PENDING');assert.ok(record.version>subscriber.version);assert.equal((await post('confirm',{token:raw})).status,410);assert.equal(await db().newsletterConsentEvent.count({where:{subscriberId:subscriber.id,type:'SUBSCRIBE_REQUESTED'}}),2);});
+  await check('explicit re-enrollment needs fresh consent and confirmation',async()=>{assert.equal((await legacyPost('subscribe',sub)).status,200);const record=await db().newsletterSubscriber.findUniqueOrThrow({where:{id:subscriber.id}});assert.equal(record.status,'PENDING');assert.ok(record.version>subscriber.version);assert.equal((await legacyPost('confirm',{token:raw})).status,410);assert.equal(await db().newsletterConsentEvent.count({where:{subscriberId:subscriber.id,type:'SUBSCRIBE_REQUESTED'}}),2);});
   await check('failed sends retry with sanitized errors then succeed',async()=>{
     const row=await db().emailOutbox.create({data:{kind:'LEAD_RECEIPT',recipient:`retry-${email}`,payload:{}}});
     await runOutboxBatch({async send(){throw new Error(`secret-token-and-email-${email}`);}},50);
@@ -81,7 +84,7 @@ async function main(){
   await check('HTTP 429 is returned when the PostgreSQL request bucket is exhausted',async()=>{await transaction(tx=>rateLimit(tx,`envelope:${testIp}`,100,60000));await db().rateLimitBucket.update({where:{key:hmac(`rate:envelope:${testIp}`)},data:{count:100}});assert.equal((await post('contact',contact)).status,429);await db().rateLimitBucket.update({where:{key:hmac(`rate:envelope:${testIp}`)},data:{count:1}});});
   await check('production collection stays closed without approved privacy policy',async()=>{try{process.env.QAVIO_DEPLOYMENT_ENV='production';process.env.QAVIO_DATA_POLICY_APPROVED='false';assert.equal(formsEnabled(),false);assert.equal((await post('contact',contact)).status,503);process.env.QAVIO_DEPLOYMENT_ENV='invalid-tier';assert.equal(formsEnabled(),false);}finally{process.env.QAVIO_DEPLOYMENT_ENV='test';}});
   await check('unexpected database/provider errors produce no sensitive response/log',async()=>{const lines:string[]=[];const original=console.error;console.error=(value)=>{lines.push(String(value));};try{const result=failure(new Error(`private ${email} ${raw}`));assert.equal(result.status,503);const body=JSON.stringify(await result.json());assert.ok(!body.includes(email)&&!body.includes(raw));assert.deepEqual(lines,[JSON.stringify({event:'qavio_api_unavailable'})]);}finally{console.error=original;}});
-  await check('response omits personal information/internal IDs',async()=>{const result=await post('subscribe',{...sub,email:`privacy-${email}`});const json=JSON.stringify(result.body);for(const value of [email,subscriber.id,raw,'phone','tokenHash'])assert.ok(!json.includes(value));});
+  await check('response omits personal information/internal IDs',async()=>{const result=await legacyPost('subscribe',{...sub,email:`privacy-${email}`});const json=JSON.stringify(result.body);for(const value of [email,subscriber.id,raw,'phone','tokenHash'])assert.ok(!json.includes(value));});
   console.log(JSON.stringify({database:'qavio_test',checks:passed,status:'PASS',emailProvider:'in-process test adapter only; no real provider verified'}));
 }
 main().catch(error=>{console.error('INTEGRATION_FAILED',error instanceof assert.AssertionError?error.message:'CHECK_FAILED');process.exitCode=1;}).finally(async()=>{

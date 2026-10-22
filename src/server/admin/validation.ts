@@ -1,3 +1,4 @@
+import {retiredNewsletterHref} from '@/lib/retired-newsletter';
 import {z} from 'zod';
 import sanitizeHtml from 'sanitize-html';
 import {HttpError} from '../http';
@@ -20,6 +21,7 @@ export const contentSchema=z.object({
 export const privacySchema=z.object({type:z.enum(['UNSUBSCRIBE','ACCESS','CORRECT','DELETE']),evidence:short(500).min(10)}).strict();
 export const dataReviewSchema=z.object({version:z.number().int().positive(),status:z.enum(['REVIEWED','CLOSED']),note:short(500).min(10)}).strict();
 export const cleanHtml=(html:string)=>sanitizeHtml(html,{
+  exclusiveFilter:frame=>frame.tag==='a'&&retiredNewsletterHref(frame.attribs.href),
   allowedTags:['p','br','strong','em','u','h2','h3','h4','ul','ol','li','blockquote','a','code','pre'],
   allowedAttributes:{a:['href','title']},allowedSchemes:['https'],allowProtocolRelative:false,
   transformTags:{a:(_tag,attributes)=>({tagName:'a',attribs:{...attributes,rel:'noopener noreferrer'}})},
@@ -27,7 +29,7 @@ export const cleanHtml=(html:string)=>sanitizeHtml(html,{
 export function cleanData(kind:z.infer<typeof contentSchema>['kind'],data:Record<string,unknown>){
   const shape=kind==='FAQ'?z.object({items:z.array(z.object({question:short(300).min(2),answer:short(3000).min(2)}).strict()).max(30)}).strict():
     kind==='VALUES'||kind==='PRODUCT'?z.object({items:z.array(z.object({title:short(120).min(2),text:short(3000).min(2)}).strict()).max(30)}).strict():
-    kind==='CTA'?z.object({label:short(80).min(2),href:z.enum(['/contact','/trial','/request-demo','/request-quote','/solutions','/products','/subscribe'])}).strict():
+    kind==='CTA'?z.object({label:short(80).min(2),href:z.enum(['/contact','/trial','/request-demo','/request-quote','/solutions','/products'])}).strict():
     kind==='CONTACT'?contactChannelsSchema:z.object({}).strict();
   const result=shape.safeParse(data);
   if(!result.success)throw new HttpError(422,'CONTENT_DATA_INVALID');

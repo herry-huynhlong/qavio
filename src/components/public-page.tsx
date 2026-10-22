@@ -27,7 +27,7 @@ export async function FaqList({ extended = false }: { extended?: boolean }) {
     ['Chủ quán quản lý nhân viên như thế nào?', 'QuánPilot phân quyền theo vai trò chủ quán, quản lý, phục vụ, bếp và thu ngân; hỗ trợ đăng ký và thu hồi thiết bị nhân viên. Quyền cụ thể phụ thuộc gói và cấu hình triển khai.'],
     ['QuánPilot có hoạt động offline hoàn toàn không?', 'QAVIO chưa công bố khả năng offline hoàn toàn. Kết nối mạng và điều kiện sử dụng cần được đối chiếu khi tư vấn triển khai.'],
     ['Có thể sử dụng với mọi loại máy in không?', 'Chưa có cam kết tương thích mọi loại máy in. Khả năng in và khổ giấy cần được kiểm tra với thiết bị thực tế trước khi triển khai.'],
-    ['Tôi có thể gửi đăng ký ngay trên website không?', 'Tình trạng tiếp nhận được hiển thị ở từng biểu mẫu. Khi tính năng đang mở, yêu cầu hợp lệ được lưu tại QAVIO; nhận tin cần xác nhận email riêng. Production chỉ mở thu thập sau khi chính sách dữ liệu được phê duyệt.'],
+    ['Tôi có thể gửi đăng ký ngay trên website không?', 'Tình trạng tiếp nhận được hiển thị ở từng biểu mẫu. Khi tính năng đang mở, yêu cầu hợp lệ được lưu tại QAVIO; thông tin được dùng để xử lý yêu cầu của bạn. Production chỉ mở thu thập sau khi chính sách dữ liệu được phê duyệt.'],
   ] : faqs;
   return <div className="faq-list">{items.map(([question, answer]) => <details key={question}><summary>{question}<ChevronDown size={19} aria-hidden="true" /></summary><p>{answer}</p></details>)}</div>;
 }

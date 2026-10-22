@@ -1,3 +1,4 @@
+import {retiredNewsletterHref} from '@/lib/retired-newsletter';
 import {cache} from 'react';
 import {connection} from 'next/server';
 import type {ContentKind} from '@prisma/client';
@@ -8,7 +9,7 @@ export const publishedContent=cache(async(kind:ContentKind,slug:string)=>{
   await connection();
   if(process.env.QAVIO_CMS_ENABLED!=='true')return null;
   if(['PRIVACY','TERMS'].includes(kind)&&process.env.QAVIO_LEGAL_PUBLICATION_APPROVED!=='true')return null;
-  try{const row=await db().contentEntry.findFirst({where:{kind,slug,status:'PUBLISHED',publishedAt:{lte:new Date()}},include:{featuredMedia:{select:{id:true,width:true,height:true,label:true}},category:{select:{name:true,slug:true}}}});return row?{...row,bodyHtml:cleanHtml(row.bodyHtml)}:null;}
+  try{const row=await db().contentEntry.findFirst({where:{kind,slug,status:'PUBLISHED',publishedAt:{lte:new Date()}},include:{featuredMedia:{select:{id:true,width:true,height:true,label:true}},category:{select:{name:true,slug:true}}}});if(row?.kind==='CTA'&&retiredNewsletterHref((row.data as {href?:string})?.href))return null;return row?{...row,bodyHtml:cleanHtml(row.bodyHtml)}:null;}
   catch{console.error(JSON.stringify({event:'qavio_public_cms_unavailable'}));return null;}
 });
 export async function publishedList(kind:'POST'|'PRODUCT',page=1){
