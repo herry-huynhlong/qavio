@@ -1,0 +1,20 @@
+# LAST overlay, after every existing production/runtime overlay. Never use alone.
+# release_guard.py supplies these from the approved artifact/live containers.
+services:
+  web:
+    build: !reset null
+    image: ${RELEASE_IMAGE:?Use release_guard.py and an approved manifest}
+    pull_policy: never
+    logging: {driver: json-file, options: {max-size: 10m, max-file: '3'}}
+  worker:
+    image: ${RELEASE_WORKER_IMAGE:?Pin the existing worker image}
+    pull_policy: never
+    logging: {driver: json-file, options: {max-size: 10m, max-file: '3'}}
+  qavio-postgres:
+    image: ${RELEASE_POSTGRES_IMAGE:?Pin the existing PostgreSQL image}
+    pull_policy: never
+    logging: {driver: json-file, options: {max-size: 10m, max-file: '3'}}
+  migration:
+    image: ${RELEASE_WORKER_IMAGE:?Pin the existing operations image}
+    pull_policy: never
+    logging: {driver: json-file, options: {max-size: 10m, max-file: '3'}}

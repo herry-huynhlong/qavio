@@ -25,6 +25,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Test offline deployment safety
+        run: python3 -m unittest discover -s deploy -p 'test_*.py' -v
       - name: Install locked dependencies
         run: npm install --global pnpm@11.25.0 && pnpm install --frozen-lockfile
       - name: Configure ephemeral QAVIO test databases
@@ -61,14 +63,17 @@ jobs:
           node --import tsx scripts/check-visible-poll.ts
           node --import tsx scripts/pricing-cache-checks.ts
       - name: Build Linux images away from production VPS
+        shell: bash
         run: |
           TAG="${GITHUB_SHA::7}"
           docker build --target runner --label org.opencontainers.image.revision="$GITHUB_SHA" -t "qavio-web:$TAG" .
           mkdir -p release
           docker image inspect "qavio-web:$TAG" --format '{{json .}}' | jq -s '[.[]|{id:.Id,tags:.RepoTags,size:.Size,revision:.Config.Labels["org.opencontainers.image.revision"]}]' > release/images.json
           docker save "qavio-web:$TAG" | gzip -1 > release/qavio-images.tar.gz
-          cd release
-          sha256sum qavio-images.tar.gz > SHA256SUMS
+          pnpm exec tsc --noEmit
+          python3 deploy/release_guard.py package --scope qavio --sha "$GITHUB_SHA" --directory release > release-review.json
+          echo '### Release built; VPS deployment requires separate approval' >> "$GITHUB_STEP_SUMMARY"
+          cat release-review.json >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         with:
           name: qavio-linux-release-${{ github.sha }}
