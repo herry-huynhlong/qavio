@@ -1,0 +1,73 @@
+{
+  "result": "PASS",
+  "pages": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/about",
+      "status": 200
+    },
+    {
+      "path": "/solutions",
+      "status": 200
+    },
+    {
+      "path": "/products",
+      "status": 200
+    },
+    {
+      "path": "/products/quanpilot",
+      "status": 200
+    },
+    {
+      "path": "/pricing",
+      "status": 200
+    },
+    {
+      "path": "/news",
+      "status": 200
+    },
+    {
+      "path": "/contact",
+      "status": 200
+    },
+    {
+      "path": "/trial",
+      "status": 200
+    },
+    {
+      "path": "/faq",
+      "status": 200
+    },
+    {
+      "path": "/privacy",
+      "status": 200
+    },
+    {
+      "path": "/terms",
+      "status": 200
+    },
+    {
+      "path": "/api/health",
+      "status": 200
+    },
+    {
+      "path": "/api/ready",
+      "status": 200
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200
+    }
+  ],
+  "imageSha256": "1d7fb8113c5d9f37c2273d3c72758fb8ebd7ecce0eddeb5bdb63e4e566d2b4f4",
+  "adminGuard": "PASS",
+  "quanpilotHttp": "PASS",
+  "verifiedAt": "2026-10-26T13:59:59.550Z"
+}

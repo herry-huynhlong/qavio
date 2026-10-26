@@ -1,0 +1,288 @@
+[
+  {
+    "cards": [
+      {
+        "left": 113,
+        "overflow": false,
+        "top": 2156,
+        "width": 384
+      },
+      {
+        "left": 521,
+        "overflow": false,
+        "top": 2156,
+        "width": 384
+      },
+      {
+        "left": 929,
+        "overflow": false,
+        "top": 2156,
+        "width": 384
+      },
+      {
+        "left": 317,
+        "overflow": false,
+        "top": 2428,
+        "width": 384
+      },
+      {
+        "left": 725,
+        "overflow": false,
+        "top": 2428,
+        "width": 384
+      }
+    ],
+    "heroLoaded": true,
+    "navHeights": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      42
+    ],
+    "overflow": false,
+    "width": 1440
+  },
+  {
+    "cards": [
+      {
+        "left": 48,
+        "overflow": false,
+        "top": 2130,
+        "width": 374
+      },
+      {
+        "left": 446,
+        "overflow": false,
+        "top": 2130,
+        "width": 374
+      },
+      {
+        "left": 843,
+        "overflow": false,
+        "top": 2130,
+        "width": 374
+      },
+      {
+        "left": 247,
+        "overflow": false,
+        "top": 2402,
+        "width": 374
+      },
+      {
+        "left": 644,
+        "overflow": false,
+        "top": 2402,
+        "width": 374
+      }
+    ],
+    "heroLoaded": true,
+    "navHeights": [
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20,
+      42
+    ],
+    "overflow": false,
+    "width": 1280
+  },
+  {
+    "cards": [
+      {
+        "left": 32,
+        "overflow": false,
+        "top": 2009,
+        "width": 462
+      },
+      {
+        "left": 516,
+        "overflow": false,
+        "top": 2009,
+        "width": 462
+      },
+      {
+        "left": 32,
+        "overflow": false,
+        "top": 2279,
+        "width": 462
+      },
+      {
+        "left": 516,
+        "overflow": false,
+        "top": 2279,
+        "width": 462
+      },
+      {
+        "left": 274,
+        "overflow": false,
+        "top": 2549,
+        "width": 462
+      }
+    ],
+    "heroLoaded": false,
+    "navHeights": [],
+    "overflow": false,
+    "width": 1024
+  },
+  {
+    "cards": [
+      {
+        "left": 32,
+        "overflow": false,
+        "top": 1946,
+        "width": 334
+      },
+      {
+        "left": 388,
+        "overflow": false,
+        "top": 1946,
+        "width": 334
+      },
+      {
+        "left": 32,
+        "overflow": false,
+        "top": 2216,
+        "width": 334
+      },
+      {
+        "left": 388,
+        "overflow": false,
+        "top": 2216,
+        "width": 334
+      },
+      {
+        "left": 210,
+        "overflow": false,
+        "top": 2513,
+        "width": 334
+      }
+    ],
+    "heroLoaded": true,
+    "navHeights": [],
+    "overflow": false,
+    "width": 768
+  },
+  {
+    "cards": [
+      {
+        "left": 20,
+        "overflow": false,
+        "top": 2494,
+        "width": 335
+      },
+      {
+        "left": 20,
+        "overflow": false,
+        "top": 2747,
+        "width": 335
+      },
+      {
+        "left": 20,
+        "overflow": false,
+        "top": 3000,
+        "width": 335
+      },
+      {
+        "left": 20,
+        "overflow": false,
+        "top": 3280,
+        "width": 335
+      },
+      {
+        "left": 20,
+        "overflow": false,
+        "top": 3533,
+        "width": 335
+      }
+    ],
+    "heroLoaded": true,
+    "navHeights": [],
+    "overflow": false,
+    "width": 390
+  },
+  {
+    "cards": [
+      {
+        "left": 20,
+        "overflow": false,
+        "top": 2473,
+        "width": 320
+      },
+      {
+        "left": 20,
+        "overflow": false,
+        "top": 2726,
+        "width": 320
+      },
+      {
+        "left": 20,
+        "overflow": false,
+        "top": 2979,
+        "width": 320
+      },
+      {
+        "left": 20,
+        "overflow": false,
+        "top": 3259,
+        "width": 320
+      },
+      {
+        "left": 20,
+        "overflow": false,
+        "top": 3512,
+        "width": 320
+      }
+    ],
+    "heroLoaded": true,
+    "navHeights": [],
+    "overflow": false,
+    "width": 375
+  },
+  {
+    "cards": [
+      {
+        "left": 16,
+        "overflow": false,
+        "top": 2542,
+        "width": 273
+      },
+      {
+        "left": 16,
+        "overflow": false,
+        "top": 2822,
+        "width": 273
+      },
+      {
+        "left": 16,
+        "overflow": false,
+        "top": 3075,
+        "width": 273
+      },
+      {
+        "left": 16,
+        "overflow": false,
+        "top": 3356,
+        "width": 273
+      },
+      {
+        "left": 16,
+        "overflow": false,
+        "top": 3636,
+        "width": 273
+      }
+    ],
+    "heroLoaded": true,
+    "navHeights": [],
+    "overflow": false,
+    "width": 320
+  }
+]
