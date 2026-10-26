@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {randomBytes,randomUUID} from 'node:crypto';
 import {readFile,unlink} from 'node:fs/promises';
 import {db} from '../src/server/db';
+import {visualSlots} from '../src/lib/visuals';
 import {assertDatabaseUrl} from '../src/server/db-safety';
 import {adminApi} from '../src/server/admin/api';
 import {serveMedia} from '../src/server/admin/media';
@@ -20,7 +21,7 @@ async function main(){
  const admin=await actor('ADMIN'),editor=await actor('EDITOR'),id=await upload(admin,'public/images/qavio/qr-cafe.webp'),nextId=await upload(admin,'public/images/qavio/owner.webp');
  const draft={action:'draft',slot:'hero',mediaId:id,alt:'Khách quét QR minh họa trong môi trường QA.',caption:'Ảnh minh họa AI; QR không hoạt động.',origin:'AI',version:0};
  await check('anonymous cannot read or mutate visuals',async()=>{assert.equal((await call(undefined)).status,401);assert.equal((await call(undefined,'PATCH',draft)).status,401);});
- await check('editor can read all 18 slots including empty ones',async()=>{const r=await call(editor);assert.equal(r.status,200);assert.equal(r.body.slots.length,18);assert.ok(r.body.slots.every((s:{live:unknown;draft:unknown})=>!s.live&&!s.draft));});
+ await check('editor can read every configured slot including empty ones',async()=>{const r=await call(editor);assert.equal(r.status,200);assert.equal(r.body.slots.length,visualSlots.length);assert.ok(r.body.slots.every((s:{live:unknown;draft:unknown})=>!s.live&&!s.draft));});
  await check('CSRF and origin enforced',async()=>{assert.equal((await call(admin,'PATCH',draft,{'x-csrf-token':''})).status,403);assert.equal((await call(admin,'PATCH',draft,{origin:'https://untrusted.invalid'})).status,403);});
  await check('unknown slot and forged fields rejected',async()=>{assert.equal((await call(admin,'PATCH',{...draft,slot:'unknown'})).status,422);assert.equal((await call(admin,'PATCH',{...draft,status:'PUBLISHED'})).status,422);});
  await check('missing media and invalid alt rejected',async()=>{assert.equal((await call(admin,'PATCH',{...draft,mediaId:randomUUID()})).status,422);assert.equal((await call(admin,'PATCH',{...draft,alt:''})).status,422);});
@@ -32,6 +33,7 @@ async function main(){
  await check('replacement draft preserves live image and remains private',async()=>{assert.equal((await call(editor,'PATCH',{...draft,mediaId:nextId,version:1})).status,200);const live=await db().contentEntry.findUniqueOrThrow({where:{kind_slug:{kind:'COMPANY',slug:'visual-hero'}}});assert.equal(live.featuredMediaId,id);await assert.rejects(serveMedia(new Request('http://127.0.0.1:3100/media/'+nextId),nextId));});
  await check('publish requires current draft and live versions',async()=>{assert.equal((await call(admin,'PATCH',{action:'publish',slot:'hero',version:1,liveVersion:1})).status,409);assert.equal((await call(admin,'PATCH',{action:'publish',slot:'hero',version:2,liveVersion:0})).status,409);assert.equal((await call(admin,'PATCH',{action:'publish',slot:'hero',version:2,liveVersion:1})).status,200);});
  await check('public replacement and revisions/audit persist',async()=>{const r=await db().contentEntry.findUniqueOrThrow({where:{kind_slug:{kind:'COMPANY',slug:'visual-hero'}}});assert.equal(r.featuredMediaId,nextId);assert.equal(r.version,2);assert.equal(await db().contentRevision.count({where:{entryId:r.id}}),2);assert.equal(await db().auditLog.count({where:{actorId:admin.id,action:'VISUAL_PUBLISHED'}}),2);assert.equal((await serveMedia(new Request('http://127.0.0.1:3100/media/'+nextId),nextId)).status,200);});
+ await check('About hero is independently editable and publish permission is enforced',async()=>{const about={...draft,slot:'about',mediaId:id,version:0};assert.equal((await call(editor,'PATCH',about)).status,200);assert.equal((await call(editor,'PATCH',{action:'publish',slot:'about',version:1,liveVersion:0})).status,403);assert.equal((await call(admin,'PATCH',{action:'publish',slot:'about',version:1,liveVersion:0})).status,200);const live=await db().contentEntry.findUniqueOrThrow({where:{kind_slug:{kind:'COMPANY',slug:'visual-about'}}});assert.equal(live.featuredMediaId,id);const technology=await db().contentEntry.count({where:{kind:'COMPANY',slug:'visual-technology'}});assert.equal(technology,0);});
  console.log(JSON.stringify({suite:'visual CMS integration',checks,database:'qavio_test',result:'PASS'}));
 }
 main().catch(e=>{console.error(e);process.exitCode=1;}).finally(async()=>{const rows=await db().mediaAsset.findMany({where:{id:{in:media}},select:{storageKey:true}});await db().contentEntry.deleteMany({where:{authorId:{in:users}}});await db().mediaAsset.deleteMany({where:{id:{in:media}}});await db().auditLog.deleteMany({where:{actorId:{in:users}}});await db().adminUser.deleteMany({where:{id:{in:users}}});for(const r of rows)await unlink('.runtime/media/'+r.storageKey).catch(()=>{});await db().$disconnect();});

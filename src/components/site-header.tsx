@@ -14,7 +14,7 @@ export function SiteHeader({quanpilotLoginUrl}:{quanpilotLoginUrl:string}) {
   const header = useRef<HTMLElement>(null);
   useEffect(() => {
     const scroll = () => setScrolled(window.scrollY > 16);
-    const resize = () => { if (window.innerWidth > 1000) setOpen(false); };
+    const resize = () => { if (window.innerWidth > 1200) setOpen(false); };
     scroll();
     window.addEventListener("scroll", scroll, { passive: true });
     window.addEventListener("resize", resize);

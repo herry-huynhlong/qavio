@@ -40,7 +40,7 @@ svg { flex-shrink: 0; }
 .site-header.is-scrolled { box-shadow: 0 8px 30px #0003; backdrop-filter: blur(14px); }
 .header-inner { display: flex; align-items: center; justify-content: space-between; min-height: 86px; gap: 24px; }
 .navigation { display: flex; align-items: center; gap: 27px; }
-.navigation > a { font-size: 12px; color: #d4d9df; transition: color .2s; }
+.navigation > a { white-space: nowrap; font-size: 12px; color: #d4d9df; transition: color .2s; }
 .navigation > a:hover { color: var(--gold-light); }
 .navigation > .button { color: var(--navy); margin-left: 7px; }
 .menu-toggle { display: none; background: none; color: var(--ivory); border: 1px solid var(--line); border-radius: 4px; width: 44px; height: 44px; align-items: center; justify-content: center; }
@@ -563,3 +563,14 @@ body:has(.floating-contact) .form-actions { padding-right:72px; scroll-margin-bo
 .floating-contact-toggle{position:relative}.floating-contact-phone-badge{position:absolute;right:-2px;bottom:-2px;background:#d5b56a;border:2px solid #101c2c;border-radius:50%;box-sizing:content-box;padding:3px}
 
 .trial-layout{max-width:980px}.trial-card fieldset{border:0;padding:0;margin:2rem 0}.trial-card legend{font-size:1.3rem;font-weight:600;color:var(--gold);margin-bottom:1.2rem}.trial-identity{margin:2rem 0}.trial-identity p{margin:1rem 0}.trial-success dl{display:grid;gap:1rem;margin:2rem 0}.trial-success dl>div{display:grid;grid-template-columns:180px 1fr;gap:1rem;border-bottom:1px solid #ffffff20;padding-bottom:.8rem}.trial-success dt{color:var(--gold)}.trial-success dd{margin:0;overflow-wrap:anywhere}.trial-card input,.trial-card button{max-width:100%}.trial-card small{display:block}.trial-card fieldset:disabled{opacity:.65}@media(max-width:600px){.trial-success dl>div{grid-template-columns:1fr;gap:.3rem}.trial-card{padding:1.25rem}.trial-card .form-grid{grid-template-columns:1fr}.trial-card .button{width:100%}}
+
+/* Switch to the menu before desktop navigation becomes cramped. */
+@media (min-width: 1001px) and (max-width: 1200px) {
+  .menu-toggle { display: flex; }
+  .header-inner { min-height: 76px; }
+  .navigation { display: none; position: absolute; left: 0; right: 0; top: 100%; padding: 20px 32px 28px; border-bottom: 1px solid #d4af6740; background: #101f31; box-shadow: 0 20px 35px #0005; }
+  .navigation.is-open { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+  .navigation > a { padding: 11px 0; font-size: 14px; }
+  .navigation .mobile-home { display: block; }
+  .navigation > .button { margin: 14px 0 0; padding: 13px 20px; }
+}

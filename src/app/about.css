@@ -1,0 +1,30 @@
+/* About only: room for people, technology and the five brand values. */
+.about-hero-media { min-width:0; position:relative; padding-bottom:22px; }
+.about-hero-media .visual-photo { aspect-ratio:4/3; border-radius:18px; border:1px solid #d4af6733; }
+.about-hero-media .visual-photo img { width:100%; height:100%; object-fit:contain; }
+.about-hero-signature { position:absolute; bottom:0; left:24px; background:#132338; border:1px solid #d4af6755; border-radius:6px; padding:13px 20px; color:#e6c98c; font-size:12px; letter-spacing:1px; }
+.about-values-intro { max-width:700px; }
+.about-values-intro h2 { margin-top:16px; }
+.about-values-intro p { margin-top:20px; color:#bdc9d9; font-size:16px; }
+.about-value-grid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:24px; margin-top:44px; }
+.about-value-card { grid-column:span 2; min-width:0; padding:30px; border:1px solid #d4af672b; border-radius:14px; background:linear-gradient(135deg,#172a40,#112033); transition:border-color .2s,transform .2s; }
+.about-value-card:nth-child(4) { grid-column:2 / span 2; }
+.about-value-card:hover { border-color:#d4af6770; transform:translateY(-3px); }
+.about-value-top { display:flex; align-items:center; justify-content:space-between; color:#e4c383; margin-bottom:28px; }
+.about-value-top span { font-size:28px; font-weight:400; line-height:1; }
+.about-value-name { display:block; color:#d4af67; font-size:11px; letter-spacing:1.8px; line-height:1.6; }
+.about-value-card h3 { font-size:25px; line-height:1.3; margin-top:10px; }
+.about-value-card p { margin-top:16px; color:#c0cddd; font-size:15px; line-height:1.8; }
+@media(max-width:1100px) {
+ .about-value-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:22px; }
+ .about-value-card:nth-child(4) { grid-column:span 2; }
+ .about-value-card:last-child { grid-column:2 / span 2; }
+}
+@media(max-width:600px) {
+ .about-value-grid { grid-template-columns:minmax(0,1fr); gap:18px; margin-top:30px; }
+ .about-value-card,.about-value-card:nth-child(4),.about-value-card:last-child { grid-column:auto; padding:26px; }
+ .about-value-top { margin-bottom:23px; }
+ .about-values-intro p { font-size:15px; }
+ .about-hero-signature { left:16px; font-size:10px; padding:12px 15px; }
+}
+@media(prefers-reduced-motion:reduce) { .about-value-card { transition:none; } .about-value-card:hover { transform:none; } }
