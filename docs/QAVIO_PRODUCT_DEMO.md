@@ -117,3 +117,42 @@ Bản production đã được xác minh như dưới đây. Rollback ứng dụ
 Service không có Docker healthcheck không được ghi nhầm là healthy. Không sửa source QuánPilot hoặc dữ liệu production để chụp ảnh. Toàn bộ giao dịch minh họa chỉ nằm trong clone local.
 
 **Kết luận:** bộ demo của chính QAVIO đã lên [trang QuánPilot](https://qavio.site/products/quanpilot), đúng phạm vi BASIC, có nguồn gốc từ nghiệp vụ thật. Chưa có ảnh bếp/thu ngân/quản lý PRO vì entitlement không cho phép; không tự nâng gói. Không tạo cửa hàng production mới hoặc doanh thu giả trong production.
+
+
+## Mở rộng lịch sử và gallery — 27/10/2026
+
+### Phạm vi và nguồn dữ liệu
+- Dùng lại QAVIO `thien-dao`, ID `cmvhrl57d0000p90lghvax8if`, chỉ trên `127.0.0.1:55432/qavio_product_demo_test`.
+- Không ghi Payment vào production. TRAIN/BASIC, OWNER + hai WAITER giữ nguyên; không cấp PRO.
+- 13 bill trước tạo qua luồng QR/nghiệp vụ giữ nguyên. Thêm **408 bill lịch sử tổng hợp** bằng fixture riêng `Restaurant/scripts/demo/qavio-history.ts`; không mô tả chúng là giao dịch khách thật.
+- Fixture chỉ chấp nhận URL test cố định và ACK riêng, IDs/idempotency/invoice prefix DEMO, nguồn Order/OrderItem, POS bill calculation và snapshot đầy đủ. Không UPDATE/DELETE bill đã tồn tại. Kiểm tra hash bảo vệ 13 bill gốc và dữ liệu fixture sau chạy lại; rerun không sinh trùng.
+- Khoảng lịch sử 01/01–26/10/2026, cộng hoạt động demo 27/10. Có ngày đông/vắng/không giao dịch, ba phương thức CASH/CARD/OTHER, nhiều order/phiên. Không hóa đơn điện tử/gateway/thu tiền thật.
+
+### Tổng hợp đã đối chiếu PostgreSQL
+| Kỳ (Asia/Ho_Chi_Minh, mốc 27/10/2026) | Bill | Doanh thu VND |
+|---|---:|---:|
+| Hôm nay | 13 | 2.084.000 |
+| Hôm qua | 2 | 465.000 |
+| 7 ngày gần nhất | 28 | 7.129.000 |
+| Tuần này | 15 | 2.549.000 |
+| Tuần trước | 15 | 4.896.000 |
+| Tháng này | 70 | 19.603.000 |
+| Tháng trước | 38 | 11.890.000 |
+| Quý IV đến thời điểm chụp | 70 | 19.603.000 |
+| Năm | 421 | 128.144.000 |
+| 01/02–31/03 | 75 | 23.379.000 |
+
+Cả 10 kỳ: tổng Payment = chi tiết bill = tổng bucket = tổng phương thức. Tenant không tồn tại trả 0. 12 nhóm audit Phase0 không có cảnh báo trong clone. Đây không phải bằng chứng dữ liệu production sạch. Tổng năm CASH54.418.000, CARD43.331.000, OTHER30.395.000.
+
+### Ảnh và chức năng thực tế
+- 6 ảnh mới `history-dashboard/today/week/month/year/bills.webp`, ảnh thô lưu riêng trong `.runtime/product-demo-history`; chuyển WebP lossless, crop tập trung nội dung, không chỉnh số liệu. Giữ nguồn và crop manifest trong chứng cứ.
+- Tái sử dụng ảnh bàn, đơn, QR/menu/giỏ và WAITER/team từ cùng clone/ca demo trước vì các màn hình này không đổi. Không tuyên bố đã chụp lại tất cả.
+- Gallery 7 nhóm, chọn tuần/tháng và lịch sử bill; một khung lớn, lightbox vừa khung/kích thước gốc, cuộn và đóng bằng bàn phím. Gỡ cặp dashboard/report cạnh nhau ở câu chuyện chủ quán. Shared default ảnh dashboard áp dụng toàn website; CMS override vẫn được tôn trọng.
+- Public chỉ dùng ảnh giao diện 4 kỳ hiện có trên production và xu hướng 7 ngày sẵn có ở Dashboard. Không quảng bá bộ lọc mới là đã phát hành.
+- Chủ dự án chọn **bổ sung bộ lọc riêng, chưa deploy QuánPilot**. Mười bộ lọc được triển khai/test local riêng trong Restaurant, xem `docs/REPORT_PERIOD_FILTERS.md`; Dashboard giữ ý nghĩa hoạt động hôm nay, báo cáo là nơi chọn kỳ.
+
+### Kiểm thử và phát hành
+- QuánPilot: 65 fixed timezone ranges + bộ mở rộng/DST/custom/leap/quarter/previous; integration chỉ đọc 10 kỳ; 11 PostgreSQL concurrency/tenant/financial regression; paid-bill/invoice-print/customer-name; lint/typecheck/build có datasource test cô lập PASS.
+- QAVIO: lint/typecheck/build PASS; CMS visuals14 ca PASS; public13 trang341 links/SEO/sitemap/404 PASS; browser320/375/390/768/1440 không tràn ngang; chọn gallery/lightbox/zoom mobile/console PASS.
+- Không migration, không thay auth/payment/subscription/giá, không deploy Restaurant.
+- Phát hành QAVIO: đang chuẩn bị CI image-only; chỉ đánh dấu deployed sau source/image/checksum và production smoke thực tế.

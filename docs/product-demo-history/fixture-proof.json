@@ -1,0 +1,64 @@
+{
+  "dataset": "qavio-history-v1-20261027-",
+  "syntheticHistory": true,
+  "source": "fixture, not customer UI transactions",
+  "database": "qavio_product_demo_test",
+  "restaurantId": "cmvhrl57d0000p90lghvax8if",
+  "slug": "thien-dao",
+  "start": "2026-01-01",
+  "end": "2026-10-26",
+  "fixturePaidBills": 408,
+  "existingRecordsUnchanged": true,
+  "baselineSha256": "8cd1917e564c239b00ec22f21293f98c5a9200b86b9d54a611251a9e6b067be0",
+  "idempotentRerun": true,
+  "audit": [
+    {
+      "code": "PAID_WITHOUT_PAID_AT",
+      "count": 0
+    },
+    {
+      "code": "BILL_TOTAL_MISMATCH",
+      "count": 0
+    },
+    {
+      "code": "MISSING_BILL_SNAPSHOT",
+      "count": 0
+    },
+    {
+      "code": "MULTIPLE_PAID_PER_SESSION",
+      "count": 0
+    },
+    {
+      "code": "PAYMENT_TENANT_MISMATCH",
+      "count": 0
+    },
+    {
+      "code": "ORDER_TENANT_MISMATCH",
+      "count": 0
+    },
+    {
+      "code": "ITEM_TENANT_MISMATCH",
+      "count": 0
+    },
+    {
+      "code": "DUPLICATE_INVOICE_NUMBER",
+      "count": 0
+    },
+    {
+      "code": "DUPLICATE_IDEMPOTENCY_KEY",
+      "count": 0
+    },
+    {
+      "code": "LEGACY_INCOMPLETE",
+      "count": 0
+    },
+    {
+      "code": "PAID_SOURCE_TOTAL_MISMATCH",
+      "count": 0
+    },
+    {
+      "code": "PAID_SESSION_STATE_MISMATCH",
+      "count": 0
+    }
+  ]
+}

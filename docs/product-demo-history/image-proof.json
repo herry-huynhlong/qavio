@@ -1,0 +1,65 @@
+[
+  {
+    "source": "dashboard.png",
+    "file": "history-dashboard.webp",
+    "width": 1425,
+    "height": 2015,
+    "crop": null,
+    "editedData": false
+  },
+  {
+    "source": "reports-today.jpg",
+    "file": "history-today.webp",
+    "width": 755,
+    "height": 850,
+    "crop": {
+      "left": 335,
+      "top": 90,
+      "width": 755,
+      "height": 850
+    },
+    "editedData": false
+  },
+  {
+    "source": "reports-week.jpg",
+    "file": "history-week.webp",
+    "width": 755,
+    "height": 715,
+    "crop": {
+      "left": 335,
+      "top": 90,
+      "width": 755,
+      "height": 715
+    },
+    "editedData": false
+  },
+  {
+    "source": "reports-month.jpg",
+    "file": "history-month.webp",
+    "width": 755,
+    "height": 715,
+    "crop": {
+      "left": 335,
+      "top": 90,
+      "width": 755,
+      "height": 715
+    },
+    "editedData": false
+  },
+  {
+    "source": "reports-year.png",
+    "file": "history-year.webp",
+    "width": 1425,
+    "height": 1600,
+    "crop": null,
+    "editedData": false
+  },
+  {
+    "source": "history.jpg",
+    "file": "history-bills.webp",
+    "width": 1329,
+    "height": 989,
+    "crop": null,
+    "editedData": false
+  }
+]
