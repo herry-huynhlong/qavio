@@ -1,6 +1,6 @@
 # QAVIO — bộ demo sản phẩm QuánPilot
 
-Ngày thực hiện: 27/10/2026. Trạng thái: kiểm thử local đạt, đang chuẩn bị phát hành QAVIO; chưa ghi hoàn thành production.
+Ngày thực hiện: 27/10/2026. Trạng thái: **đã phát hành QAVIO production, kiểm tra sau deploy PASS**. Bộ ảnh đạt phạm vi TRAIN/BASIC; không giả lập quyền PRO.
 
 ## Cửa hàng và ranh giới dữ liệu
 
@@ -84,4 +84,36 @@ Chỉ phát hành QAVIO web sau CI Linux; không build trên VPS, không recreat
 
 Image QAVIO trước phát hành: `sha256:4f790772367544dd8d2a5fde349bcb31a0d6ad11958ade07cdd9eeb5069936e2`, giữ để rollback. VPS đầu lượt: ~5,7GiB trống, sử dụng76%, MemAvailable466MiB. Gate sẽ đánh giá lại theo kích thước artifact thực; nếu không đủ thì dừng.
 
-Commit/CI/image/deploy và smoke production sẽ được cập nhật sau khi thực sự phát hành. Rollback ứng dụng dùng image-only snapshot + environment cũ, chỉ recreate web `--no-build --pull never --no-deps`; không restore DB để đảo thay đổi ảnh/UI.
+Bản production đã được xác minh như dưới đây. Rollback ứng dụng dùng image-only snapshot + environment cũ, chỉ recreate web `--no-build --pull never --no-deps`; không restore DB để đảo thay đổi ảnh/UI.
+
+## Kết quả production
+
+- Source phát hành: **bb03cb3e9217b42b13f7ed8dc3244e48ebb25c84**, gồm bộ ảnh/source 7feeb49 và bản giữ ảnh lossless. CI đầu 40454816651 được hủy trước deploy để dùng bản chốt.
+- [CI Linux 40455096816](https://github.com/herry-huynhlong/qavio/actions/runs/40455096816): **success**, gồm kiểm thử, Docker build trên GitHub, TypeScript và package artifact.
+- [Release review 40455335375](https://github.com/herry-huynhlong/qavio/actions/runs/40455335375): **success**; SHA, checksum, platform và manifest đã được đối chiếu trước load.
+- Image **qavio-web:bb03cb3**; ID chạy thực tế `sha256:9ee689e3ecc0333d2d963f25aa2a2e94c620ab2c89cdb77937c5244d99d97f50`.
+- Config digest `sha256:75ce6bc1f589c736115f67de5aeca6b89fb9348fdae4ebebbdff2d862de62295`.
+- Manifest SHA256 `6daf5bede3d477942e52d9d695b6a51d60b763b4c540552b5ef3889d99af8ac3`; archive SHA256 `e566ee396a776a1f59132ff84235beb9f6ad4158f725324a3b5700aabb9a1afb`.
+- GitHub artifact digest `sha256:dcc050985a85ac10578fd34970b3a2ffaee41a5ab1a59ad2e69634aae5618583`. Archive135.679.149 bytes, layer disk upper bound377.920.000 bytes.
+- Chỉ recreate **qavio-web-1**, pin image ID, không build/pull/migration. Application environment và mounts không đổi; Node version theo image CI được kiểm chứng. Sáu container còn lại giữ ID/start/image.
+- Backup mới mã hóa, off-host/checksum/restore cô lập PASS, 5 migration. Giữ image rollback4f790772… và snapshot private tại `/opt/websites/qavio/.runtime/product-demo-release-20261027/snapshot/`.
+- Disk free **6.020.034.560 bytes (~5,61GiB)** trước release, **5.816.762.368 bytes (~5,42GiB)** sau kiểm tra; giữ reserve và rollback. Không dọn backup/volume/image ứng dụng khác. MemAvailable sau smoke khoảng530MiB, không dùng mẫu nhàn rỗi này làm cam kết tải cao.
+- Web healthy, restart0/OOM=false. Không có marker Error:/P2028/deadlock/FATAL ERROR trong log từ lần start mới đến mẫu kiểm tra; không thay thế giám sát dài hạn.
+- HTTP200: Home, Products, QuánPilot, About, Solutions, Pricing, Contact, Trial, Admin login. HTML được kiểm tra không còn tham chiếu 5 screenshot Thiên Đảo cũ. **9 ảnh public mới đều SHA256 khớp**.
+- QAVIO health/readiness PASS; QuánPilot login/public pricing PASS. Probe giả định `/api/ready` của QuánPilot ban đầu404; đã dùng endpoint thực tế, không sửa app để tạo route kiểm thử.
+- Browser production: gallery mới, Dashboard2.084.000đ, ảnh lossless1425px, chọn Báo cáo, zoom/pan mobile390px, Escape/trả focus PASS; không tràn ngang hoặc console error trong lượt cuối. Bằng chứng local ở `.runtime/product-demo/qavio-production-gallery.png` và qavio-production-mobile.png, ngoài Git.
+- CONTACT/DEMO tiếp tục mở; QUOTE/newsletter/email đóng; trial/OAuth/pricing/indexing không đổi. Không gửi Lead/trial/email/giao dịch QA vào production.
+
+| Container | Sau deploy | Ảnh hưởng |
+| --- | --- | --- |
+| qavio-web-1 | Running / healthy | Image mới bb03cb3 |
+| qavio-worker-1 | Running / healthy | Giữ nguyên |
+| qavio-qavio-postgres-1 | Running / healthy | Giữ container/volume |
+| restaurant-app-1 | Running, HTTP smoke PASS | Giữ image Phase0 |
+| restaurant-maintenance-worker-1 | Running | Giữ nguyên |
+| restaurant-postgres-1 | Running / healthy | Giữ container/volume |
+| longh-portfolio | Running | Giữ nguyên |
+
+Service không có Docker healthcheck không được ghi nhầm là healthy. Không sửa source QuánPilot hoặc dữ liệu production để chụp ảnh. Toàn bộ giao dịch minh họa chỉ nằm trong clone local.
+
+**Kết luận:** bộ demo của chính QAVIO đã lên [trang QuánPilot](https://qavio.site/products/quanpilot), đúng phạm vi BASIC, có nguồn gốc từ nghiệp vụ thật. Chưa có ảnh bếp/thu ngân/quản lý PRO vì entitlement không cho phép; không tự nâng gói. Không tạo cửa hàng production mới hoặc doanh thu giả trong production.
