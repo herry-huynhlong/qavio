@@ -1,0 +1,242 @@
+{
+  "capturedOn": "2026-10-27",
+  "environment": "isolated localhost database qavio_product_demo_test; no production demo writes",
+  "applicationSource": "cd82e8d",
+  "businessData": {
+    "restaurant": {
+      "id": "cmvhrl57d0000p90lghvax8if",
+      "slug": "thien-dao",
+      "name": "QAVIO",
+      "plan": "TRAIN",
+      "planEntitlement": "BASIC",
+      "settings": {
+        "timezone": "Asia/Ho_Chi_Minh"
+      }
+    },
+    "invariants": {
+      "singleTenant": true,
+      "paidCount": 13,
+      "paidRevenue": 2084000,
+      "paidAtComplete": true,
+      "snapshotsComplete": true,
+      "totalsMatch": true,
+      "paidSessionsClosed": true,
+      "uniquePaidSession": true,
+      "orders": 20,
+      "servedItems": 31,
+      "assignedWaiterItems": 7,
+      "activeSessions": 5,
+      "staff": [
+        {
+          "_count": 1,
+          "role": "OWNER"
+        },
+        {
+          "_count": 2,
+          "role": "WAITER"
+        }
+      ],
+      "methods": [
+        {
+          "_sum": {
+            "grandTotal": 644000
+          },
+          "_count": 5,
+          "paymentMethod": "CASH"
+        },
+        {
+          "_sum": {
+            "grandTotal": 690000
+          },
+          "_count": 4,
+          "paymentMethod": "CARD"
+        },
+        {
+          "_sum": {
+            "grandTotal": 750000
+          },
+          "_count": 4,
+          "paymentMethod": "OTHER"
+        }
+      ]
+    }
+  },
+  "permissions": [
+    {
+      "path": "/thien-dao/admin",
+      "blocked": true
+    },
+    {
+      "path": "/thien-dao/admin/reports",
+      "blocked": true
+    },
+    {
+      "path": "/thien-dao/kitchen",
+      "blocked": true
+    },
+    {
+      "path": "/thien-dao/cashier",
+      "blocked": true
+    }
+  ],
+  "responsive": [
+    {
+      "clientWidth": 305,
+      "overflow": false,
+      "scrollWidth": 305,
+      "width": 320
+    },
+    {
+      "clientWidth": 360,
+      "overflow": false,
+      "scrollWidth": 360,
+      "width": 375
+    },
+    {
+      "clientWidth": 375,
+      "overflow": false,
+      "scrollWidth": 375,
+      "width": 390
+    },
+    {
+      "clientWidth": 753,
+      "overflow": false,
+      "scrollWidth": 753,
+      "width": 768
+    },
+    {
+      "clientWidth": 1425,
+      "overflow": false,
+      "scrollWidth": 1425,
+      "width": 1440
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "dashboard",
+      "file": "public/images/qavio/demo-dashboard.webp",
+      "width": 1425,
+      "height": 1080,
+      "sourcePngSha256": "219b9f23f63c05ca80f4aa2786adf1da758f15b512915e9def34330ae7a95b69",
+      "webpSha256": "098381dc856db01e855c31e6a0521763c2cf9f1b5d8049cc3fd49d8d2adcfe4c",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 1425,
+        "height": 1080
+      }
+    },
+    {
+      "name": "reports",
+      "file": "public/images/qavio/demo-reports.webp",
+      "width": 1425,
+      "height": 2001,
+      "sourcePngSha256": "bbabbeb99385315ef9fbbdb21b36b1277649ebbb6b802045e09489106bbe6a60",
+      "webpSha256": "54b12f8590e9ac719087431307c02ea8e2ea2d7345c7c59ada8fc4c3dd6468be",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 1425,
+        "height": 2001
+      }
+    },
+    {
+      "name": "tables",
+      "file": "public/images/qavio/demo-tables.webp",
+      "width": 1425,
+      "height": 1597,
+      "sourcePngSha256": "b6e63a021fc77256a0a029333e3fa2790372029c51d25d3051ab5d0b493ec891",
+      "webpSha256": "b1691bfea1777071b3e3cc7db68dc029bb113b98c8873b73511fc3c79b381dd5",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 1425,
+        "height": 1597
+      }
+    },
+    {
+      "name": "orders",
+      "file": "public/images/qavio/demo-orders.webp",
+      "width": 1440,
+      "height": 1000,
+      "sourcePngSha256": "82a5da814940ec3e872410d759ef60334c4759b303c1dadb6e041c95f7f634fd",
+      "webpSha256": "8a318fe87c1d70a094f6267809373cd2ced464b40af8fc330aa2c23477cbd99a",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "staff-admin",
+      "file": "public/images/qavio/demo-staff-admin.webp",
+      "width": 1440,
+      "height": 1000,
+      "sourcePngSha256": "709f88af1452e73946ae0ad9aa193cf44f0c357ee3982253ef6be35cc0c4af9d",
+      "webpSha256": "3a0024899c86e4d6e3c194a29f885b5793493600ec1c0e692f53e0c684a884eb",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 1440,
+        "height": 1000
+      }
+    },
+    {
+      "name": "menu-admin",
+      "file": "public/images/qavio/demo-menu-admin.webp",
+      "width": 1425,
+      "height": 3722,
+      "sourcePngSha256": "c3f313f4e2f22469dbc7938786251557adcded8eb9cceefb499d79af34ae81c8",
+      "webpSha256": "4e5540ad4a6a0e30067b87e81a70eb349cd9200a5180ecb336c3d61255f09a39",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 1425,
+        "height": 3722
+      }
+    },
+    {
+      "name": "menu",
+      "file": "public/images/qavio/demo-menu.webp",
+      "width": 375,
+      "height": 812,
+      "sourcePngSha256": "b07aea5dfd8d663baefe43cef8e5b93763433335eba5ba9641c5d41e29e94d22",
+      "webpSha256": "3fa62953de616a46d5cc46f85fd837b1d2aab78cefdd7376ee93e8f1cec84ead",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 375,
+        "height": 812
+      }
+    },
+    {
+      "name": "cart",
+      "file": "public/images/qavio/demo-cart.webp",
+      "width": 375,
+      "height": 812,
+      "sourcePngSha256": "d24af389d1c9d4138433372040890b1456b8d13e31f7b567cb9dd1efb8c74397",
+      "webpSha256": "15b023c278c56bc94388be7eae91bfa6cf8050af74f3958a901decff77ff2d0c",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 375,
+        "height": 812
+      }
+    },
+    {
+      "name": "service",
+      "file": "public/images/qavio/demo-service.webp",
+      "width": 1440,
+      "height": 680,
+      "sourcePngSha256": "cf6691640e2ce5fa042c0052a788ceb8ee91e01eba620f22aab5d0fab19a8faa",
+      "webpSha256": "85b587f35253e4bb7efd4de65923d71d3af1428c2f6a6c486d1223cb11d70273",
+      "crop": {
+        "left": 0,
+        "top": 0,
+        "width": 1440,
+        "height": 680
+      }
+    }
+  ]
+}

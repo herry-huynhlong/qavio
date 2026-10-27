@@ -18,6 +18,8 @@ export const visualSlots = [
   ['cashier-screen','Thu ngân — screenshot thật',null,'Giao diện thu ngân QuánPilot.'],
   ['dashboard-screen','Dashboard — screenshot thật',null,'Dashboard chủ quán QuánPilot.'],
   ['reports-screen','Báo cáo — screenshot thật',null,'Báo cáo doanh thu QuánPilot.'],
+  ['orders-screen','Đơn hàng — screenshot thật',null,'Danh sách đơn hàng theo bàn QuánPilot.'],
+  ['staff-screen','Nhân viên — screenshot thật',null,'Quản lý đội ngũ nhân viên QuánPilot.'],
 ] as const;
 export type VisualSlot = typeof visualSlots[number][0];
 export type VisualImage = {src:string;width:number;height:number;alt:string;caption:string;origin:'AI'|'SCREENSHOT'|'PHOTO'};
@@ -41,10 +43,14 @@ export function naturalVisualCaption(caption:string,slot:VisualSlot){
 }
 export function defaultVisuals():VisualImages {
   return {...Object.fromEntries(visualSlots.filter(s=>s[2]).map(([key,,file,alt])=>[key,{src:`/images/qavio/${file}.webp`,width:file==='qr-cafe'||file==='technology'||file==='about-business-v2'?1600:1200,height:file==='about-business-v2'?1200:900,alt,caption:photoCaptions[file||'technology'],origin:'AI'}])),
-    'dashboard-screen':{src:'/images/qavio/dashboard-thien-dao.webp',width:953,height:760,alt:'Tổng quan QuánPilot của quán Thiên Đảo với quyền TRAIN/BASIC.',caption:'Tổng quan hoạt động nhà hàng trên QuánPilot.',origin:'SCREENSHOT'},
-    'service-screen':{src:'/images/qavio/service-thien-dao.webp',width:1233,height:600,alt:'Màn phục vụ QuánPilot với các tab món chờ đi, yêu cầu khách và bảng trạng thái bàn.',caption:'Theo dõi món chờ, yêu cầu khách và trạng thái bàn trong ca phục vụ.',origin:'SCREENSHOT'},
-    'tables-screen':{src:'/images/qavio/tables-thien-dao.webp',width:953,height:620,alt:'Sơ đồ bàn khu vực A với trạng thái đang phục vụ và đang trống.',caption:'Theo dõi trạng thái bàn theo từng khu vực.',origin:'SCREENSHOT'},
-    'reports-screen':{src:'/images/qavio/reports-thien-dao.webp',width:968,height:520,alt:'Báo cáo doanh thu và danh sách thanh toán QuánPilot khi chưa có hóa đơn.',caption:'Xem doanh thu và tra cứu các khoản thanh toán.',origin:'SCREENSHOT'},
-    'menu-admin-screen':{src:'/images/qavio/menu-admin-thien-dao.webp',width:953,height:730,alt:'Quản lý thực đơn QuánPilot với ảnh món, tên món, giá bán và trạng thái.',caption:'Cập nhật món, giá bán và trạng thái phục vụ.',origin:'SCREENSHOT'},
+    'dashboard-screen':{src:'/images/qavio/demo-dashboard.webp',width:1425,height:1080,alt:'Dashboard QAVIO với doanh thu minh họa 2.084.000đ, 13 bill, 20 lượt gọi món và 5 bàn đang phục vụ.',caption:'Giao diện QuánPilot với dữ liệu minh họa.',origin:'SCREENSHOT'},
+    'reports-screen':{src:'/images/qavio/demo-reports.webp',width:1425,height:2001,alt:'Báo cáo QAVIO với 13 bill minh họa và cơ cấu thanh toán tiền mặt, thẻ, khác.',caption:'Giao diện QuánPilot với dữ liệu minh họa.',origin:'SCREENSHOT'},
+    'tables-screen':{src:'/images/qavio/demo-tables.webp',width:1425,height:1597,alt:'Sơ đồ 10 bàn QAVIO, gồm bàn đang phục vụ, chờ thanh toán và bàn trống.',caption:'Giao diện QuánPilot với dữ liệu minh họa.',origin:'SCREENSHOT'},
+    'service-screen':{src:'/images/qavio/demo-service.webp',width:1440,height:680,alt:'Nhân viên phục vụ QAVIO nhận món và theo dõi yêu cầu của khách.',caption:'Giao diện QuánPilot với dữ liệu minh họa.',origin:'SCREENSHOT'},
+    'menu-admin-screen':{src:'/images/qavio/demo-menu-admin.webp',width:1425,height:3722,alt:'Thực đơn QAVIO với ảnh món, giá bán và trạng thái phục vụ.',caption:'Giao diện QuánPilot với dữ liệu minh họa.',origin:'SCREENSHOT'},
+    'menu-screen':{src:'/images/qavio/demo-menu.webp',width:375,height:812,alt:'Menu QR của QAVIO trên điện thoại với ảnh món và giá bán.',caption:'Giao diện QuánPilot với dữ liệu minh họa.',origin:'SCREENSHOT'},
+    'cart-screen':{src:'/images/qavio/demo-cart.webp',width:375,height:812,alt:'Khách chọn ba món trên menu QR QAVIO, tổng tạm tính 210.000đ.',caption:'Giao diện QuánPilot với dữ liệu minh họa.',origin:'SCREENSHOT'},
+    'orders-screen':{src:'/images/qavio/demo-orders.webp',width:1440,height:1000,alt:'Danh sách đơn hàng của QAVIO, tổ chức theo bàn và lượt gọi món.',caption:'Giao diện QuánPilot với dữ liệu minh họa.',origin:'SCREENSHOT'},
+    'staff-screen':{src:'/images/qavio/demo-staff-admin.webp',width:1440,height:1000,alt:'Hai nhân viên phục vụ QAVIO đang trong ca, được chủ quán quản lý theo quyền BASIC.',caption:'Giao diện QuánPilot với dữ liệu minh họa.',origin:'SCREENSHOT'},
   };
 }

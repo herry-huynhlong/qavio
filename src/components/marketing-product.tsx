@@ -6,6 +6,7 @@ import {VisualFigure} from './visual-media';
 import {ScreenshotViewer} from './screenshot-viewer';
 import {TrialLink,TrialBanner} from './trial-cta';
 import {RestaurantFlow} from './restaurant-flow';
+import {ProductDemoGallery} from './product-demo-gallery';
 import {publishedContent} from '@/server/public-content';
 import {publishedVisuals} from '@/server/visuals';
 import {CmsBody} from './cms-body';
@@ -24,6 +25,7 @@ export async function MarketingProduct(){const [images,entry]=await Promise.all(
  <section className="visual-intro-strip"><div className="container"><p><strong>QuánPilot.</strong> Dành cho nhà hàng, quán ăn và quán cà phê.</p><div className="visual-product-actions">{site.quanpilotUrl&&<a href={site.quanpilotUrl} className="text-link" target="_blank" rel="noopener noreferrer">Truy cập QuánPilot <span className="sr-only">(mở tab mới)</span><ArrowUpRight size={16}/></a>}<TrialLink/></div></div></section>
  {entry?.bodyHtml&&<section className="section"><div className="container legal-document"><CmsBody html={entry.bodyHtml}/></div></section>}
  <RestaurantFlow/>
+ <ProductDemoGallery images={images}/>
  {stories.map((s,i)=><section key={s.photo} className={`section visual-story ${i%2?'visual-story-tint':''}`}><div className={`container visual-split ${i%2?'reverse':''}`}><div className="visual-story-images"><VisualFigure image={images[s.photo]} showCaption={false}/><ScreenshotViewer image={images[s.shot]} title={s.title}/>{i===5&&<ScreenshotViewer image={images['menu-admin-screen']} title="Quản lý thực đơn"/>}{i===0&&<ScreenshotViewer image={images['cart-screen']} title="Giỏ hàng" phone/>}</div><div className="visual-copy"><span className="eyebrow">0{i+1} / TRẢI NGHIỆM SẢN PHẨM</span><h2>{s.title}</h2><p>{s.text}</p><ul className="visual-benefits">{s.benefits.map(b=><li key={b}><Check size={17}/>{b}</li>)}</ul>{i===4&&<ScreenshotViewer image={images['dashboard-screen']} title="Dashboard chủ quán"/>}</div></div></section>)}
  <section className="section"><div className="container"><div className="visual-section-top"><span className="eyebrow">KHÁM PHÁ THEO VAI TRÒ</span><h2>Mỗi người một nhiệm vụ.<br/>Cùng một quy trình.</h2></div><ProductExplorer images={images}/></div></section>
  {cmsFeatures?.length&&<section className="section"><div className="container"><h2>Thông tin tính năng từ QAVIO</h2><div className="visual-mini-cards">{cmsFeatures.map(f=><article key={f.title}><h3>{f.title}</h3><p>{f.text}</p></article>)}</div></div></section>}
