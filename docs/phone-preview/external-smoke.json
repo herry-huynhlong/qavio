@@ -1,0 +1,172 @@
+{
+  "assets": [
+    {
+      "file": "public/images/qavio/pro-dashboard.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-reports-today.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-reports-week.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-reports-month.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-reports-year.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-tables.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-menu-admin.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-staff-admin.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-orders.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-manager.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-settings.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-customer-menu.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-customer-quantity.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-customer-orders.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-customer-help.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-customer-payment.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-staff-login.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-staff-shift.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-service.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-service-ready.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-service-tables.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-kitchen.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-kitchen-cooking.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-cashier.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-cashier-bill.webp",
+      "sha256": "PASS"
+    },
+    {
+      "file": "public/images/qavio/pro-cashier-history.webp",
+      "sha256": "PASS"
+    }
+  ],
+  "pages": [
+    {
+      "path": "/",
+      "https": "PASS"
+    },
+    {
+      "path": "/products",
+      "https": "PASS"
+    },
+    {
+      "path": "/products/quanpilot",
+      "https": "PASS"
+    },
+    {
+      "path": "/about",
+      "https": "PASS"
+    },
+    {
+      "path": "/solutions",
+      "https": "PASS"
+    },
+    {
+      "path": "/pricing",
+      "https": "PASS"
+    },
+    {
+      "path": "/contact",
+      "https": "PASS"
+    },
+    {
+      "path": "/trial",
+      "https": "PASS"
+    },
+    {
+      "path": "/admin/login",
+      "https": "PASS"
+    },
+    {
+      "path": "/api/health",
+      "https": "PASS"
+    },
+    {
+      "path": "/api/ready",
+      "https": "PASS"
+    },
+    {
+      "host": "admin.qavio.site",
+      "path": "/restaurant-login",
+      "https": "PASS"
+    },
+    {
+      "host": "admin.qavio.site",
+      "path": "/api/public/pricing",
+      "https": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "forms": {
+    "enabled": true,
+    "quoteEnabled": false,
+    "newsletterEnabled": false,
+    "emailConfigured": false,
+    "testing": false
+  }
+}
