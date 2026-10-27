@@ -62,7 +62,7 @@ Nguồn PNG gốc và journal nghiệp vụ giữ local ngoài Git. `docs/eviden
 
 - Shared visual defaults cập nhật đồng bộ Home / Products / QuánPilot / khám phá theo vai trò.
 - Trang sản phẩm có khung preview lớn, chọn Tổng quan/Báo cáo/Bàn/Đơn hàng/Nhân viên/Thực đơn.
-- Lightbox gần toàn màn hình, xem kích thước gốc, cuộn ngang/dọc, Escape/đóng/trả focus; nút zoom có accessible name trên mobile.
+- Screenshot dùng trực tiếp WebP lossless, không qua nén lại Next Image hoặc dùng CPU/RAM sharp trên VPS. Lightbox gần toàn màn hình, xem kích thước gốc, cuộn ngang/dọc, Escape/đóng/trả focus; nút zoom có accessible name trên mobile.
 - Chú thích: **Giao diện QuánPilot với dữ liệu minh họa.** Nhãn TRAIN/BASIC gọn; không đưa ảnh bếp/thu ngân không đúng quyền lên website.
 - CMS vẫn chỉnh/sửa/xuất bản ảnh theo phân quyền hiện tại; thêm slot orders-screen và staff-screen, không đổi schema/migration. Kiểm tra production trước release không có visual COMPANY đã publish đè các defaults.
 
