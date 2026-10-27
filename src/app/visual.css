@@ -158,12 +158,24 @@
 .demo-step-picker{margin-bottom:24px}.demo-step-picker button{font-size:13px;padding:9px 14px}
 .demo-screen-preview{width:100%;margin-inline:auto}
 .demo-screen-preview .shot-open img{aspect-ratio:auto!important;object-fit:contain!important;height:auto;max-height:none}
-.demo-device-phone{max-width:390px}.demo-device-tablet{max-width:820px}.demo-device-desktop{max-width:1280px}
+.demo-device-phone{max-width:260px}.demo-device-tablet{max-width:820px}.demo-device-desktop{max-width:1280px}
 .demo-device-phone .shot-open{border-radius:20px;overflow:hidden}.demo-device-phone .shot-chrome{display:none}
 .demo-image-navigation{display:flex;justify-content:center;align-items:center;gap:28px;margin-top:20px;color:#bdc9d6;font-size:13px}
 .demo-image-navigation button{display:flex;align-items:center;gap:8px;border:1px solid #d4af6750;border-radius:8px;padding:11px 16px;background:#142437;color:#f3e4c2;cursor:pointer}
 .demo-screen-preview:focus-visible,.demo-image-navigation button:focus-visible{outline:3px solid #e6ce9e;outline-offset:5px}
-@media(max-width:760px){.demo-role-picker button{flex:1 0 42%;padding:12px 8px}.demo-step-picker{flex-wrap:nowrap;overflow-x:auto;padding:5px 2px 12px}.demo-step-picker button{flex:0 0 auto;white-space:nowrap}.demo-journey-heading h3{font-size:22px}.demo-device-phone{max-width:390px}.shot-dialog-toolbar h2{min-width:0}.shot-dialog-toolbar{flex-wrap:wrap}.shot-dialog .shot-dialog-toolbar h2{flex-basis:100%;order:-1}}
+@media(max-width:760px){.demo-role-picker button{flex:1 0 42%;padding:12px 8px}.demo-step-picker{flex-wrap:nowrap;overflow-x:auto;padding:5px 2px 12px}.demo-step-picker button{flex:0 0 auto;white-space:nowrap}.demo-journey-heading h3{font-size:22px}.demo-device-phone{max-width:260px}.shot-dialog-toolbar h2{min-width:0}.shot-dialog-toolbar{flex-wrap:wrap}.shot-dialog .shot-dialog-toolbar h2{flex-basis:100%;order:-1}}
 
 .demo-step-picker { scrollbar-width: none; }
 .demo-step-picker::-webkit-scrollbar { display: none; }
+
+/* Bound the real phone preview box; full-resolution lightbox stays independent. */
+.demo-device-phone{--phone-preview-height:520px;width:100%;max-width:260px;margin-inline:auto}
+.demo-device-phone .shot-open{max-height:560px;overflow:hidden}
+.demo-device-phone .shot-open>img{height:var(--phone-preview-height);max-height:var(--phone-preview-height);object-fit:cover!important;object-position:center top}
+@media(max-width:760px){
+ .demo-device-phone{--phone-preview-height:min(520px,calc(68svh - 48px));max-width:min(260px,calc(34svh - 24px),100%)}
+ .demo-device-phone .shot-open{max-height:68svh}
+}
+
+.demo-device-phone .shot-label{display:block;position:relative;height:38px;padding:10px 32px 10px 12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:11px;line-height:18px}
+.demo-device-phone .shot-label svg{position:absolute;right:10px;top:12px}
