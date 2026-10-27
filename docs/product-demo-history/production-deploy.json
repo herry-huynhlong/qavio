@@ -1,0 +1,17 @@
+{
+  "source": "b8e2ae0d9b9eca49e851e5f8771c72fb48e1a84d",
+  "image": {
+    "ref": "qavio-web:b8e2ae0",
+    "id": "sha256:bf61986f77be8da0920397d47c666b56c7f7856828183e22f9e8ff2dd7ffd924",
+    "revision": "b8e2ae0d9b9eca49e851e5f8771c72fb48e1a84d",
+    "configDigest": "sha256:67cf09884011d3b21f426eac836173a8b92a88cda9f201abbe79416d5dd2e0c0"
+  },
+  "applicationEnvAndMountsUnchanged": true,
+  "sixOtherContainersUnchanged": true,
+  "imageOnly": true,
+  "noBuildOrPull": true,
+  "noMigration": true,
+  "https": "PASS",
+  "freeBytes": 5600829440,
+  "result": "PASS"
+}

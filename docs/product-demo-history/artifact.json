@@ -1,0 +1,35 @@
+{
+  "githubDigest": "sha256:ad5964ef69b146a7c1c1ba4602b4f34a8d00bf5c20377666688395d8e334c69e",
+  "manifestSha256": "93a42420836af2d14a4f615b02bfe6429d931b13d3a2b9b2921238bd733dac46",
+  "manifest": {
+    "format": 1,
+    "scope": "qavio",
+    "sourceSha": "b8e2ae0d9b9eca49e851e5f8771c72fb48e1a84d",
+    "image": "qavio-web:b8e2ae0",
+    "archive": "qavio-images.tar.gz",
+    "archiveBytes": 137185222,
+    "archiveSha256": "d8d9537effdfb21e3bf8536802fb49d3e8cd71c51ad0c766dfd72ecea4d6f207",
+    "imageBytes": 137802141,
+    "unpackedLayerBytes": 379428864,
+    "configSha256": "67cf09884011d3b21f426eac836173a8b92a88cda9f201abbe79416d5dd2e0c0",
+    "rootfs": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:9b35de7893378218e365c34c2c735fb0032a859112fb7345ca8ea73f9aa1db70",
+        "sha256:b405c072d1d6b8d191f8fe47db6e3c37ff40836c3970c2c03e51b1adc16563fb",
+        "sha256:0ff2c5ad5da71f20291ad85c9f543eaf29984d9883c8c51a0bb117ec2abe097a",
+        "sha256:881f54f72c69e2a38c7f8a642780e61968bea9efe74300b88a2df728c24c7b0b",
+        "sha256:3e12bfea3588951aab89585809de07499eb5094dc38891bdb294e67d7a9327c0",
+        "sha256:561b11f1975d06f519b6a57cd92773daa7ce003f7bf42217f6546a37f3cc7e53",
+        "sha256:ffa7bc87f8ac3aeb020e2ee19fab87da08c7af5ca91a1419e9c2d29e4b681927",
+        "sha256:f17d6f5714ecd09ed15fc722411e639336d6df1e35b86aeaef72f8d8ea3e9bbe",
+        "sha256:737ea38c5808c43819aeb95ae3d216a9c71f4479b666edabc78da6834c5a86c2",
+        "sha256:4be8a21ca611be20ee306f7fdb6f076b84dcba2ce1701d152dd6d8ff3fd396ab",
+        "sha256:c375ba2c4316928c0ad861b6160ed650a81629a68c337ec0db1aca1d8e208774",
+        "sha256:1a17ea6188868ca4db47a6fe2f0ea2ac3e0edd44f714ec8feecb3de9d1c05741"
+      ]
+    },
+    "platform": "linux/amd64",
+    "unpackedBytes": 379428864
+  }
+}

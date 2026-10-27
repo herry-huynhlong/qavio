@@ -1,0 +1,17 @@
+{
+  "local": true,
+  "widths": [
+    320,
+    375,
+    390,
+    768,
+    1440
+  ],
+  "horizontalOverflow": false,
+  "groups": 7,
+  "lightbox": true,
+  "mobileOriginalImageWidth": 755,
+  "mobileScrollClientWidth": 337,
+  "consoleErrors": 0,
+  "publicNewFilterScreenshots": false
+}

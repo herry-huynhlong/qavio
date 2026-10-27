@@ -156,3 +156,14 @@ Cả 10 kỳ: tổng Payment = chi tiết bill = tổng bucket = tổng phương
 - QAVIO: lint/typecheck/build PASS; CMS visuals14 ca PASS; public13 trang341 links/SEO/sitemap/404 PASS; browser320/375/390/768/1440 không tràn ngang; chọn gallery/lightbox/zoom mobile/console PASS.
 - Không migration, không thay auth/payment/subscription/giá, không deploy Restaurant.
 - Phát hành QAVIO: đang chuẩn bị CI image-only; chỉ đánh dấu deployed sau source/image/checksum và production smoke thực tế.
+
+
+### Kết quả production cuối — GO, 27/10/2026
+- Source `b8e2ae0d9b9eca49e851e5f8771c72fb48e1a84d`, build Linux [40470955451](https://github.com/herry-huynhlong/qavio/actions/runs/40470955451) và artifact review [40471260482](https://github.com/herry-huynhlong/qavio/actions/runs/40471260482) SUCCESS.
+- Image `qavio-web:b8e2ae0`, Docker image ID `sha256:bf61986f77be8da0920397d47c666b56c7f7856828183e22f9e8ff2dd7ffd924`. Manifest SHA256 `93a42420836af2d14a4f615b02bfe6429d931b13d3a2b9b2921238bd733dac46`; GitHub artifact SHA256 `ad5964ef69b146a7c1c1ba4602b4f34a8d00bf5c20377666688395d8e334c69e`. Archive137.185.222bytes/image379.428.864bytes, source/config/rootfs verified.
+- Chỉ QAVIO web recreate bằng image ID đã pin, `--no-build --pull never --no-deps web`. Không build/pull VPS, không migration hoặc ghi dữ liệu demo production. Env/flags/mounts giữ nguyên; sáu container khác nguyên ID/image/start state.
+- Backup mới QAVIO DB+media mã hóa/off-host, restore cô lập5migrations PASS. Backup proof trong private release folder, không commit dữ liệu/credential. Source và fixture chỉ đọc cấu hình production trước đó, không chạy fixture trên VPS.
+- Dung lượng trước5.807.869.952bytes, sau5.600.702.464bytes (~5,22GiB). MemoryAvailable536.367.104bytes sau smoke. Archive image đã gỡ đúng file sau load; không prune/image rollback/volume/log.
+- HTTPS9trang200, health/readiness và QuánPilot login/pricing HTTP PASS; hash6ảnh public khớp local. Browser production desktop1440/mobile390, ảnh năm/tháng/lightbox tải đúng, không console error. Web healthy, restart0/OOMfalse/error markers0. Cả7container running;4container có healthcheck đều healthy,3container không cấu hình healthcheck được xác minh running/HTTP phù hợp.
+- Rollback ứng dụng: dùng `/opt/websites/qavio/.runtime/product-history-release-20261027/snapshot/rollback.private.json`, phục hồi bản `.env` snapshot rồi `docker compose --project-directory /opt/websites/qavio -p qavio -f <rollback.private.json> up -d --no-build --pull never --no-deps web`. Image trước `sha256:9ee689e3ecc0333d2d963f25aa2a2e94c620ab2c89cdb77937c5244d99d97f50` giữ nguyên. Không restore database để rollback ảnh/giao diện.
+- Bộ lọc10kỳ của QuánPilot và fixture vẫn **local, chưa commit/push/deploy** theo lựa chọn của chủ dự án. Không thay Restaurant production hoặc coi ảnh marketing là feature release.
