@@ -1,0 +1,99 @@
+{
+  "isolatedDatabase": "qavio_product_demo_test",
+  "productionWrites": 0,
+  "oldPaidRecordsUnchanged": true,
+  "summary": {
+    "_count": 422,
+    "_sum": {
+      "grandTotal": 128474000
+    }
+  },
+  "roles": [
+    {
+      "_count": 1,
+      "role": "OWNER"
+    },
+    {
+      "_count": 1,
+      "role": "MANAGER"
+    },
+    {
+      "_count": 2,
+      "role": "WAITER"
+    },
+    {
+      "_count": 1,
+      "role": "KITCHEN"
+    },
+    {
+      "_count": 1,
+      "role": "CASHIER"
+    }
+  ],
+  "audit": {
+    "readOnly": true,
+    "isolation": "RepeatableRead",
+    "findings": [
+      {
+        "code": "PAID_WITHOUT_PAID_AT",
+        "count": 0,
+        "sampleIds": []
+      },
+      {
+        "code": "BILL_TOTAL_MISMATCH",
+        "count": 0,
+        "sampleIds": []
+      },
+      {
+        "code": "MISSING_BILL_SNAPSHOT",
+        "count": 0,
+        "sampleIds": []
+      },
+      {
+        "code": "MULTIPLE_PAID_PER_SESSION",
+        "count": 0,
+        "sampleIds": []
+      },
+      {
+        "code": "PAYMENT_TENANT_MISMATCH",
+        "count": 0,
+        "sampleIds": []
+      },
+      {
+        "code": "ORDER_TENANT_MISMATCH",
+        "count": 0,
+        "sampleIds": []
+      },
+      {
+        "code": "ITEM_TENANT_MISMATCH",
+        "count": 0,
+        "sampleIds": []
+      },
+      {
+        "code": "DUPLICATE_INVOICE_NUMBER",
+        "count": 0,
+        "sampleIds": []
+      },
+      {
+        "code": "DUPLICATE_IDEMPOTENCY_KEY",
+        "count": 0,
+        "sampleIds": []
+      },
+      {
+        "code": "LEGACY_INCOMPLETE",
+        "count": 0,
+        "sampleIds": []
+      },
+      {
+        "code": "PAID_SOURCE_TOTAL_MISMATCH",
+        "count": 0,
+        "sampleIds": []
+      },
+      {
+        "code": "PAID_SESSION_STATE_MISMATCH",
+        "count": 0,
+        "sampleIds": []
+      }
+    ]
+  }
+}

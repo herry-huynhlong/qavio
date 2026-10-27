@@ -1,0 +1,98 @@
+[
+  {
+    "role": "WAITER",
+    "route": "admin/reports",
+    "final": "/unauthorized",
+    "status": 200
+  },
+  {
+    "role": "WAITER",
+    "route": "admin/subscription",
+    "final": "/unauthorized",
+    "status": 200
+  },
+  {
+    "role": "WAITER",
+    "route": "kitchen",
+    "final": "/unauthorized",
+    "status": 200
+  },
+  {
+    "role": "WAITER",
+    "route": "cashier",
+    "final": "/unauthorized",
+    "status": 200
+  },
+  {
+    "role": "KITCHEN",
+    "route": "admin/reports",
+    "final": "/unauthorized",
+    "status": 200
+  },
+  {
+    "role": "KITCHEN",
+    "route": "admin/subscription",
+    "final": "/unauthorized",
+    "status": 200
+  },
+  {
+    "role": "KITCHEN",
+    "route": "kitchen",
+    "final": "/thien-dao/device-setup",
+    "status": 200
+  },
+  {
+    "role": "KITCHEN",
+    "route": "cashier",
+    "final": "/unauthorized",
+    "status": 200
+  },
+  {
+    "role": "CASHIER",
+    "route": "admin/reports",
+    "final": "/unauthorized",
+    "status": 200
+  },
+  {
+    "role": "CASHIER",
+    "route": "admin/subscription",
+    "final": "/unauthorized",
+    "status": 200
+  },
+  {
+    "role": "CASHIER",
+    "route": "kitchen",
+    "final": "/unauthorized",
+    "status": 200
+  },
+  {
+    "role": "CASHIER",
+    "route": "cashier",
+    "final": "/thien-dao/device-setup",
+    "status": 200
+  },
+  {
+    "role": "MANAGER",
+    "route": "admin/reports",
+    "final": "/thien-dao/admin/reports",
+    "status": 200
+  },
+  {
+    "role": "MANAGER",
+    "route": "admin/subscription",
+    "final": "/unauthorized",
+    "status": 200
+  },
+  {
+    "role": "MANAGER",
+    "route": "kitchen",
+    "final": "/thien-dao/kitchen",
+    "status": 200
+  },
+  {
+    "role": "MANAGER",
+    "route": "cashier",
+    "final": "/thien-dao/cashier",
+    "status": 200
+  }
+]

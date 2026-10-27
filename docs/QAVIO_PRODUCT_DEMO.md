@@ -167,3 +167,31 @@ Cả 10 kỳ: tổng Payment = chi tiết bill = tổng bucket = tổng phương
 - HTTPS9trang200, health/readiness và QuánPilot login/pricing HTTP PASS; hash6ảnh public khớp local. Browser production desktop1440/mobile390, ảnh năm/tháng/lightbox tải đúng, không console error. Web healthy, restart0/OOMfalse/error markers0. Cả7container running;4container có healthcheck đều healthy,3container không cấu hình healthcheck được xác minh running/HTTP phù hợp.
 - Rollback ứng dụng: dùng `/opt/websites/qavio/.runtime/product-history-release-20261027/snapshot/rollback.private.json`, phục hồi bản `.env` snapshot rồi `docker compose --project-directory /opt/websites/qavio -p qavio -f <rollback.private.json> up -d --no-build --pull never --no-deps web`. Image trước `sha256:9ee689e3ecc0333d2d963f25aa2a2e94c620ab2c89cdb77937c5244d99d97f50` giữ nguyên. Không restore database để rollback ảnh/giao diện.
 - Bộ lọc10kỳ của QuánPilot và fixture vẫn **local, chưa commit/push/deploy** theo lựa chọn của chủ dự án. Không thay Restaurant production hoặc coi ảnh marketing là feature release.
+
+
+## Nâng cấp toàn bộ ảnh PRO — yêu cầu 2f7fef61, 27/10/2026
+
+### Nguồn dữ liệu và kiểm soát an toàn
+- SELECT production trong transaction read-only xác nhận `thien-dao`, ID `cmvhrl57d0000p90lghvax8if`, ACTIVE, PRO/entitlement PRO. Không thay plan, tài khoản, giao dịch hoặc dữ liệu production QuánPilot.
+- Bản sao cùng cửa hàng chỉ chạy trên `127.0.0.1:55432/qavio_product_demo_test`, ứng dụng loopback3400. Fixture và credential nằm ngoài Git; không làm nguồn kê khai thuế hoặc gửi thanh toán thật.
+- OWNER, hai WAITER, MANAGER, KITCHEN, CASHIER: tài khoản mẫu tạo qua quản lý nhân viên hợp lệ. Tên hiển thị Chủ quán/Quản lý/Phục vụ/Bếp/Thu ngân QAVIO, không dùng liên hệ khách thật.
+- Giữ 10 bàn, thực đơn có ảnh và giá; 5 bàn phục vụ,5 trống. Luồng QR → order → bếp (6 nhận/6 hoàn tất) → phục vụ (8 hoàn tất) → yêu cầu thanh toán → thu ngân xác nhận CASH330.000đ đã chạy qua nghiệp vụ trong clone.
+- Tổng422 bill PAID/128.474.000đ; hôm nay14 bill/2.414.000đ,24 lượt gọi món; tuần2.879.000đ, tháng19.933.000đ. Hash421 bill trước kịch bản mới giữ nguyên. Audit12nhóm gồm amount/tenant/snapshot/idempotency/trùng PAID:0cảnh báo. Đây chỉ là kết quả clone, không kết luận production sạch.
+
+### Bộ ảnh và giao diện
+- 26 WebP lossless mới,27slot; chụp thật từ Browser, không AI hoặc chỉnh số liệu. Sáu nhóm khách/phục vụ/bếp/thu ngân/chủ quán/quản lý. Ảnh desktop khung1280×900 (tháng/quản lý1260), mobile375×812 thực tế, tablet khoảng805px. Không tuyên bố đã chụp1440 khi khung thực tế nhỏ hơn.
+- Dashboard, bốn kỳ báo cáo, bàn, menu, nhân viên, đơn, cài đặt, quản lý; mobile menu/số lượng/đơn/hỗ trợ/thanh toán/đăng nhập/ca/nhận món/bàn; tablet bếp/chế biến/thu ngân/bill/lịch sử.
+- Chỉ crop khung bill để đọc rõ và giới hạn chiều cao tablet; giữ tỷ lệ, không sửa dữ liệu, không toolbar. Hash/source/crop tại `.runtime/product-pro/images-proof.json` (chứng cứ local).
+- Gallery có sáu nhóm, chức năng con, khung thiết bị, trước/tiếp, phím mũi tên, lightbox, zoom/kích thước gốc, Escape và handler swipe. Một ghi chú dữ liệu trình diễn. Không gắn nhãn package riêng cho từng ảnh; badge gốc trong app giữ nguyên.
+- Đồng bộ defaults cho trang chủ/sản phẩm/giải pháp và CMS; vẫn tôn trọng ảnh CMS đã publish. Bỏ section lặp vai trò trên trang sản phẩm, thay ảnh hero và thêm screenshot vào giải pháp. Không thay giá/quyền BASIC/PRO.
+
+### Kiểm chứng và giới hạn
+- Lint/TypeScript/production build local đạt; CMS14checks; public13trang340links/SEO/sitemap/404 đạt. Browser sáu nhóm tải ảnh, lightbox next/previous, ArrowRight, zoom, Escape đạt. 320/375/390/768/1280: body không tràn ngang. Handler swipe được review, chưa kiểm thử bằng thiết bị cảm ứng vật lý.
+- HTTP16kiểm tra vai trò: WAITER/KITCHEN/CASHIER bị chặn báo cáo/subscription và vai trò khác; MANAGER có admin/report/kitchen/cashier, subscription bị chặn. Bếp/thu ngân yêu cầu device-session như luồng hiện có.
+- `/cart` hiện là placeholder; app thật chọn số lượng rồi gọi món trực tiếp trên menu. Vì vậy ảnh/caption dùng “Chọn số lượng và gọi món”, không quảng bá một giỏ hàng độc lập chưa hoạt động.
+- Bộ lọc mở rộng10kỳ vẫn local, chưa phát hành QuánPilot. Đã khôi phục nguyên file mở rộng sau khi chụp bốn kỳ production.
+- Phát hiện riêng: submit login trước hydration có thể dùng GET do form thiếu method. Một lần chỉ credential QA cô lập đi vào URL; đã rotate credential clone và chụp lại, không credential thật/production. Chưa sửa/deploy auth trong task marketing, cần xử lý riêng.
+- Không migration, không đổi auth, payment, subscription, giá, timezone hoặc dữ liệu lịch sử. Không deploy Restaurant.
+
+### Phát hành
+Chưa phát hành bản PRO mới; sẽ bổ sung source SHA, CI, checksum, backup/restore, capacity và production smoke sau khi xác minh thực tế.

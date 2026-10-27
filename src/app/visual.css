@@ -151,3 +151,19 @@
 .shot-open:focus-visible,.shot-zoom:focus-visible,.shot-close:focus-visible,.demo-screen-picker button:focus-visible,.shot-image-scroll:focus-visible{outline:3px solid #e6ce9e;outline-offset:4px}
 @media(max-width:760px){.demo-screen-picker{gap:6px}.demo-screen-picker button{padding:10px;font-size:12px;flex:1 0 40%}.shot-dialog{padding:12px}.shot-dialog .shot-dialog-toolbar h2{font-size:16px}.shot-zoom span{display:none}.shot-dialog-toolbar{gap:8px}.shot-image-scroll{max-height:72dvh}.demo-screen-preview .shot-open img{aspect-ratio:1/1}}
 .shot-dialog{margin:auto;inset:0}
+
+/* Product journey: genuine device captures, no desktop image squeezed into a phone. */
+.demo-role-picker button{display:flex;align-items:center;justify-content:center;gap:9px}
+.demo-journey-heading{margin:28px 0 18px}.demo-journey-heading h3{font-size:25px;margin:0 0 8px}.demo-journey-heading p{color:#b7c5d4;max-width:680px}
+.demo-step-picker{margin-bottom:24px}.demo-step-picker button{font-size:13px;padding:9px 14px}
+.demo-screen-preview{width:100%;margin-inline:auto}
+.demo-screen-preview .shot-open img{aspect-ratio:auto!important;object-fit:contain!important;height:auto;max-height:none}
+.demo-device-phone{max-width:390px}.demo-device-tablet{max-width:820px}.demo-device-desktop{max-width:1280px}
+.demo-device-phone .shot-open{border-radius:20px;overflow:hidden}.demo-device-phone .shot-chrome{display:none}
+.demo-image-navigation{display:flex;justify-content:center;align-items:center;gap:28px;margin-top:20px;color:#bdc9d6;font-size:13px}
+.demo-image-navigation button{display:flex;align-items:center;gap:8px;border:1px solid #d4af6750;border-radius:8px;padding:11px 16px;background:#142437;color:#f3e4c2;cursor:pointer}
+.demo-screen-preview:focus-visible,.demo-image-navigation button:focus-visible{outline:3px solid #e6ce9e;outline-offset:5px}
+@media(max-width:760px){.demo-role-picker button{flex:1 0 42%;padding:12px 8px}.demo-step-picker{flex-wrap:nowrap;overflow-x:auto;padding:5px 2px 12px}.demo-step-picker button{flex:0 0 auto;white-space:nowrap}.demo-journey-heading h3{font-size:22px}.demo-device-phone{max-width:390px}.shot-dialog-toolbar h2{min-width:0}.shot-dialog-toolbar{flex-wrap:wrap}.shot-dialog .shot-dialog-toolbar h2{flex-basis:100%;order:-1}}
+
+.demo-step-picker { scrollbar-width: none; }
+.demo-step-picker::-webkit-scrollbar { display: none; }

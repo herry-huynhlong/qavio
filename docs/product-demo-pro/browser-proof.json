@@ -1,0 +1,113 @@
+{
+  "groups": [
+    {
+      "role": "Khách gọi món",
+      "images": [
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-customer-menu.webp"
+        },
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-customer-menu.webp"
+        }
+      ]
+    },
+    {
+      "role": "Nhân viên phục vụ",
+      "images": [
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-staff-login.webp"
+        },
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-staff-login.webp"
+        }
+      ]
+    },
+    {
+      "role": "Bếp",
+      "images": [
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-kitchen.webp"
+        },
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-kitchen.webp"
+        }
+      ]
+    },
+    {
+      "role": "Thu ngân",
+      "images": [
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-cashier.webp"
+        },
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-cashier.webp"
+        }
+      ]
+    },
+    {
+      "role": "Chủ quán",
+      "images": [
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-dashboard.webp"
+        },
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-dashboard.webp"
+        }
+      ]
+    },
+    {
+      "role": "Quản lý",
+      "images": [
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-manager.webp"
+        },
+        {
+          "loaded": true,
+          "src": "/images/qavio/pro-manager.webp"
+        }
+      ]
+    }
+  ],
+  "responsive": [
+    {
+      "requestedWidth": 320,
+      "scrollWidth": 305,
+      "width": 305
+    },
+    {
+      "requestedWidth": 375,
+      "scrollWidth": 360,
+      "width": 360
+    },
+    {
+      "requestedWidth": 390,
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "requestedWidth": 768,
+      "scrollWidth": 753,
+      "width": 753
+    },
+    {
+      "requestedWidth": 1280,
+      "scrollWidth": 1265,
+      "width": 1265
+    }
+  ],
+  "lightboxNavigation": true,
+  "keyboardNavigation": true,
+  "zoom": true,
+  "escape": true
+}

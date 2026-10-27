@@ -1,0 +1,246 @@
+[
+  {
+    "source": "dashboard.png",
+    "file": "public/images/qavio/pro-dashboard.webp",
+    "width": 1280,
+    "height": 900,
+    "crop": null,
+    "editedData": false,
+    "sha256": "d60cf0d63d14e67f9da91301a8c3d837af0e4b611de60da29d083e205c65ceac"
+  },
+  {
+    "source": "reports-today.png",
+    "file": "public/images/qavio/pro-reports-today.webp",
+    "width": 1265,
+    "height": 889,
+    "crop": null,
+    "editedData": false,
+    "sha256": "5d1a73a9456c4fa6f43fbb5a13e94799204414815e00194b842b8016c846718f"
+  },
+  {
+    "source": "reports-week.png",
+    "file": "public/images/qavio/pro-reports-week.webp",
+    "width": 1265,
+    "height": 889,
+    "crop": null,
+    "editedData": false,
+    "sha256": "a04bf0c9c4530eadf1829c1f6d393e340a3933b6cc68e827ba74d29813f9c4a8"
+  },
+  {
+    "source": "reports-month.png",
+    "file": "public/images/qavio/pro-reports-month.webp",
+    "width": 1245,
+    "height": 889,
+    "crop": null,
+    "editedData": false,
+    "sha256": "0f83ffa5e035a380807c1c9ccd104c43571c6854d433e0992eee8dd2e9a23af4"
+  },
+  {
+    "source": "reports-year.png",
+    "file": "public/images/qavio/pro-reports-year.webp",
+    "width": 1265,
+    "height": 889,
+    "crop": null,
+    "editedData": false,
+    "sha256": "59648b71e6e8be012f45436032a02760a6d87f105c9e204137168d14c72335d7"
+  },
+  {
+    "source": "tables.png",
+    "file": "public/images/qavio/pro-tables.webp",
+    "width": 1265,
+    "height": 889,
+    "crop": null,
+    "editedData": false,
+    "sha256": "8e3c1fe097c20373600296a88e1e1aafc44b4a26dd79264e72fecda695d34f86"
+  },
+  {
+    "source": "menu-admin.png",
+    "file": "public/images/qavio/pro-menu-admin.webp",
+    "width": 1265,
+    "height": 889,
+    "crop": null,
+    "editedData": false,
+    "sha256": "24e23c0714c5b8a8df9b5c529fce3208e21e6114cb6502191b1b63af4a60c5e3"
+  },
+  {
+    "source": "staff-admin.png",
+    "file": "public/images/qavio/pro-staff-admin.webp",
+    "width": 1265,
+    "height": 889,
+    "crop": null,
+    "editedData": false,
+    "sha256": "48e5cff46de7907fa73ef554e2919cced3af8999becb3a718e21f54684b7c058"
+  },
+  {
+    "source": "orders.png",
+    "file": "public/images/qavio/pro-orders.webp",
+    "width": 1265,
+    "height": 889,
+    "crop": null,
+    "editedData": false,
+    "sha256": "3654a649ebcf4fffdc093baf4cd8db68c2409d8aeae16e4cd2f0f4a65690094c"
+  },
+  {
+    "source": "manager.png",
+    "file": "public/images/qavio/pro-manager.webp",
+    "width": 1245,
+    "height": 889,
+    "crop": null,
+    "editedData": false,
+    "sha256": "5400e8de5f4634bf1c4af62cea4d20759011e72d454f518c02092cc8c917f214"
+  },
+  {
+    "source": "settings.png",
+    "file": "public/images/qavio/pro-settings.webp",
+    "width": 1265,
+    "height": 889,
+    "crop": null,
+    "editedData": false,
+    "sha256": "6ed7662b7c3ff550563152cbc1789f22fc25eb764c01c2abdeafb1c5fb646c63"
+  },
+  {
+    "source": "customer-menu.png",
+    "file": "public/images/qavio/pro-customer-menu.webp",
+    "width": 375,
+    "height": 812,
+    "crop": null,
+    "editedData": false,
+    "sha256": "66cf628abdb70595141c5c139332c81d3111bf3d54943e406950718729d49727"
+  },
+  {
+    "source": "customer-quantity.png",
+    "file": "public/images/qavio/pro-customer-quantity.webp",
+    "width": 375,
+    "height": 812,
+    "crop": null,
+    "editedData": false,
+    "sha256": "0866cdfdf8aa0ab9d2d07862c937bf2de18214563367c063b047c5d05fbc9b0b"
+  },
+  {
+    "source": "customer-orders.png",
+    "file": "public/images/qavio/pro-customer-orders.webp",
+    "width": 375,
+    "height": 812,
+    "crop": null,
+    "editedData": false,
+    "sha256": "8a5442ccd7abab75838170c9cff9f35157e948ff26a0c52b5ae11eb7fecca38b"
+  },
+  {
+    "source": "customer-help.png",
+    "file": "public/images/qavio/pro-customer-help.webp",
+    "width": 375,
+    "height": 812,
+    "crop": null,
+    "editedData": false,
+    "sha256": "d270cee29001849b1afae7bea382db63a3731b45c269d19afd3e900d34155cba"
+  },
+  {
+    "source": "customer-payment.png",
+    "file": "public/images/qavio/pro-customer-payment.webp",
+    "width": 390,
+    "height": 844,
+    "crop": null,
+    "editedData": false,
+    "sha256": "163955612002f7611f12e9a3e5e94720cd83f80d00b234b11f3aa826c763b935"
+  },
+  {
+    "source": "staff-login.png",
+    "file": "public/images/qavio/pro-staff-login.webp",
+    "width": 390,
+    "height": 844,
+    "crop": null,
+    "editedData": false,
+    "sha256": "5e74ce7b73fe6b3d050af8e4ffb6e20f916950cf3590c10ffc161c44cee1812f"
+  },
+  {
+    "source": "staff-shift.png",
+    "file": "public/images/qavio/pro-staff-shift.webp",
+    "width": 390,
+    "height": 844,
+    "crop": null,
+    "editedData": false,
+    "sha256": "415bc7f0d332e56ea801e90556cbec4702e658c4c24207f5d4d3ee8e8d2ca562"
+  },
+  {
+    "source": "service.png",
+    "file": "public/images/qavio/pro-service.webp",
+    "width": 390,
+    "height": 844,
+    "crop": null,
+    "editedData": false,
+    "sha256": "2d9e023aa5520dbca5ae542e267df039b2ef496af2b29870e898432e11f5bc12"
+  },
+  {
+    "source": "service-complete.png",
+    "file": "public/images/qavio/pro-service-ready.webp",
+    "width": 375,
+    "height": 812,
+    "crop": null,
+    "editedData": false,
+    "sha256": "e640dd9f2f93f365ff22aa25535e82f132a594ef68dfdeb392b419fd8996cdfa"
+  },
+  {
+    "source": "service-tables.png",
+    "file": "public/images/qavio/pro-service-tables.webp",
+    "width": 375,
+    "height": 812,
+    "crop": null,
+    "editedData": false,
+    "sha256": "e211b6e929d5f5483c1f28e99e5481aecf56b94e7f6ae8b1b61c98945efe8502"
+  },
+  {
+    "source": "kitchen.png",
+    "file": "public/images/qavio/pro-kitchen.webp",
+    "width": 820,
+    "height": 1180,
+    "crop": null,
+    "editedData": false,
+    "sha256": "71d69ef44072134b494b7be31f6126e4e5c0cca6bdb93d9ccbb132daa3fce864"
+  },
+  {
+    "source": "kitchen-cooking.png",
+    "file": "public/images/qavio/pro-kitchen-cooking.webp",
+    "width": 820,
+    "height": 1180,
+    "crop": null,
+    "editedData": false,
+    "sha256": "197c6b80c1d99502e88d9ccd5304b02ce942cb216ecef7a5eed7a797b30a2815"
+  },
+  {
+    "source": "cashier.png",
+    "file": "public/images/qavio/pro-cashier.webp",
+    "width": 805,
+    "height": 1180,
+    "crop": {
+      "left": 0,
+      "top": 0,
+      "width": 805,
+      "height": 1180
+    },
+    "editedData": false,
+    "sha256": "18f1ea9595c4d1704cfd7d4e7e766f2a4ee26bdbae8eb47334dab281dfd02992"
+  },
+  {
+    "source": "cashier-paid-bill.png",
+    "file": "public/images/qavio/pro-cashier-bill.webp",
+    "width": 680,
+    "height": 875,
+    "crop": {
+      "left": 70,
+      "top": 480,
+      "width": 680,
+      "height": 875
+    },
+    "editedData": false,
+    "sha256": "d9d897133287f6f790c31a5ad77bf260a60975db79f5cfc5f782c76fe417f9f0"
+  },
+  {
+    "source": "cashier-history.png",
+    "file": "public/images/qavio/pro-cashier-history.webp",
+    "width": 805,
+    "height": 907,
+    "crop": null,
+    "editedData": false,
+    "sha256": "cd5282dfe893515c19aebc131ddd30b82fb02644228a392e7f52d701ea583ed1"
+  }
+]
