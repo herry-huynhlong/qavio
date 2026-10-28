@@ -2,7 +2,7 @@
 
 ## Kết luận và phạm vi
 
-Đã xác định các điều kiện khóa trong source, tái hiện lỗi ảnh mặc định trên QA và hoàn thiện bản sửa local. **Ngày 28/10/2026, chủ dự án đã duyệt commit/push bản sửa này. Chưa deploy. Không upload/xuất bản bất kỳ ảnh nào trên production.**
+Đã xác định các điều kiện khóa trong source, tái hiện lỗi ảnh mặc định trên QA và hoàn thiện bản sửa. **Ngày 28/10/2026, chủ dự án đã duyệt push và tiếp tục yêu cầu deploy; source `78553bae43eccb5c24bd19d829feb50fbfe6096d` đã chạy trên production. Không upload/xuất bản bất kỳ ảnh nào trên production.**
 
 Browser production mở `https://qavio.site/admin/visuals` nhưng chuyển về `/admin/login`. Đã đề nghị chủ dự án đăng nhập trong trình duyệt kết nối; đến lúc lập báo cáo chưa có phiên đăng nhập. Vì vậy chưa xác nhận quyền, slot, bản nháp hay lỗi API trong chính phiên production của chủ dự án. Không coi kết quả QA là bằng chứng đã thao tác thành công trên production.
 
@@ -102,6 +102,18 @@ Thêm bằng chứng: [quyền Editor](admin-visuals-button-audit/editor-qa.jpg)
 
 ## 7. Có cần deploy không?
 
-**Có**, cần phát hành bản sửa frontend + backend ảnh cùng nhau. Chủ dự án đã duyệt commit/push; deployment production chưa thực hiện, chưa đổi cấu hình hay ảnh production. Không cần migration.
+**Đã phát hành** frontend + backend ảnh cùng nhau sau yêu cầu trực tiếp “deloy đi chứ”. Không migration, không đổi ảnh hoặc feature flags production.
 
-Trước phát hành: chủ dự án đăng nhập trình duyệt kết nối để đối chiếu chỉ đọc đúng slot/role/trạng thái production; sau phê duyệt chạy CI Linux và quy trình image-only QAVIO hiện có. Không dùng ảnh QA để thay ảnh hero hoặc sản phẩm production. Sau deploy kiểm tra chỉ đọc; chủ dự án tự chọn ảnh, lưu nháp và xuất bản nội dung mong muốn.
+Phiên production trong trình duyệt kết nối vẫn chuyển về login, nên chưa kiểm chứng các nút trong phiên cá nhân của chủ dự án. Quy trình ghi dữ liệu đã kiểm thử trên QA; production chỉ kiểm tra chỉ đọc. Chủ dự án tự chọn ảnh, lưu nháp và xuất bản nội dung mong muốn.
+
+## 8. Phát hành production — 28/10/2026
+
+- Source `78553bae43eccb5c24bd19d829feb50fbfe6096d`; [CI Linux 40690993510](https://github.com/herry-huynhlong/qavio/actions/runs/40690993510) và [review 40691470310](https://github.com/herry-huynhlong/qavio/actions/runs/40691470310) SUCCESS. Kiểm thử PostgreSQL cô lập, lint, TypeScript và Docker build chạy trên GitHub-hosted runner.
+- Image `qavio-web:78553ba`, ID `sha256:e3409082a3816d9514e5587e57c2e046daf35cafcc0e83c73f30fad85c336dfe`. Manifest SHA256 `2275fbee75dba0c65247a7f72511bf3e732fe1e4fda718c90d95856df8b17684`; GitHub artifact digest, archive checksum, config/rootfs và source revision đều xác minh PASS.
+- Backup DB/media mới, mã hóa và tải off-host; restore database cô lập thành công, đủ 5 migration. Database restore tạm và các bản giải mã được dọn sau kiểm chứng. Không restore production.
+- Preflight còn 4.590.051.328 byte disk và 490.164.224 byte RAM khả dụng; gate dự trù 600 MiB cộng reserve 2.610.569.625 byte PASS. Kích thước image/layer thực tế 393.680.384 byte, kiểm lại gate trước load PASS. Sau deploy còn 4.354.535.424 byte (~4,06 GiB), RAM khả dụng 534.433.792 byte. Disk trên 80% nên tiếp tục theo dõi, không tự prune/xóa backup/volume.
+- Chỉ recreate QAVIO `web` bằng image ID pin, `--no-build --pull never --no-deps`. Không build trên VPS, không migration, không restart PostgreSQL/worker/Docker Engine. Env và mounts web giữ nguyên; 6 container khác giữ ID/image/startedAt. Tổng 7/7 container chạy; web, worker QAVIO và hai PostgreSQL healthy, ba container không cấu hình healthcheck vẫn running.
+- Readiness và HTTPS `/`, `/admin/login`, `/products/quanpilot`, `/contact`, `/api/ready`, QuánPilot `/restaurant-login` PASS. Browser reload trang sản phẩm hiển thị bình thường; `/admin/visuals` chuyển về login khi chưa có phiên. Không tuyên bố đã nghiệm thu thao tác ghi trong phiên Admin production.
+- Hash nội dung visual + MediaAsset và danh sách URL ảnh SSR trang chủ/trang sản phẩm không đổi trước/sau. Không upload/publish QA hoặc thay ảnh hero/sản phẩm.
+- Bằng chứng an toàn tại [deployment](admin-visuals-button-audit/deployment/): build, CI review, artifact, backup restore, deploy và smoke. Không chứa credential/private runtime model.
+- Rollback giữ image trước `qavio-web:eaae2b4`, ID `sha256:40aac20c462f5531d14a2ee5a98c1afc7c0642068443084e30e1f52ad2322c86`; private snapshot `/opt/websites/qavio/.runtime/visual-buttons-release-20261028/snapshot/`. Khi cần, khôi phục `.env` từ `environment.private`, chạy Compose project `qavio` với `rollback.private.json`, `up -d --no-build --pull never --no-deps web`, rồi kiểm readiness/HTTPS. Không restore DB để đảo code. Archive image mới đã được bỏ sau load; image rollback còn giữ.
