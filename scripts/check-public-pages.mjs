@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 
 // Acceptance routes, independently checked against the running production build.
-const routes = ['/', '/about', '/solutions', '/products', '/products/quanpilot', '/pricing', '/news', '/contact', '/trial', '/request-quote', '/faq', '/privacy', '/terms'];
+const routes = ['/', '/about', '/solutions', '/products', '/products/quanpilot', '/products/quanpilot/install', '/pricing', '/news', '/contact', '/trial', '/request-quote', '/faq', '/privacy', '/terms'];
 const base = new URL(process.env.TEST_BASE_URL || 'http://127.0.0.1:3100');
 if (!['localhost', '127.0.0.1', '[::1]'].includes(base.hostname)) throw new Error('Use a local test server only.');
 const pages = new Map();

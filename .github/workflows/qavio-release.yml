@@ -60,6 +60,7 @@ jobs:
           node --import tsx scripts/integration-admin.ts
           node --import tsx scripts/integration-contact.ts
           node --import tsx scripts/integration-visuals.ts
+          node --import tsx scripts/gallery-install-checks.ts
           node --import tsx scripts/check-visible-poll.ts
           node --import tsx scripts/pricing-cache-checks.ts
       - name: Build Linux images away from production VPS

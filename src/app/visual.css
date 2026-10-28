@@ -179,3 +179,23 @@
 
 .demo-device-phone .shot-label{display:block;position:relative;height:38px;padding:10px 32px 10px 12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:11px;line-height:18px}
 .demo-device-phone .shot-label svg{position:absolute;right:10px;top:12px}
+/* Installation uses a real product screen, without implying native/offline support. */
+.product-install {background:linear-gradient(135deg,#101e31,#172b40);border-block:1px solid #ffffff12;}
+.product-install-layout {display:grid;grid-template-columns:minmax(0,1.4fr) minmax(240px,.6fr);gap:clamp(24px,5vw,80px);align-items:center;}
+.product-install h2 {max-width:650px;}
+.product-install p {max-width:640px;line-height:1.75;}
+.install-benefits {list-style:none;padding:0;margin:24px 0;display:grid;gap:16px;}
+.install-benefits li {display:flex;gap:12px;align-items:center;}
+.install-benefits svg,.install-guide-grid>article>svg {color:#d8b66b;flex-shrink:0;}
+.install-product-preview {width:min(100%,260px);margin-inline:auto;}
+.install-image-caption {font-size:.8rem;text-align:center;opacity:.7;}
+.install-guide {display:grid;gap:36px;}
+.install-guide-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;}
+.install-guide-grid article {padding:28px;border:1px solid #ffffff20;border-radius:20px;background:#142235;}
+.install-guide-grid h2 {font-size:1.4rem;margin:16px 0;}
+.install-guide-grid ol {padding-left:20px;line-height:1.8;}
+.install-guide-grid li+li {margin-top:12px;}
+.install-guide-grid p,.install-guide-notes p {line-height:1.8;}
+.install-guide-notes {max-width:850px;}
+.install-guide-notes h2 {font-size:1.5rem;margin-top:24px;}
+@media(max-width:800px){.product-install-layout{grid-template-columns:1fr;}.install-product-preview{width:min(100%,230px);}.install-guide-grid{grid-template-columns:1fr;}.install-guide-grid article{padding:24px;}}

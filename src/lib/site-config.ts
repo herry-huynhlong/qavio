@@ -19,6 +19,7 @@ export const site = {
 } as const;
 
 export const publicPages = {
+  '/products/quanpilot/install': { title: 'Cách cài QuánPilot trên thiết bị', description: 'Hướng dẫn cài QuánPilot từ website trên Android, iPhone, iPad và máy tính với trình duyệt hỗ trợ.' },
   '/': { title: 'Công nghệ kiến tạo giá trị', description: 'QAVIO hướng đến những giải pháp công nghệ thiết thực, đồng hành cùng hoạt động kinh doanh và quản lý doanh nghiệp.' },
   '/about': { title: 'Về QAVIO', description: 'Tìm hiểu định hướng, sứ mệnh, tầm nhìn và năm giá trị thương hiệu QAVIO: chất lượng, thẩm mỹ, tầm nhìn, đổi mới và bản sắc.' },
   '/solutions': { title: 'Giải pháp công nghệ', description: 'Khám phá cách QAVIO tiếp cận số hóa vận hành, quản lý tập trung, trải nghiệm khách hàng và nền tảng có khả năng mở rộng.' },

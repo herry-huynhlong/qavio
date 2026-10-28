@@ -41,19 +41,19 @@ export const productDemoVisuals:VisualImages = {
     "origin": "SCREENSHOT"
   },
   "tables-screen": {
-    "src": "/images/qavio/pro-tables.webp",
-    "width": 1265,
-    "height": 889,
-    "alt": "Các bàn QAVIO đang phục vụ và còn trống.",
-    "caption": "Quản lý khu vực và trạng thái bàn.",
+    "src": "/images/qavio/pro-tables-v2-750c1150.webp",
+    "width": 1180,
+    "height": 900,
+    "alt": "Khu vực A có bàn đang phục vụ, khu vực B có bàn trống trong cửa hàng demo QAVIO.",
+    "caption": "Quản lý khu vực, theo dõi trạng thái bàn và điều hành phục vụ tập trung.",
     "origin": "SCREENSHOT"
   },
   "menu-admin-screen": {
-    "src": "/images/qavio/pro-menu-admin.webp",
-    "width": 1265,
-    "height": 889,
-    "alt": "Quản lý thực đơn QAVIO.",
-    "caption": "Cập nhật thực đơn và giá món.",
+    "src": "/images/qavio/pro-menu-admin-v2-acf11b28.webp",
+    "width": 1165,
+    "height": 709,
+    "alt": "Danh mục món chính, ảnh món, giá bán, trạng thái và thao tác quản lý thực đơn QAVIO.",
+    "caption": "Cập nhật món ăn, hình ảnh, giá bán và trạng thái kinh doanh dễ dàng.",
     "origin": "SCREENSHOT"
   },
   "staff-screen": {

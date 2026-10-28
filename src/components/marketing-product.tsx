@@ -5,6 +5,7 @@ import {ScreenshotViewer} from './screenshot-viewer';
 import {TrialLink,TrialBanner} from './trial-cta';
 import {RestaurantFlow} from './restaurant-flow';
 import {ProductDemoGallery} from './product-demo-gallery';
+import {ProductInstallSection} from './product-install-section';
 import {publishedContent} from '@/server/public-content';
 import {publishedVisuals} from '@/server/visuals';
 import {CmsBody} from './cms-body';
@@ -15,6 +16,7 @@ export async function MarketingProduct(){const [images,entry]=await Promise.all(
  {entry?.bodyHtml&&<section className="section"><div className="container legal-document"><CmsBody html={entry.bodyHtml}/></div></section>}
  <RestaurantFlow/>
  <ProductDemoGallery images={images}/>
+ <ProductInstallSection images={images}/>
 
  {cmsFeatures?.length&&<section className="section"><div className="container"><h2>Thông tin tính năng từ QAVIO</h2><div className="visual-mini-cards">{cmsFeatures.map(f=><article key={f.title}><h3>{f.title}</h3><p>{f.text}</p></article>)}</div></div></section>}
  <section className="section"><div className="container faq-layout"><div><span className="eyebrow">CHỌN ĐÚNG PHẠM VI</span><h2>Chọn gói phù hợp với quán.</h2><p className="spaced-copy">Khám phá đầy đủ chức năng của QuánPilot, rồi so sánh quyền lợi và giá dịch vụ để chọn gói phù hợp với cách vận hành của bạn.</p><Link href="/pricing" className="text-link">Tìm hiểu gói dịch vụ <ArrowUpRight size={17}/></Link></div><FaqList/></div></section><TrialBanner/>
