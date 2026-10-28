@@ -1,0 +1,196 @@
+{
+  "assets": [
+    {
+      "slot": "menu-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "cart-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "customer-order-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "customer-help-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "customer-payment-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "staff-login-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "staff-shift-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "service-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "service-ready-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "service-tables-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "kitchen-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "kitchen-cooking-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "cashier-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "cashier-bill-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "cashier-history-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "dashboard-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "reports-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "reports-week-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "reports-month-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "reports-year-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "tables-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "menu-admin-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "staff-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "manager-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "orders-screen",
+      "sha256": "PASS"
+    },
+    {
+      "slot": "settings-screen",
+      "sha256": "PASS"
+    }
+  ],
+  "pages": [
+    {
+      "path": "/",
+      "https": "PASS"
+    },
+    {
+      "path": "/about",
+      "https": "PASS"
+    },
+    {
+      "path": "/solutions",
+      "https": "PASS"
+    },
+    {
+      "path": "/products",
+      "https": "PASS"
+    },
+    {
+      "path": "/products/quanpilot",
+      "https": "PASS"
+    },
+    {
+      "path": "/products/quanpilot/install",
+      "https": "PASS"
+    },
+    {
+      "path": "/pricing",
+      "https": "PASS"
+    },
+    {
+      "path": "/news",
+      "https": "PASS"
+    },
+    {
+      "path": "/contact",
+      "https": "PASS"
+    },
+    {
+      "path": "/trial",
+      "https": "PASS"
+    },
+    {
+      "path": "/request-quote",
+      "https": "PASS"
+    },
+    {
+      "path": "/faq",
+      "https": "PASS"
+    },
+    {
+      "path": "/privacy",
+      "https": "PASS"
+    },
+    {
+      "path": "/terms",
+      "https": "PASS"
+    },
+    {
+      "path": "/admin/login",
+      "https": "PASS"
+    },
+    {
+      "path": "/api/health",
+      "https": "PASS"
+    },
+    {
+      "path": "/api/ready",
+      "https": "PASS"
+    },
+    {
+      "host": "admin.qavio.site",
+      "path": "/restaurant-login",
+      "https": "PASS"
+    },
+    {
+      "host": "admin.qavio.site",
+      "path": "/api/public/pricing",
+      "https": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "forms": {
+    "enabled": true,
+    "quoteEnabled": false,
+    "newsletterEnabled": false,
+    "emailConfigured": false,
+    "testing": false
+  }
+}
