@@ -1,0 +1,1 @@
+PASS: default baseline, dirty metadata/media, trimmed comparison, field validation and draft/live comparison.

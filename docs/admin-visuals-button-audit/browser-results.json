@@ -1,0 +1,41 @@
+{
+  "environment": "local production build, qavio_test, port3105",
+  "cases": [
+    "default alt edit without upload",
+    "alt-only save",
+    "caption-only save and publish",
+    "upload new image and publish replacement",
+    "library image selection and draft",
+    "reload preserves draft and published metadata",
+    "unchanged state disabled with explanation",
+    "invalid metadata field message",
+    "invalid extension and oversize file message",
+    "Editor saves draft but cannot publish",
+    "network failure preserves input and retry succeeds without reload",
+    "standalone default import"
+  ],
+  "responsive": [
+    {
+      "width": 1180,
+      "client": 1165,
+      "scroll": 1165
+    },
+    {
+      "width": 768,
+      "client": 753,
+      "scroll": 753
+    },
+    {
+      "width": 390,
+      "client": 375,
+      "scroll": 375
+    },
+    {
+      "width": 375,
+      "client": 360,
+      "scroll": 360
+    }
+  ],
+  "hydrationErrors": 0,
+  "result": "PASS"
+}

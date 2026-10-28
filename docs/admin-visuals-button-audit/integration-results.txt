@@ -1,0 +1,22 @@
+PASS anonymous cannot read or mutate visuals
+PASS editor can read every configured slot including empty ones
+PASS CSRF and origin enforced
+PASS unknown slot and forged fields rejected
+PASS missing media and invalid alt rejected
+PASS AI images cannot occupy actual software screenshot slots
+PASS editor saves private draft with revision and audit
+PASS draft concurrency rejects stale write
+PASS editor cannot publish
+PASS admin publishes exact saved draft, media becomes public
+PASS replacement draft preserves live image and remains private
+PASS publish requires current draft and live versions
+PASS public replacement and revisions/audit persist
+PASS About hero is independently editable and publish permission is enforced
+PASS alt-only edit saves a new draft using the same media
+PASS caption-only edit persists after reload and publishes
+PASS unchanged saved draft cannot create duplicate publications
+PASS default-image metadata saves without requiring a new upload
+PASS source selection cannot submit default and media or a forged path
+PASS failed default import rolls back database and staged file
+PASS invalid and oversized uploads are rejected by server
+{"suite":"visual CMS integration","checks":21,"database":"qavio_test","result":"PASS"}

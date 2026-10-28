@@ -2,7 +2,7 @@ import {randomUUID} from 'node:crypto';
 import {mkdir,readFile,statfs,unlink,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
-import {db} from '../db';
+import {db,type Transaction} from '../db';
 import {HttpError} from '../http';
 import {authenticatedMutation,authenticate,mutationOrigin} from './auth';
 import {equalSecret} from '../crypto';
@@ -27,6 +27,18 @@ export async function canonicalImage(bytes:Buffer,mime:string){
     return await image.rotate().resize({width:2048,height:2048,fit:'inside',withoutEnlargement:true}).webp({quality:85}).toBuffer({resolveWithObject:true});
   }catch{throw new HttpError(422,'IMAGE_INVALID');}finally{processingImage=false;}
 }
+export async function stageMediaImage(transformed:Awaited<ReturnType<typeof canonicalImage>>){
+ const id=randomUUID(),storageKey=`${id}.webp`;
+ await mkdir(root(),{recursive:true,mode:0o700});const disk=await statfs(/* turbopackIgnore: true */ root());if(Number(disk.bavail)*Number(disk.bsize)<64*1024*1024+transformed.data.length)throw new HttpError(507,'MEDIA_DISK_LOW');
+ await writeFile(filePath(storageKey),transformed.data,{flag:'wx',mode:0o600});
+ return {id,storageKey,mimeType:'image/webp',width:transformed.info.width,height:transformed.info.height,byteSize:transformed.data.length};
+}
+export async function discardStagedMedia(staged:Awaited<ReturnType<typeof stageMediaImage>>){await unlink(filePath(staged.storageKey));}
+export async function commitStagedMedia(tx:Transaction,actorId:string,staged:Awaited<ReturnType<typeof stageMediaImage>>,label:string){
+ const quota=Number(process.env.QAVIO_MEDIA_MAX_BYTES||1073741824);if(!Number.isSafeInteger(quota)||quota<5*1024*1024)throw new HttpError(503,'MEDIA_QUOTA_INVALID');const usage=await tx.mediaAsset.aggregate({_sum:{byteSize:true}});if((usage._sum.byteSize||0)+staged.byteSize>quota)throw new HttpError(507,'MEDIA_QUOTA_EXCEEDED');
+ const row=await tx.mediaAsset.create({data:{...staged,label,createdById:actorId}});
+ await audit(tx,actorId,'MEDIA_UPLOADED','MEDIA',row.id,{width:row.width,height:row.height,byteSize:row.byteSize});return row;
+}
 export async function uploadMedia(request:Request){
   mutationOrigin(request);const auth=await authenticate(request,'content');
   if(!equalSecret(request.headers.get('x-csrf-token')||'',auth.csrf))throw new HttpError(403,'CSRF_REJECTED');
@@ -37,13 +49,10 @@ export async function uploadMedia(request:Request){
   let form:FormData;try{form=await new Response(Buffer.concat(chunks),{headers:{'content-type':request.headers.get('content-type')!}}).formData();}catch{throw new HttpError(422,'UPLOAD_INVALID');}
   if([...form.keys()].some(k=>k!=='file')||form.getAll('file').length!==1)throw new HttpError(422,'UPLOAD_INVALID');
   const file=form.get('file');if(!(file instanceof File))throw new HttpError(422,'UPLOAD_REQUIRED');
-  const transformed=await canonicalImage(Buffer.from(await file.arrayBuffer()),file.type),id=randomUUID(),key=`${id}.webp`;
-  await mkdir(root(),{recursive:true,mode:0o700});const disk=await statfs(/* turbopackIgnore: true */ root());if(Number(disk.bavail)*Number(disk.bsize)<64*1024*1024+transformed.data.length)throw new HttpError(507,'MEDIA_DISK_LOW');await writeFile(filePath(key),transformed.data,{flag:'wx',mode:0o600});
+  const staged=await stageMediaImage(await canonicalImage(Buffer.from(await file.arrayBuffer()),file.type));
   try{return await authenticatedMutation(request,'content',async(tx,current)=>{
-    const quota=Number(process.env.QAVIO_MEDIA_MAX_BYTES||1073741824);if(!Number.isSafeInteger(quota)||quota<5*1024*1024)throw new HttpError(503,'MEDIA_QUOTA_INVALID');const usage=await tx.mediaAsset.aggregate({_sum:{byteSize:true}});if((usage._sum.byteSize||0)+transformed.data.length>quota)throw new HttpError(507,'MEDIA_QUOTA_EXCEEDED');
-    const row=await tx.mediaAsset.create({data:{id,storageKey:key,mimeType:'image/webp',width:transformed.info.width,height:transformed.info.height,byteSize:transformed.data.length,label:file.name.replace(/[^\p{L}\p{N} ._-]/gu,'').slice(0,120)||'Ảnh nội dung',createdById:current.user.id}});
-    await audit(tx,current.user.id,'MEDIA_UPLOADED','MEDIA',id,{width:row.width,height:row.height,byteSize:row.byteSize});return {id:row.id,url:`/media/${row.id}`,label:row.label,width:row.width,height:row.height};
-  });}catch(error){await unlink(filePath(key));throw error;}
+    const row=await commitStagedMedia(tx,current.user.id,staged,file.name.replace(/[^\p{L}\p{N} ._-]/gu,'').slice(0,120)||'Ảnh nội dung');return {id:row.id,url:`/media/${row.id}`,label:row.label,width:row.width,height:row.height};
+  });}catch(error){await discardStagedMedia(staged);throw error;}
 }
 export async function listMedia(request:Request){const {page,size,skip}=query(request);const [total,rows]=await db().$transaction([db().mediaAsset.count(),db().mediaAsset.findMany({skip,take:size,orderBy:{createdAt:'desc'},select:{id:true,label:true,width:true,height:true,byteSize:true,createdAt:true}})]);return {rows:rows.map(r=>({...r,url:`/media/${r.id}`})),total,page,size};}
 export async function serveMedia(request:Request,id:string){
