@@ -1,8 +1,12 @@
 import { z } from 'zod';
 import {phoneSchema,normalizePhone} from './contact-settings';
-export const POLICY_VERSION = 'draft-2026-10-20';
-export const CONTACT_CONSENT_VERSION='contact-consent-2026-10-21';
-const contactConsentVersion=z.union([z.literal(CONTACT_CONSENT_VERSION),z.literal(POLICY_VERSION)]);
+export const POLICY_VERSION = 'privacy-2026-11-11';
+export const CONTACT_CONSENT_VERSION='contact-consent-2026-11-11';
+const contactConsentVersion=z.union([
+  z.literal(CONTACT_CONSENT_VERSION), z.literal(POLICY_VERSION),
+  // Cached forms may submit an already reviewed historic consent version.
+  z.literal('contact-consent-2026-10-21'), z.literal('draft-2026-10-20'),
+]);
 const text = (max: number) => z.string().trim().max(max);
 const requiredText = (min: number, max: number) => text(max).min(min, 'Vui lòng nhập đầy đủ thông tin.');
 const common = {

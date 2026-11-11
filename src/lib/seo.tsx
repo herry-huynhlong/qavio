@@ -4,7 +4,7 @@ import { publicPages, site, type PublicPath } from './site-config';
 export function pageMetadata(path: PublicPath): Metadata {
   const { title, description } = publicPages[path];
   const url = new URL(path, site.url).href;
-  const legalDraft = path === '/privacy' || path === '/terms';
+  const legalDraft = path === '/terms';
   return {
     title: { absolute: `${title} | QAVIO` }, description,
     alternates: { canonical: url },
