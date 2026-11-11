@@ -30,4 +30,3 @@ export async function FaqList({ extended = false }: { extended?: boolean }) {
   ] : faqs;
   return <div className="faq-list">{items.map(([question, answer]) => <details key={question}><summary>{question}<ChevronDown size={19} aria-hidden="true" /></summary><p>{answer}</p></details>)}</div>;
 }
-
