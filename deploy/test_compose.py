@@ -34,6 +34,17 @@ class ComposeMerge(unittest.TestCase):
                 return json.loads(p.stdout)
             before = resolve(cmd)
             after = resolve(cmd + ['-f', str(temp / 'compose.image-only.yaml')])
+            # Published CMS media must remain available when production is
+            # deployed without the optional release-candidate overlay.
+            production_cmd = ['docker', 'compose', '--project-directory', td, '-p', scope]
+            for name in bases[:2]:
+                production_cmd += ['-f', str(temp / name)]
+            production = resolve(production_cmd)
+            for service in ['web', 'worker']:
+                targets = {mount.get('target') for mount in production['services'][service].get('volumes', []) if isinstance(mount, dict)}
+                self.assertTrue({'/var/lib/qavio/media', '/var/lib/qavio/ops'}.issubset(targets))
+            self.assertTrue(production['volumes']['qavio_media'].get('external'))
+            self.assertTrue(production['volumes']['qavio_ops'].get('external'))
             g.runtime_equal(before, after, g.SCOPES[scope][0])
             self.assertTrue(any(s.get('build') for s in before['services'].values()))
             self.assertFalse(any(s.get('build') for s in after['services'].values()))

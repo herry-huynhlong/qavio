@@ -2,6 +2,15 @@
 services:
   web:
     env_file: .env.production
+    # CMS media is runtime data, not part of the image.  Mount the existing
+    # production volumes here so the public site does not depend on an
+    # optional release-candidate overlay to serve published images.
+    environment:
+      QAVIO_MEDIA_ROOT: /var/lib/qavio/media
+      QAVIO_OPS_ROOT: /var/lib/qavio/ops
+    volumes:
+      - qavio_media:/var/lib/qavio/media
+      - qavio_ops:/var/lib/qavio/ops
     depends_on:
       qavio-postgres:
         condition: service_healthy
@@ -36,6 +45,12 @@ services:
     memswap_limit: 256m
     cpus: 0.20
     env_file: .env.production
+    environment:
+      QAVIO_MEDIA_ROOT: /var/lib/qavio/media
+      QAVIO_OPS_ROOT: /var/lib/qavio/ops
+    volumes:
+      - qavio_media:/var/lib/qavio/media
+      - qavio_ops:/var/lib/qavio/ops
     command: [pnpm, email:worker, --loop]
     depends_on:
       qavio-postgres:
@@ -65,3 +80,12 @@ services:
         condition: service_healthy
 volumes:
   qavio_production_data:
+  # These volumes predate Compose management. Treat them as external so a
+  # deploy can only attach the established data and can never create an empty
+  # replacement volume with the same purpose.
+  qavio_media:
+    external: true
+    name: ${QAVIO_MEDIA_VOLUME:-qavio_qavio_media}
+  qavio_ops:
+    external: true
+    name: ${QAVIO_OPS_VOLUME:-qavio_qavio_ops}
