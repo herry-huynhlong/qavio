@@ -33,6 +33,5 @@ export const publicPages = {
   '/request-demo': { title: 'Đăng ký tư vấn và demo', description: 'Chuẩn bị nhu cầu tư vấn hoặc demo QuánPilot cho nhà hàng, quán ăn và quán nước. Tình trạng tiếp nhận được hiển thị tại biểu mẫu.' },
   '/faq': { title: 'Câu hỏi thường gặp', description: 'Giải đáp những câu hỏi về QAVIO, QuánPilot, gọi món QR, phân quyền nhân viên và thông tin gói dịch vụ.' },
   '/privacy': { title: 'Chính sách bảo mật', description: 'QAVIO tôn trọng quyền riêng tư và cam kết xử lý, bảo vệ dữ liệu cá nhân một cách minh bạch, có trách nhiệm theo quy định pháp luật hiện hành.' },
-  '/terms': { title: 'Điều khoản sử dụng — Bản dự thảo', description: 'Bản dự thảo điều khoản sử dụng website QAVIO. Cần rà soát và xác nhận trước khi công bố áp dụng chính thức.' },
 } as const;
 export type PublicPath = keyof typeof publicPages;

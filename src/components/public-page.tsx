@@ -15,7 +15,6 @@ export function PublicPage({ path, eyebrow, title, intro, children, visual, enha
     {children}
   </main>;
 }
-
 export async function ConsultationCta() {
   const entry=await publishedContent('CTA','consultation'),data=entry?.data as {label:string;href:string}|undefined;
   return <section className="inner-cta"><div className="container"><div><span className="eyebrow">BẮT ĐẦU TỪ NHU CẦU THỰC TẾ</span><h2>{entry?.title||<>Cùng tìm hiểu điều phù hợp<br/>với doanh nghiệp của bạn.</>}</h2><p>{entry?.summary||'Chuẩn bị nhu cầu để cuộc trao đổi có điểm bắt đầu rõ ràng.'}</p></div><Link className="button" href={data?.href||'/trial'}>{data?.label||'Đăng ký dùng thử'} <ArrowUpRight size={18} /></Link></div></section>;
@@ -32,6 +31,3 @@ export async function FaqList({ extended = false }: { extended?: boolean }) {
   return <div className="faq-list">{items.map(([question, answer]) => <details key={question}><summary>{question}<ChevronDown size={19} aria-hidden="true" /></summary><p>{answer}</p></details>)}</div>;
 }
 
-export function DraftNotice() {
-  return <aside className="notice draft-notice"><strong>Bản dự thảo — cần rà soát trước khi công bố chính thức</strong><p>Nội dung dưới đây chưa phải chính sách hoặc điều khoản đã có hiệu lực. Thông tin đơn vị vận hành, đầu mối liên hệ, thời hạn lưu trữ và điều kiện áp dụng cần được xác nhận trước khi kích hoạt việc tiếp nhận yêu cầu.</p></aside>;
-}
