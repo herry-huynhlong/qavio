@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import choices from './trial-account-choices.module.css';
 import { useEffect, useRef, useState } from "react";
 import {
   slugifyTrial,
@@ -8,10 +7,6 @@ import {
   TRIAL_MAX_LOGO_BYTES,
   type TrialResult,
 } from "@/lib/trial-contract";
-type Identity = {
-  email: string;
-  ownerName: string;
-};
 const initial = {
   restaurantName: "",
   slug: "",
@@ -19,17 +14,11 @@ const initial = {
   email: "",
   password: "",
   confirmPassword: "",
-  timezone: "Asia/Ho_Chi_Minh",
-  language: "vi",
-  currency: "VND",
 };
 const messages: Record<string, string> = {
   SLUG_UNAVAILABLE: "Mã đường dẫn đã có người sử dụng. Hãy chọn mã khác.",
   EMAIL_ALREADY_REGISTERED:
     "Email đã có tài khoản QuánPilot. Hãy đăng nhập hoặc liên hệ QAVIO.",
-  TRIAL_ALREADY_USED: "Tài khoản Google này đã đăng ký dùng thử.",
-  EMAIL_VERIFICATION_REQUIRED:
-    "Phiên xác nhận email đã hết hạn. Hãy xác nhận lại với Google.",
   TRIAL_RATE_LIMITED: "Bạn đã thao tác nhiều lần. Vui lòng thử lại sau.",
   TRIAL_DISABLED: "Đăng ký dùng thử hiện chưa được mở.",
   TRIAL_CAPACITY_REACHED:
@@ -41,7 +30,6 @@ const messages: Record<string, string> = {
 };
 export function TrialForm({loginUrl}:{loginUrl:string}) {
   const [values, setValues] = useState(initial),
-    [identity, setIdentity] = useState<Identity | null>(null),
     [enabled, setEnabled] = useState(false),
     [checked, setChecked] = useState(false),
     [busy, setBusy] = useState(false),
@@ -70,20 +58,6 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
       .then((data) => {
         if (!live) return;
         setEnabled(data.enabled === true);
-        if (
-          new URLSearchParams(window.location.search).get("auth") === "failed"
-        )
-          setNotice(
-            "Chưa xác nhận được tài khoản Google. Chưa có nhà hàng hay tài khoản nào được tạo. Bạn có thể thử lại.",
-          );
-        if (data.identity) {
-          setIdentity(data.identity);
-          setValues((v) => ({
-            ...v,
-            email: data.identity.email,
-            ownerName: data.identity.ownerName || "",
-          }));
-        }
         setChecked(true);
       })
       .catch(() => {
@@ -101,26 +75,6 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
         ? { slug: slugifyTrial(value) }
         : {}),
     }));
-  }
-  async function google() {
-    if (pending.current) return;
-    pending.current = true;
-    setBusy(true);
-    setNotice("Đang mở Google…");
-    try {
-      const r = await fetch("/api/trial/google/start", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ website: "" }),
-        }),
-        data = await r.json();
-      if (!r.ok) throw Error(data.code);
-      window.location.assign(data.url);
-    } catch {
-      setNotice("Chưa thể mở xác nhận Google. Thử lại sau hoặc liên hệ QAVIO.");
-      setBusy(false);
-      pending.current = false;
-    }
   }
   async function upload(file: File | undefined) {
     setLogo(undefined);
@@ -156,11 +110,9 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
   }
   async function submit(event: React.FormEvent) {
     event.preventDefault();
-    if (pending.current || uploading || !enabled || !identity || result) return;
+    if (pending.current || uploading || !enabled || result) return;
     const { confirmPassword, ...raw } = values;
-    const input = trialInput
-      .omit({ verificationToken: true })
-      .safeParse({ ...raw, ...(logo ? { logo } : {}) });
+    const input = trialInput.safeParse({ ...raw, ...(logo ? { logo } : {}) });
     const fields: Record<string, string> = {};
     if (!input.success)
       for (const e of input.error.issues) fields[String(e.path[0])] = e.message;
@@ -240,7 +192,6 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
                 ? "name"
                 : "off"
         }
-        readOnly={name === "email"}
         aria-invalid={!!errors[name]}
         aria-describedby={errors[name] ? "trial-error-" + name : undefined}
         onChange={(e) => {
@@ -347,46 +298,21 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
         <div className="notice">
           <strong>Đăng ký tự động chưa được mở</strong>
           <p>
-            QAVIO đang chuẩn bị kết nối tài khoản Google và QuánPilot. Bạn vẫn
-            có thể <Link href="/contact">liên hệ tư vấn</Link>.
+            Đăng ký tự động đang tạm đóng. Bạn vẫn có thể{" "}
+            <Link href="/contact">liên hệ tư vấn</Link>.
           </p>
         </div>
       ) : null}
-      <div className="trial-identity">
-        <div className={choices.choices} aria-label="Chọn đăng ký hoặc đăng nhập">
-          <div className={choices.choice}><strong>Đăng ký dùng thử</strong><p>Khách mới: xác nhận email bên dưới để tạo nhà hàng.</p></div>
-          <div className={choices.choice}><strong>Đã có tài khoản QuánPilot?</strong><p>Tiếp tục sử dụng nhà hàng hiện có, không cần xác minh Google lại.</p><a href={loginUrl}>Đăng nhập ↗</a></div>
-        </div>
-        <h2>Xác nhận email chủ quán</h2>
-        <p>
-          {identity ? (
-            <>
-              Đã xác nhận: <strong>{identity.email}</strong>
-            </>
-          ) : (
-            "Dùng tài khoản Google để xác nhận email trước khi tạo nhà hàng. Sau đó bạn tự đặt mật khẩu đăng nhập QuánPilot."
-          )}
-        </p>
-        <button
-          type="button"
-          className="button"
-          disabled={!enabled || busy}
-          onClick={() => void google()}
-        >
-          {identity ? "Đổi tài khoản Google" : "Tiếp tục với Google"}
-        </button>
-        <p>
-          Google được dùng để xác nhận chủ email; QAVIO không yêu cầu quyền truy
-          cập Gmail hay Google Drive.
-        </p>
-      </div>
+      <p>
+        Đã có tài khoản QuánPilot? <a href={loginUrl}>Đăng nhập ↗</a>
+      </p>
       <form
         onSubmit={(event) => {
           void submit(event);
         }}
         noValidate
       >
-        <fieldset disabled={!enabled || !identity || busy || uploading}>
+        <fieldset disabled={!enabled || busy || uploading}>
           <legend>Thông tin nhà hàng</legend>
           <div className="form-grid">
             {field("restaurantName", "Tên nhà hàng hoặc quán")}
@@ -409,21 +335,9 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
                 <small className="field-error">{errors.logo}</small>
               )}
             </label>
-            <label>
-              Múi giờ
-              <input value="Asia/Ho_Chi_Minh" readOnly />
-            </label>
-            <label>
-              Ngôn ngữ
-              <input value="Tiếng Việt" readOnly />
-            </label>
-            <label>
-              Đơn vị tiền tệ
-              <input value="VND" readOnly />
-            </label>
           </div>
         </fieldset>
-        <fieldset disabled={!enabled || !identity || busy || uploading}>
+        <fieldset disabled={!enabled || busy || uploading}>
           <legend>Thông tin chủ quán</legend>
           <div className="form-grid">
             {field("ownerName", "Họ tên chủ quán")}
@@ -451,7 +365,7 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
         <button
           type="submit"
           className="button"
-          disabled={!enabled || !identity || busy || uploading}
+          disabled={!enabled || busy || uploading}
         >
           {busy ? "Đang xử lý…" : "Tạo tài khoản dùng thử"}
         </button>

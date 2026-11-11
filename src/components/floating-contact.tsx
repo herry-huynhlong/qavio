@@ -14,7 +14,7 @@ export function FloatingContact({channels}:{channels:ContactChannels}){
     const mobile=window.matchMedia('(max-width:760px)'),visible=new Set<Element>();
     const update=()=>setNearForm(mobile.matches&&visible.size>0);
     const observer=new IntersectionObserver(entries=>{for(const e of entries){if(e.isIntersecting)visible.add(e.target);else visible.delete(e.target);}update();});
-    const targets=new Set<Element>(),watch=()=>{for(const e of targets)if(!e.isConnected){observer.unobserve(e);targets.delete(e);visible.delete(e);}document.querySelectorAll('main form, main .trial-identity, main .visual-cta').forEach(e=>{if(!targets.has(e)){targets.add(e);observer.observe(e);}});update();};
+    const targets=new Set<Element>(),watch=()=>{for(const e of targets)if(!e.isConnected){observer.unobserve(e);targets.delete(e);visible.delete(e);}document.querySelectorAll('main form, main .visual-cta').forEach(e=>{if(!targets.has(e)){targets.add(e);observer.observe(e);}});update();};
     const mutations=new MutationObserver(watch);mutations.observe(document.body,{childList:true,subtree:true});queueMicrotask(watch);mobile.addEventListener('change',update);
     return()=>{observer.disconnect();mutations.disconnect();mobile.removeEventListener('change',update);};
   },[pathname]);

@@ -1,30 +1,11 @@
 import { randomBytes, createHash, createHmac } from "node:crypto";
-import { cookies } from "next/headers";
 import { z } from "zod";
-import { hmac, equalSecret } from "./crypto";
+import { hmac } from "./crypto";
 import { HttpError, clientBucket, guard, readJson, response } from "./http";
 import { transaction } from "./db";
 import { rateLimit } from "./rate-limit";
 import { trialInput, trialResultSchema } from "@/lib/trial-contract";
-const flowCookie = "qavio_trial_flow",
-  grantCookie = "qavio_trial_grant";
-const cookieOptions = {
-  httpOnly: true,
-  secure:
-    process.env.QAVIO_DEPLOYMENT_ENV === "production" ||
-    process.env.APP_ORIGIN?.startsWith("https://") === true,
-  sameSite: "lax" as const,
-  path: "/api/trial",
-  maxAge: 600,
-};
-const grantSchema = z.object({
-  email: z.email(),
-  ownerName: z.string(),
-  verificationToken: z.string(),
-  expiresAt: z.iso.datetime(),
-});
 const browserInput = trialInput
-  .omit({ verificationToken: true })
   .extend({
     confirmPassword: z.string(),
     website: z.string().max(200),
@@ -63,7 +44,7 @@ function origin(name: string) {
   return u.origin;
 }
 export async function callTrial(
-  operation: "google-start" | "google-exchange" | "register",
+  operation: "register",
   input: unknown,
   bucket: string,
   key = "",
@@ -130,81 +111,12 @@ export async function callTrial(
   }
   return result;
 }
-function encodeGrant(data: z.infer<typeof grantSchema>) {
-  const value = Buffer.from(JSON.stringify(data)).toString("base64url");
-  return value + "." + hmac("trial-grant:" + value);
-}
-export async function readTrialGrant() {
-  const value = (await cookies()).get(grantCookie)?.value || "",
-    parts = value.split(".");
-  if (
-    parts.length !== 2 ||
-    !equalSecret(hmac("trial-grant:" + parts[0]), parts[1])
-  )
-    return null;
-  try {
-    const data = grantSchema.parse(
-      JSON.parse(Buffer.from(parts[0], "base64url").toString("utf8")),
-    );
-    return new Date(data.expiresAt) > new Date() ? data : null;
-  } catch {
-    return null;
-  }
-}
-export async function startTrialGoogle(request: Request) {
-  guard(request, trialConfigured());
-  const body = z
-    .object({ website: z.literal("") })
-    .strict()
-    .safeParse(await readJson(request, 1024));
-  if (!body.success) throw new HttpError(422, "SUBMISSION_REJECTED");
-  const bucket = clientBucket(request);
-  await transaction((tx) => rateLimit(tx, "trial:oauth:" + bucket, 10, 900000));
-  const flow = randomBytes(32).toString("hex"),
-    data = z
-      .object({ url: z.url() })
-      .parse(
-        await callTrial(
-          "google-start",
-          { flowHash: hmac("trial-flow:" + flow) },
-          bucket,
-        ),
-      );
-  const u = new URL(data.url);
-  if (
-    u.protocol !== "https:" ||
-    u.hostname !== "accounts.google.com" ||
-    u.pathname !== "/o/oauth2/v2/auth"
-  )
-    throw new HttpError(503, "INVALID_OAUTH_DESTINATION");
-  (await cookies()).set(flowCookie, flow, cookieOptions);
-  return response(data);
-}
-export async function finishTrialGoogle(request: Request) {
-  const jar = await cookies(),
-    flow = jar.get(flowCookie)?.value,
-    ticket = new URL(request.url).searchParams.get("ticket") || "";
-  if (!flow || !/^[a-f0-9]{64}$/.test(ticket))
-    throw new HttpError(403, "INVALID_OAUTH_FLOW");
-  const data = grantSchema.parse(
-    await callTrial(
-      "google-exchange",
-      { ticket, flowHash: hmac("trial-flow:" + flow) },
-      clientBucket(request),
-    ),
-  );
-  jar.set(grantCookie, encodeGrant(data), cookieOptions);
-  jar.set(flowCookie, "", { ...cookieOptions, maxAge: 0 });
-  return data;
-}
 export async function submitTrial(request: Request) {
   guard(request, trialConfigured());
   const bucket = clientBucket(request);
   await transaction((tx) =>
     rateLimit(tx, "trial:submit:" + bucket, 30, 900000),
   );
-  const grant = await readTrialGrant();
-  if (!grant) throw new HttpError(403, "EMAIL_VERIFICATION_REQUIRED");
   const input = browserInput.safeParse(
     await readJson(request, 3 * 1024 * 1024),
   );
@@ -217,8 +129,6 @@ export async function submitTrial(request: Request) {
       },
       422,
     );
-  if (input.data.email !== grant.email)
-    throw new HttpError(403, "EMAIL_VERIFICATION_REQUIRED");
   if (
     input.data.website ||
     Date.now() - input.data.startedAt < 1200 ||
@@ -232,7 +142,7 @@ export async function submitTrial(request: Request) {
   const result = trialResultSchema.parse(
     await callTrial(
       "register",
-      { ...data, verificationToken: grant.verificationToken },
+      data,
       bucket,
       request.headers.get("idempotency-key") || "",
     ),
