@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
   slugifyTrial,
@@ -21,6 +20,19 @@ const messages: Record<string, string> = {
     "Email đã có tài khoản QuánPilot. Hãy đăng nhập hoặc liên hệ QAVIO.",
   TRIAL_RATE_LIMITED: "Bạn đã thao tác nhiều lần. Vui lòng thử lại sau.",
   TRIAL_DISABLED: "Đăng ký dùng thử hiện chưa được mở.",
+  TRIAL_NOT_CONFIGURED:
+    "Hệ thống đăng ký đang thiếu cấu hình kết nối. Vui lòng thử lại sau.",
+  FORMS_NOT_ENABLED: "Đăng ký dùng thử hiện chưa được mở.",
+  TRIAL_UNAVAILABLE:
+    "Dịch vụ tạo tài khoản đang tạm không phản hồi. Vui lòng thử lại sau.",
+  TRIAL_RETRY_SAME_REQUEST:
+    "Kết nối tới QuánPilot bị gián đoạn. Vui lòng gửi lại cùng thông tin.",
+  TRIAL_QUOTA_NOT_CONFIGURED:
+    "Hệ thống đăng ký chưa có giới hạn dùng thử hợp lệ.",
+  TRIAL_UPSTREAM_UNAVAILABLE:
+    "Không thể nhận phản hồi từ QuánPilot. Vui lòng thử lại sau.",
+  SERVICE_AUTH_REQUIRED:
+    "Kết nối xác thực với QuánPilot chưa hợp lệ. Vui lòng thử lại sau.",
   TRIAL_CAPACITY_REACHED:
     "Đợt dùng thử hiện đã đủ số lượng. Bạn có thể liên hệ QAVIO.",
   INVALID_LOGO:
@@ -31,6 +43,7 @@ const messages: Record<string, string> = {
 export function TrialForm({loginUrl}:{loginUrl:string}) {
   const [values, setValues] = useState(initial),
     [enabled, setEnabled] = useState(false),
+    [availabilityCode, setAvailabilityCode] = useState(""),
     [checked, setChecked] = useState(false),
     [busy, setBusy] = useState(false),
     [show, setShow] = useState(false),
@@ -58,6 +71,9 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
       .then((data) => {
         if (!live) return;
         setEnabled(data.enabled === true);
+        setAvailabilityCode(
+          typeof data.code === "string" ? data.code : "",
+        );
         setChecked(true);
       })
       .catch(() => {
@@ -146,6 +162,21 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
         }),
         data = await r.json();
       if (!r.ok) {
+        const serverFields =
+          data.fields && typeof data.fields === "object"
+            ? Object.fromEntries(
+                Object.entries(data.fields)
+                  .map(([name, value]) => [
+                    name,
+                    Array.isArray(value) ? value[0] : value,
+                  ])
+                  .filter(
+                    (entry): entry is [string, string] =>
+                      typeof entry[1] === "string",
+                  ),
+              )
+            : {};
+        if (Object.keys(serverFields).length) setErrors(serverFields);
         setNotice(
           messages[data.code] ||
             "Chưa xác nhận được kết quả. Thông tin vẫn giữ trên trang; gửi lại để kiểm tra cùng yêu cầu, không tạo trùng.",
@@ -241,8 +272,8 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
           ))}
         </dl>
         <p>
-          Sử dụng email trên và mật khẩu bạn vừa đăng ký để đăng nhập. Mật khẩu
-          không được hiển thị lại.
+          Nhà hàng và tài khoản chủ quán đã được tạo. Sử dụng email trên cùng
+          mật khẩu bạn vừa đăng ký để đăng nhập. Mật khẩu không được hiển thị lại.
         </p>
         <a className="button" href={result.loginUrl}>
           Đăng nhập và bắt đầu sử dụng ↗
@@ -287,20 +318,16 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
     );
   return (
     <section className="form-card trial-card">
-      <div className="notice">
-        <strong>Gói dùng thử: TRAIN — Quyền BASIC — 1 tháng</strong>
-        <p>Phí đăng ký ban đầu: 0 VND. Không cần thanh toán trước.</p>
-        <p>Màn hình riêng cho bếp, thu ngân và vai trò quản lý thuộc PRO, không nằm trong quyền dùng thử BASIC.</p>
-      </div>
       {!checked ? (
         <p role="status">Đang kiểm tra đăng ký…</p>
       ) : !enabled ? (
         <div className="notice">
-          <strong>Đăng ký tự động chưa được mở</strong>
-          <p>
-            Đăng ký tự động đang tạm đóng. Bạn vẫn có thể{" "}
-            <Link href="/contact">liên hệ tư vấn</Link>.
-          </p>
+          <strong>
+            {availabilityCode === "TRIAL_NOT_CONFIGURED"
+              ? "Cần hoàn tất cấu hình đăng ký"
+              : "Đăng ký tự động chưa được mở"}
+          </strong>
+          <p>{messages[availabilityCode] || messages.TRIAL_DISABLED}</p>
         </div>
       ) : null}
       <p>
@@ -371,9 +398,6 @@ export function TrialForm({loginUrl}:{loginUrl:string}) {
         </button>
         <p role="status" aria-live="polite" className="form-status">
           {notice}
-        </p>
-        <p>
-          Cần trao đổi trước? <Link href="/contact">Liên hệ QAVIO</Link>.
         </p>
       </form>
     </section>

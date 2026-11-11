@@ -16,15 +16,19 @@ const browserInput = trialInput
     path: ["confirmPassword"],
     message: "Xác nhận mật khẩu không khớp.",
   });
+export function trialConfigurationStatus() {
+  if (process.env.QAVIO_TRIAL_ENABLED !== "true")
+    return { enabled: false, code: "TRIAL_DISABLED" as const };
+  if (
+    !process.env.QUANPILOT_TRIAL_API_ORIGIN ||
+    !process.env.QUANPILOT_TRIAL_PUBLIC_ORIGIN ||
+    (process.env.QUANPILOT_QAVIO_TRIAL_SECRET?.length || 0) < 32
+  )
+    return { enabled: false, code: "TRIAL_NOT_CONFIGURED" as const };
+  return { enabled: true as const };
+}
 export function trialConfigured() {
-  return (
-    process.env.QAVIO_TRIAL_ENABLED === "true" &&
-    Boolean(
-      process.env.QUANPILOT_TRIAL_API_ORIGIN &&
-      process.env.QUANPILOT_TRIAL_PUBLIC_ORIGIN &&
-      (process.env.QUANPILOT_QAVIO_TRIAL_SECRET?.length || 0) >= 32,
-    )
-  );
+  return trialConfigurationStatus().enabled;
 }
 function origin(name: string) {
   const u = new URL(process.env[name] || "invalid:");
